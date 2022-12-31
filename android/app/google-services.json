@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "25497046015",
+    "project_id": "kaucarpool-10e0d",
+    "storage_bucket": "kaucarpool-10e0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25497046015:android:0953173fc7eab384a5f5ca",
+        "android_client_info": {
+          "package_name": "com.example.KAUCarpoolApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25497046015-dtqko2ui8of61sob5d0cq1je5f1rnkga.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1Vx_vj1FD4lB8ldb-2L_nYmP6Ask0VVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25497046015-dtqko2ui8of61sob5d0cq1je5f1rnkga.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25497046015:android:ba3f08d2d8c65e50a5f5ca",
+        "android_client_info": {
+          "package_name": "com.example.kau_carpool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25497046015-dtqko2ui8of61sob5d0cq1je5f1rnkga.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1Vx_vj1FD4lB8ldb-2L_nYmP6Ask0VVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25497046015-dtqko2ui8of61sob5d0cq1je5f1rnkga.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
