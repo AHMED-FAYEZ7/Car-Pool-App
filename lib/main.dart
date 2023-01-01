@@ -5,6 +5,7 @@ import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/home/home_page.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/register/register_page.dart';
+import 'package:kau_carpool/pages/requests/requests_page.dart';
 import 'bloc_observer.dart';
 import 'firebase_options.dart';
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         LoginPage.id : (context) => LoginPage(),
         RegisterPage.id : (context) => RegisterPage(),
         AppLayout.id : (context) => AppLayout(),
+        RequestsPage.id : (context) => RequestsPage(),
       },
       initialRoute: AppLayout.id,
     );
