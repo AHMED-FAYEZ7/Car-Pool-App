@@ -5,3 +5,6 @@ abstract class AppState {}
 class AppInitial extends AppState {}
 
 class AppChangeBottomNav extends AppState {}
+
+class FindToggle extends AppState {}
+class OfferToggle extends AppState {}
