@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
-import 'package:kau_carpool/pages/home/home_page.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/register/register_page.dart';
 import 'package:kau_carpool/pages/requests/requests_page.dart';
