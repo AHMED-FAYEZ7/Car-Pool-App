@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/widgets/custom_button.dart';
+import 'package:kau_carpool/widgets/custom_filed.dart';
 import 'package:kau_carpool/widgets/custom_toggle_button.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
-
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+  var findPickUpController = TextEditingController();
+  var findDropOffController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,10 +72,11 @@ class _HomePageState extends State<HomePage> {
                   ]),
               child: Column(
                 children: [
-                  SizedBox(height :70 ,child: CustomToggleButton()),
+                  SizedBox(height :70 ,
+                      child: CustomToggleButton()
+                  ),
                   Expanded(
                     child: Container(
-                      height: 20,
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: ColorManager.white,
@@ -85,7 +91,38 @@ class _HomePageState extends State<HomePage> {
                               color: ColorManager.white,
                             ),
                           ]),
-                      child: Container(),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10,),
+                          CustomField(
+                            icPath: "assets/images/pick_up_ic.png",
+                            hintText: "Enter Pick up Location",
+                            controller: findPickUpController,
+                            type: TextInputType.text,
+                            validator: (String? val){},
+                          ),
+                          CustomField(
+                            icPath: "assets/images/drop_off_ic.png",
+                            hintText: "Enter Drop Off Location",
+                            controller: findPickUpController,
+                            type: TextInputType.text,
+                            validator: (String? val){},
+                          ),
+                          CustomField(
+                            icPath: "assets/images/date_time_ic.png",
+                            hintText: "Enter Date & Time",
+                            controller: findPickUpController,
+                            type: TextInputType.text,
+                            validator: (String? val){},
+                          ),
+                          const SizedBox(height: 30,),
+                          CustomButton(
+                            width: 110,
+                            text: "Find Pool",
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

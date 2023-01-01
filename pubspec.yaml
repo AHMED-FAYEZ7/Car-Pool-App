@@ -68,6 +68,10 @@ flutter:
     - assets/images/splash_logo.png
     - assets/images/left_arrow_ic.png
     - assets/images/down_arrow_ic.png
+    - assets/images/pick_up_ic.png
+    - assets/images/drop_off_ic.png
+    - assets/images/date_time_ic.png
+    - assets/images/seats_ic.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
