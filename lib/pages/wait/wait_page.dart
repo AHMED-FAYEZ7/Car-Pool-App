@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
-class ConfirmPage extends StatelessWidget {
-  ConfirmPage({Key? key}) : super(key: key);
-  static String id = 'ConfirmPage';
+class WaitPage extends StatelessWidget {
+  WaitPage({Key? key}) : super(key: key);
+  static String id = 'WaitPage';
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -44,22 +45,6 @@ class ConfirmPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(30.0),
-                        child: new Container(
-                          height: 150,
-                          width: 150,
-                          decoration: new BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/cong3_ic.png"),
-                              fit: BoxFit.fitHeight,
-                            ),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                      ),
-                    ),
                     const SizedBox(
                       height: 20.0,
                     ),
@@ -67,13 +52,13 @@ class ConfirmPage extends StatelessWidget {
                       padding: const EdgeInsets.all(20.0),
                       child: Center(
                         child: Text(
-                          "Congratulations",
+                          "05:00",
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 40,
                             fontWeight: FontWeight.w500,
                             color: ColorManager.black,
                             fontFamily: "Jost",
-                            fontStyle: FontStyle.italic,
+                            fontStyle: FontStyle.normal,
                           ),
                         ),
                       ),
@@ -82,24 +67,25 @@ class ConfirmPage extends StatelessWidget {
                       padding: const EdgeInsets.all(20.0),
                       child: Center(
                         child: Text(
-                          "Your Carpooling has been confirmed.",
+                          "Waiting for the driver to accept your request",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                             color: ColorManager.blueWithOpacity,
                             fontFamily: "Jost",
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 70,
                     ),
                     CustomButton(
                       width: 150,
-                      text: "My Trips",
+                      text: "Cancel",
                       onTap: () {
-                        //  Navigator.pushNamed(context, Trips.id); // toDo
+                        Navigator.pushNamed(context, AppLayout.id); // toDo
                       },
                     )
                   ],
