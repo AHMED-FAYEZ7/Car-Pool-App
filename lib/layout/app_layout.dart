@@ -23,28 +23,45 @@ class AppLayout extends StatelessWidget {
             bottomNavigationBar: BottomNavyBar(
               backgroundColor: ColorManager.primary,
               selectedIndex: cubit.currentIndex,
-              showElevation: true, // use this to remove appBar's elevation
               onItemSelected: (index) {
                 cubit.changeBottomNav(index);
               },
               items: [
                 BottomNavyBarItem(
-                    icon: Icon(Icons.home),
-                    title: Text("home"),
-                    activeColor: ColorManager.white,
-                    inactiveColor: ColorManager.black
+                    icon: Image.asset("assets/images/home_ic.png"),
+                    title: const Center(
+                      child: Text(
+                        "Home",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                    ),)),
+                  activeColor: ColorManager.white,
+                  inactiveColor: ColorManager.black,
                 ),
                 BottomNavyBarItem(
-                    icon: Icon(Icons.car_rental),
-                    title: Text("categories"),
-                    activeColor: ColorManager.white,
-                    inactiveColor: ColorManager.black
+                    icon: Image.asset("assets/images/trips_ic.png"),
+                  title: const Center(
+                      child: Text(
+                        "Trips",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),)),
+                  activeColor: ColorManager.white,
+                  inactiveColor: ColorManager.black,
                 ),
                 BottomNavyBarItem(
-                    icon: Icon(Icons.more),
-                    title: Text("favorites"),
-                    activeColor: ColorManager.white,
-                    inactiveColor: ColorManager.black
+                  icon: Image.asset("assets/images/more_ic.png"),
+                  title: const Center(
+                      child: Text(
+                        "More",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),)),
+                  activeColor: ColorManager.white,
+                  inactiveColor: ColorManager.black,
                 ),
               ],
             ),

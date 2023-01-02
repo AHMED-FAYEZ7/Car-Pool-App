@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 
 class CustomToggleButton extends StatefulWidget {
-  // int selectedIndex = 0;
-  // CustomToggleButton({Key? key,required this.selectedIndex}) : super(key: key);
+  int selectedIndex = 0;
+  final ValueChanged<int> onItemSelected;
+  CustomToggleButton({Key? key,
+    required this.selectedIndex,
+    required this.onItemSelected,
+  }) : super(key: key);
   @override
   _CustomToggleButtonState createState() => _CustomToggleButtonState();
 }
@@ -61,7 +65,12 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                     xAlign = findAlign;
                     findColor = selectedColor;
                     offerColor = normalColor;
+                    widget.selectedIndex = 0;
+                    widget.onItemSelected(widget.selectedIndex);
                   });
+                  // widget.selectedIndex = 0;
+                  // widget.onToggleCallback(widget.selectedIndex);
+                  // print(widget.selectedIndex);
                 },
                 child: Align(
                   alignment: Alignment(-1, 0),
@@ -86,7 +95,11 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                     xAlign = offerAlign;
                     offerColor = selectedColor;
                     findColor = normalColor;
+                    widget.selectedIndex = 1;
+                    widget.onItemSelected(widget.selectedIndex);
                   });
+                  // widget.selectedIndex = 1;
+                  // print(widget.selectedIndex);
                 },
                 child: Align(
                   alignment: Alignment(1, 0),

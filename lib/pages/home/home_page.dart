@@ -17,13 +17,16 @@ class _HomePageState extends State<HomePage> {
 
   var findPickUpController = TextEditingController();
   var findDropOffController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
+  var findKey = GlobalKey<FormState>();
+  var offerKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppState>(
       listener:(context, state) {} ,
       builder:(context, state) {
+        var cubit = AppCubit.get(context);
+
         return Scaffold(
           backgroundColor: ColorManager.backgroundColor,
           body: Column(
@@ -79,7 +82,13 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       SizedBox(height :70 ,
-                          child: CustomToggleButton()
+                          child: CustomToggleButton(
+                            selectedIndex: cubit.toggleIndex,
+                            onItemSelected: (index){
+                              cubit.toggleButton(index);
+                              print(cubit.toggleIndex);
+                            },
+                          )
                       ),
                       Expanded(
                         child: Container(
@@ -98,66 +107,147 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ]),
                           child: SingleChildScrollView(
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 10,),
-                                  CustomField(
-                                    icPath: "assets/images/pick_up_ic.png",
-                                    hintText: "Enter Pick up Location",
-                                    controller: findPickUpController,
-                                    type: TextInputType.text,
-                                    validator: (String? s)
-                                    {
-                                      if(s!.isEmpty)
-                                      {
-                                        return 'Please Enter Location';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  CustomField(
-                                    icPath: "assets/images/drop_off_ic.png",
-                                    hintText: "Enter Drop Off Location",
-                                    controller: findPickUpController,
-                                    type: TextInputType.text,
-                                    validator: (String? s)
-                                    {
-                                      if(s!.isEmpty)
-                                      {
-                                        return 'Please Enter Location';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  CustomField(
-                                    icPath: "assets/images/date_time_ic.png",
-                                    hintText: "Enter Date & Time",
-                                    controller: findPickUpController,
-                                    type: TextInputType.text,
-                                    validator: (String? s)
-                                    {
-                                      if(s!.isEmpty)
-                                      {
-                                        return 'Please Add Date and Time';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  const SizedBox(height: 30,),
-                                  CustomButton(
-                                    width: 110,
-                                    text: "Find Pool",
-                                    onTap: () {
-                                      if(formKey.currentState!.validate())
-                                      {
+                            child: Column(
+                              children: [
+                                if(state is FindToggle || state is !OfferToggle)
+                                  Form(
+                                    key: findKey,
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 10,),
+                                        CustomField(
+                                          icPath: "assets/images/pick_up_ic.png",
+                                          hintText: "Enter Pick up Location",
+                                          controller: findPickUpController,
+                                          type: TextInputType.text,
+                                          validator: (String? s)
+                                          {
+                                            if(s!.isEmpty)
+                                            {
+                                              return 'Please Enter Location';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        CustomField(
+                                          icPath: "assets/images/drop_off_ic.png",
+                                          hintText: "Enter Drop Off Location",
+                                          controller: findPickUpController,
+                                          type: TextInputType.text,
+                                          validator: (String? s)
+                                          {
+                                            if(s!.isEmpty)
+                                            {
+                                              return 'Please Enter Location';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        CustomField(
+                                          icPath: "assets/images/date_time_ic.png",
+                                          hintText: "Enter Date & Time",
+                                          controller: findPickUpController,
+                                          type: TextInputType.text,
+                                          validator: (String? s)
+                                          {
+                                            if(s!.isEmpty)
+                                            {
+                                              return 'Please Add Date and Time';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        const SizedBox(height: 20,),
+                                        CustomButton(
+                                          width: 110,
+                                          text: "Find Pool",
+                                          onTap: () {
+                                            if(findKey.currentState!.validate())
+                                            {
 
-                                      }
-                                    },
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
+                                if(state is OfferToggle)
+                                  Form(
+                                    key: offerKey,
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 10,),
+                                        CustomField(
+                                          icPath: "assets/images/pick_up_ic.png",
+                                          hintText: "Enter Pick up Location",
+                                          controller: findPickUpController,
+                                          type: TextInputType.text,
+                                          validator: (String? s)
+                                          {
+                                            if(s!.isEmpty)
+                                            {
+                                              return 'Please Enter Location';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        CustomField(
+                                          icPath: "assets/images/drop_off_ic.png",
+                                          hintText: "Enter Drop Off Location",
+                                          controller: findPickUpController,
+                                          type: TextInputType.text,
+                                          validator: (String? s)
+                                          {
+                                            if(s!.isEmpty)
+                                            {
+                                              return 'Please Enter Location';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        CustomField(
+                                          icPath: "assets/images/date_time_ic.png",
+                                          hintText: "Enter Date & Time",
+                                          controller: findPickUpController,
+                                          type: TextInputType.text,
+                                          validator: (String? s)
+                                          {
+                                            if(s!.isEmpty)
+                                            {
+                                              return 'Please Add Date and Time';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        CustomField(
+                                          icPath: "assets/images/seats_ic.png",
+                                          hintText: "Enter Number Of Seats",
+                                          controller: findPickUpController,
+                                          type: TextInputType.text,
+                                          validator: (String? s)
+                                          {
+                                            if(s!.isEmpty)
+                                            {
+                                              return 'Please Add Number Of Seats';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        const SizedBox(height: 20,),
+                                        CustomButton(
+                                          width: 110,
+                                          text: "Offer Pool",
+                                          onTap: () {
+                                            if(offerKey.currentState!.validate())
+                                            {
+
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ),
