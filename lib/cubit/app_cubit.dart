@@ -35,6 +35,7 @@ class AppCubit extends Cubit<AppState> {
       toggleIndex = index;
       emit(OfferToggle());
     }else{
+      toggleIndex = index;
       emit(FindToggle());
     }
 
