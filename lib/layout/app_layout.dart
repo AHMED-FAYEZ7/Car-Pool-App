@@ -13,10 +13,9 @@ class AppLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => AppCubit(),
-      child: BlocConsumer<AppCubit,AppState>(
-        listener: (context,state) {},
-        builder: (context,state)
-        {
+      child: BlocConsumer<AppCubit, AppState>(
+        listener: (context, state) {},
+        builder: (context, state) {
           var cubit = AppCubit.get(context);
           return Scaffold(
             body: cubit.screens[cubit.currentIndex],
@@ -28,26 +27,29 @@ class AppLayout extends StatelessWidget {
               },
               items: [
                 BottomNavyBarItem(
-                    icon: Image.asset("assets/images/home_ic.png"),
-                    title: const Center(
+                  icon: Image.asset("assets/images/home_ic.png"),
+                  title: const Center(
                       child: Text(
-                        "Home",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                    ),)),
+                    "Home",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
                   activeColor: ColorManager.white,
                   inactiveColor: ColorManager.black,
                 ),
                 BottomNavyBarItem(
-                    icon: Image.asset("assets/images/trips_ic.png"),
+                  icon: Image.asset("assets/images/trips_ic.png"),
                   title: const Center(
-                      child: Text(
-                        "Trips",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),)),
+                    child: Text(
+                      "Trips",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                   activeColor: ColorManager.white,
                   inactiveColor: ColorManager.black,
                 ),
@@ -55,11 +57,12 @@ class AppLayout extends StatelessWidget {
                   icon: Image.asset("assets/images/more_ic.png"),
                   title: const Center(
                       child: Text(
-                        "More",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),)),
+                    "More",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
                   activeColor: ColorManager.white,
                   inactiveColor: ColorManager.black,
                 ),
