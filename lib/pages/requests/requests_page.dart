@@ -21,10 +21,7 @@ class RequestsPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(
-              height: 80,
-            ),
-            const SizedBox(
-              height: 20,
+              height: 100,
             ),
             Container(
               height: MediaQuery.of(context).size.height * 80 / 100,
