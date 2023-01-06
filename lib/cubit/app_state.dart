@@ -8,3 +8,6 @@ class AppChangeBottomNav extends AppState {}
 
 class FindToggle extends AppState {}
 class OfferToggle extends AppState {}
+
+class CurrentTripsToggle extends AppState {}
+class ScheduledTripsToggle extends AppState {}

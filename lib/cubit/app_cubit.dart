@@ -27,16 +27,33 @@ class AppCubit extends Cubit<AppState> {
       emit(AppChangeBottomNav());
   }
 
-  int toggleIndex = 0;
-  void toggleButton(int index)
+  // home toggle
+  int homeToggleIndex = 0;
+  void homeToggleButton(int index)
   {
     if(index == 1)
     {
-      toggleIndex = index;
+      homeToggleIndex = index;
       emit(OfferToggle());
     }else{
-      toggleIndex = index;
+      homeToggleIndex = index;
       emit(FindToggle());
+    }
+
+  }
+
+
+  // trips toggle
+  int tripsToggleIndex = 0;
+  void tripsToggleButton(int index)
+  {
+    if(index == 1)
+    {
+      tripsToggleIndex = index;
+      emit(ScheduledTripsToggle());
+    }else{
+      tripsToggleIndex = index;
+      emit(CurrentTripsToggle());
     }
 
   }

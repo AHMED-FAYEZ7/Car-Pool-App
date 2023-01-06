@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/pages/requests/requests_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_filed.dart';
 import 'package:kau_carpool/widgets/custom_toggle_button.dart';
@@ -83,10 +84,12 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       SizedBox(height :70 ,
                           child: CustomToggleButton(
-                            selectedIndex: cubit.toggleIndex,
+                            tab1: 'Find Pool',
+                            tab2: 'Offer Pool',
+                            selectedIndex: cubit.homeToggleIndex,
                             onItemSelected: (index){
-                              cubit.toggleButton(index);
-                              print(cubit.toggleIndex);
+                              cubit.homeToggleButton(index);
+                              print(cubit.homeToggleIndex);
                             },
                           )
                       ),
@@ -99,13 +102,7 @@ class _HomePageState extends State<HomePage> {
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40),
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset.zero,
-                                  blurRadius: 20,
-                                  color: ColorManager.white,
-                                ),
-                              ]),
+                          ),
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
@@ -162,10 +159,9 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            if(findKey.currentState!.validate())
-                                            {
-
-                                            }
+                                            // if(findKey.currentState!.validate())
+                                            // {}
+                                            Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         )
                                       ],
@@ -238,10 +234,11 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
-                                            if(offerKey.currentState!.validate())
-                                            {
-
-                                            }
+                                            // if(offerKey.currentState!.validate())
+                                            // {
+                                            //
+                                            // }
+                                            Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         )
                                       ],

@@ -81,7 +81,6 @@ flutter:
     - assets/images/cong_ic.png
     - assets/images/cong3_ic.png
     - assets/images/person_ic.png
-    - assets/images/track_ic.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
