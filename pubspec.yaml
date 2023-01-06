@@ -81,6 +81,9 @@ flutter:
     - assets/images/cong_ic.png
     - assets/images/cong3_ic.png
     - assets/images/person_ic.png
+    - assets/images/min_person_ic.png
+    - assets/images/add_trip_ic.png
+    - assets/images/verification.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
