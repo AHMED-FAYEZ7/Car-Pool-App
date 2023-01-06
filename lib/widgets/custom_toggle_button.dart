@@ -4,9 +4,13 @@ import 'package:kau_carpool/helper/resources/color_manager.dart';
 class CustomToggleButton extends StatefulWidget {
   int selectedIndex = 0;
   final ValueChanged<int> onItemSelected;
+  String tab1 = "";
+  String tab2 = "";
   CustomToggleButton({Key? key,
     required this.selectedIndex,
     required this.onItemSelected,
+    required this.tab1,
+    required this.tab2,
   }) : super(key: key);
   @override
   _CustomToggleButtonState createState() => _CustomToggleButtonState();
@@ -79,7 +83,8 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                     color: Colors.transparent,
                     alignment: Alignment.center,
                     child: Text(
-                      'Find Pool',
+                      widget.tab1,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: findColor,
                         fontSize: 16,
@@ -108,7 +113,8 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                     color: Colors.transparent,
                     alignment: Alignment.center,
                     child: Text(
-                      'Offer Pool',
+                      widget.tab2,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: offerColor,
                         fontSize: 16,

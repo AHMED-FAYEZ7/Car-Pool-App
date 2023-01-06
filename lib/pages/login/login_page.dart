@@ -104,7 +104,7 @@ class LoginPage extends StatelessWidget {
                           ConditionalBuilder(
                             condition: state is! LoginLoading,
                             builder: (context) => CustomButton(
-                              width: 90,
+                              width: 100,
                               text: "Login",
                               onTap: () {
                                 if(formKey.currentState!.validate())
@@ -128,7 +128,7 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           CustomButton(
-                            width: 90,
+                            width: 100,
                             text: "Sign Up",
                             onTap: () {
                               Navigator.pushNamed(context, RegisterPage.id);

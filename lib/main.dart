@@ -6,6 +6,7 @@ import 'package:kau_carpool/pages/confirm/confirm_page.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/register/register_page.dart';
 import 'package:kau_carpool/pages/requests/requests_page.dart';
+import 'package:kau_carpool/pages/varificatioe/verification_page.dart';
 import 'package:kau_carpool/pages/wait/wait_page.dart';
 import 'bloc_observer.dart';
 import 'firebase_options.dart';
@@ -37,8 +38,9 @@ class MyApp extends StatelessWidget {
         RequestsPage.id: (context) => RequestsPage(),
         ConfirmPage.id: (context) => ConfirmPage(),
         WaitPage.id: (context) => WaitPage(),
+        VerificationPage.id: (context) => VerificationPage(),
       },
-      initialRoute: RequestsPage.id,
+      initialRoute: AppLayout.id,
     );
   }
 }
