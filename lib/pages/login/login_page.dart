@@ -1,12 +1,16 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kau_carpool/cubit/app_cubit.dart';
+import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/functions.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/register/register_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_text_filed.dart';
 
+import '../../helper/constant.dart';
 import 'login_cubit/login_cubit.dart';
 
 class LoginPage extends StatelessWidget {
@@ -24,7 +28,27 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginState>(
-        listener: (context,state){},
+        listener: (context,state){
+          if(state is LoginSuccess){
+            CacheHelper.saveData(
+              key: 'uId',
+              value: state.uId,
+            ).then((value) {
+              uId = state.uId;
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AppLayout(),
+                  ),
+                      (route)
+                  {
+                    return false;
+                  }
+              );
+            });
+          }
+          AppCubit.get(context).getUserData();
+        },
         builder: (context,state){
           return Scaffold(
             backgroundColor: ColorManager.backgroundColor,
@@ -116,7 +140,9 @@ class LoginPage extends StatelessWidget {
                                 }
                               },
                             ),
-                            fallback: (context) => const Center(child: CircularProgressIndicator()),
+                            fallback: (context) => Center(child: CircularProgressIndicator(
+                              color: ColorManager.primary,
+                            )),
                           ),
                           Center(
                             child: Text(
@@ -131,7 +157,12 @@ class LoginPage extends StatelessWidget {
                             width: 100,
                             text: "Sign Up",
                             onTap: () {
-                              Navigator.pushNamed(context, RegisterPage.id);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RegisterPage(),
+                                ),
+                              );
                             },
                           ),
                         ],

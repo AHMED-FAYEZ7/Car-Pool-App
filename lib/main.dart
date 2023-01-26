@@ -1,8 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kau_carpool/cubit/app_cubit.dart';
+import 'package:kau_carpool/helper/app_prefs.dart';
+import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/confirm/confirm_page.dart';
+import 'package:kau_carpool/pages/home/home_page.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/register/register_page.dart';
 import 'package:kau_carpool/pages/requests/requests_page.dart';
@@ -18,29 +22,41 @@ void main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      runApp(const MyApp());
+
+      await CacheHelper.init();
+      Widget? widget;
+
+      if(uId != null){
+        widget = AppLayout();
+      }else{
+        widget = LoginPage();
+      }
+
+
+      runApp(MyApp(widget));
     },
     blocObserver: MyBlocObserver(),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+
+  final Widget startWidget;
+  MyApp(this.startWidget);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        LoginPage.id: (context) => LoginPage(),
-        RegisterPage.id: (context) => RegisterPage(),
-        AppLayout.id: (context) => AppLayout(),
-        RequestsPage.id: (context) => RequestsPage(),
-        ConfirmPage.id: (context) => ConfirmPage(),
-        WaitPage.id: (context) => WaitPage(),
-        VerificationPage.id: (context) => VerificationPage(),
-      },
-      initialRoute: VerificationPage.id,
+    return BlocProvider(
+      create: (BuildContext context) => AppCubit()..getUserData(),
+      child: BlocConsumer<AppCubit ,AppState>(
+        listener: (context , state){},
+        builder: (context , state){
+          return MaterialApp(
+            home: startWidget,
+          );
+        },
+      ),
     );
   }
 }

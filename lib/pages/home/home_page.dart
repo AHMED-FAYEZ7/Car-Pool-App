@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
+import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/requests/requests_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_filed.dart';
@@ -20,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   var findDropOffController = TextEditingController();
   var findKey = GlobalKey<FormState>();
   var offerKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -159,9 +162,10 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
+
                                             // if(findKey.currentState!.validate())
                                             // {}
-                                            Navigator.pushNamed(context, RequestsPage.id);
+                                            // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         )
                                       ],
@@ -234,11 +238,7 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
-                                            // if(offerKey.currentState!.validate())
-                                            // {
-                                            //
-                                            // }
-                                            Navigator.pushNamed(context, RequestsPage.id);
+                                            // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         )
                                       ],

@@ -1,8 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kau_carpool/cubit/app_cubit.dart';
+import 'package:kau_carpool/helper/app_prefs.dart';
+import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/functions.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/register/register_cubit/register_cubit.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_text_filed.dart';
@@ -31,7 +35,27 @@ class _RegisterPageState extends State<RegisterPage> {
     return BlocProvider(
       create: (BuildContext context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit , RegisterState>(
-        listener: (context , state) {} ,
+        listener: (context , state) {
+          if(state is RegisterSuccess){
+            CacheHelper.saveData(
+              key: 'uId',
+              value: state.uId,
+            ).then((value) {
+              uId = state.uId;
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AppLayout(),
+                  ),
+                      (route)
+                  {
+                    return false;
+                  }
+              );
+            });
+          }
+          AppCubit.get(context).getUserData();
+        } ,
         builder: (context , state) {
           return Scaffold(
             backgroundColor: ColorManager.backgroundColor,

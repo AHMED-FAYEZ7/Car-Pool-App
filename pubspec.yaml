@@ -42,6 +42,7 @@ dependencies:
   bottom_navy_bar: ^6.0.0
   google_maps_flutter: ^2.2.2
   geolocator: ^8.2.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

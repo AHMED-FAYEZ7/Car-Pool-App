@@ -7,7 +7,6 @@ import '../helper/resources/color_manager.dart';
 
 class AppLayout extends StatelessWidget {
   AppLayout({Key? key}) : super(key: key);
-  static String id = 'LayoutPage';
 
   @override
   Widget build(BuildContext context) {

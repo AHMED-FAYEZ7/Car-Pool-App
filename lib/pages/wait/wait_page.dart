@@ -85,7 +85,7 @@ class WaitPage extends StatelessWidget {
                       width: 150,
                       text: "Cancel",
                       onTap: () {
-                        Navigator.pushNamed(context, AppLayout.id); // toDo
+                        // Navigator.pushNamed(context, AppLayout.id); // toDo
                       },
                     )
                   ],
