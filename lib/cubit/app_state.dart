@@ -29,3 +29,10 @@ class AppGetAllUsersErrorState extends AppState
 
   AppGetAllUsersErrorState(this.error);
 }
+
+
+class AppAddPostState extends AppState {}
+
+class AppCreateOfferLoadingState extends AppState {}
+class AppCreateOfferSuccessState extends AppState {}
+class AppCreateOfferErrorState extends AppState {}

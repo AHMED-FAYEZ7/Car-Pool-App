@@ -1,5 +1,5 @@
 class UserModel {
-  String? name;
+  late String name;
   String? email;
   String? phone;
   String? gender;
@@ -7,7 +7,7 @@ class UserModel {
   String? uId;
 
   UserModel({
-    this.name,
+    required this.name,
     this.email,
     this.phone,
     this.gender,

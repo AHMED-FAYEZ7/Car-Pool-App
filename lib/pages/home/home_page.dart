@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/app_prefs.dart';
+import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/pages/login/login_cubit/login_cubit.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/requests/requests_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
@@ -162,6 +164,11 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
+                                            AppCubit.get(context).createFindPool(
+                                                dateTime: '4:33',
+                                                pickUpLocation: "pickUpLocation",
+                                                dropOffLocation: "dropOffLocation"
+                                            );
 
                                             // if(findKey.currentState!.validate())
                                             // {}

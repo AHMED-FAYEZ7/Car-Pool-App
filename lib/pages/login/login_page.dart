@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -30,6 +31,7 @@ class LoginPage extends StatelessWidget {
       child: BlocConsumer<LoginCubit,LoginState>(
         listener: (context,state){
           if(state is LoginSuccess){
+            AppCubit.get(context)..getUserData()..getAllUsers();
             CacheHelper.saveData(
               key: 'uId',
               value: state.uId,
@@ -46,8 +48,9 @@ class LoginPage extends StatelessWidget {
                   }
               );
             });
+
           }
-          AppCubit.get(context).getUserData();
+
         },
         builder: (context,state){
           return Scaffold(

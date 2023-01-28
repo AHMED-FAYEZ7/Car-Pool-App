@@ -1,7 +1,9 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
+import 'package:kau_carpool/models/user_model.dart';
 
 import '../helper/resources/color_manager.dart';
 
