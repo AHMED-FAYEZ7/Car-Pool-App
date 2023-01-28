@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
-import 'package:kau_carpool/models/offer_model.dart';
+import 'package:kau_carpool/models/finds_model.dart';
+import 'package:kau_carpool/models/offers_model.dart';
 import 'package:kau_carpool/models/user_model.dart';
 import 'package:kau_carpool/pages/home/home_page.dart';
 import 'package:kau_carpool/pages/more/more_page.dart';
@@ -36,7 +37,6 @@ class AppCubit extends Cubit<AppState> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   UserModel? userModel;
-
   void getUserData() async
    {
     emit(AppGetUserLoadingState());
@@ -97,9 +97,37 @@ class AppCubit extends Cubit<AppState> {
   {
     emit(AppCreateOfferLoadingState());
 
+    FindModel model = FindModel(
+      uId: uId,
+      name: name,
+      dateTime: dateTime,
+      pickUpLocation: pickUpLocation,
+      dropOffLocation: dropOffLocation,
+    );
+
+    FirebaseFirestore.instance.collection('finds')
+        .add(model.toMap())
+        .then((value) {
+      emit(AppCreateOfferSuccessState());
+    })
+        .catchError((error) {
+      emit(AppCreateOfferErrorState());
+    });
+  }
+
+  Future<void> createOfferPool({
+    required String dateTime,
+    required int numberOfSeats,
+    required String pickUpLocation,
+    required String dropOffLocation,
+  })async
+  {
+    emit(AppCreateOfferLoadingState());
+
     OfferModel model = OfferModel(
       uId: uId,
       name: name,
+      numberOfSeats: numberOfSeats,
       dateTime: dateTime,
       pickUpLocation: pickUpLocation,
       dropOffLocation: dropOffLocation,

@@ -245,6 +245,12 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
+                                            AppCubit.get(context).createOfferPool(
+                                                dateTime: '4:33',
+                                                pickUpLocation: "pickUpLocation",
+                                                dropOffLocation: "dropOffLocation",
+                                                numberOfSeats: 5,
+                                            );
                                             // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         )
