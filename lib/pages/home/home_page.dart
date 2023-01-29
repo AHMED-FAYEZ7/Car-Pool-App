@@ -12,6 +12,7 @@ import 'package:kau_carpool/pages/map/map_screen.dart';
 import 'package:kau_carpool/pages/rate/rate_page.dart';
 import 'package:kau_carpool/pages/requests/driver_requests_page.dart';
 import 'package:kau_carpool/pages/requests/rider_requests_page.dart';
+import 'package:kau_carpool/pages/riders_on_trip/riders_on_trip_page.dart';
 import 'package:kau_carpool/repository/maps_repo.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_filed.dart';
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => RatePage(),
+                                                builder: (context) => RidersOnTripPage(),
                                               ),
                                             );
                                             // AppCubit.get(context)

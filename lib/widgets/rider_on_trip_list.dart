@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RiderListBuilder extends StatelessWidget {
+class RiderOnTripListBuilder extends StatelessWidget {
 
 
   @override
@@ -31,10 +31,10 @@ class RiderListBuilder extends StatelessWidget {
                   CircleAvatar(
                       radius: 40.0,
                       backgroundImage: AssetImage("assets/images/person_ic.png")
-                      // NetworkImage(
-                      //   'https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863',
-                      // ),
-                      ),
+                    // NetworkImage(
+                    //   'https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863',
+                    // ),
+                  ),
                 ],
               ),
               Padding(
@@ -88,46 +88,23 @@ class RiderListBuilder extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20.0,
           ),
-          InkWell(
-            onTap: () {},
-            child: Container(
-              width: 30,
-              height: 30,
-              // color: Color(Colors.amber),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                image: DecorationImage(
-                  image: AssetImage("assets/images/accept_ic.png"),
-                  fit: BoxFit.cover,
-                ),
+          Container(
+            width: 30,
+            height: 30,
+            // color: Color(Colors.amber),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+              image: DecorationImage(
+                image: AssetImage("assets/images/message_ic.png"),
               ),
             ),
           ),
-          SizedBox(
-            width: 20.0,
-          ),
-          InkWell(
-            onTap: () {},
-            child: Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                image: DecorationImage(
-                  image: AssetImage("assets/images/decline_ic.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
+          const SizedBox(
             width: 20.0,
           ),
         ],
