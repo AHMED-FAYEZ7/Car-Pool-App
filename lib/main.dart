@@ -3,16 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/app_prefs.dart';
-import 'package:kau_carpool/helper/constant.dart';
-import 'package:kau_carpool/layout/app_layout.dart';
-import 'package:kau_carpool/pages/confirm/confirm_page.dart';
-import 'package:kau_carpool/pages/home/home_page.dart';
-import 'package:kau_carpool/pages/login/login_page.dart';
-import 'package:kau_carpool/pages/register/register_page.dart';
 import 'package:kau_carpool/pages/requests/driver_requests_page.dart';
 import 'package:kau_carpool/pages/requests/rider_requests_page.dart';
-import 'package:kau_carpool/pages/verification/verification_page.dart';
-import 'package:kau_carpool/pages/wait/wait_page.dart';
 import 'bloc_observer.dart';
 import 'firebase_options.dart';
 
@@ -27,11 +19,12 @@ void main() async {
       await CacheHelper.init();
       Widget? widget;
       // widget = RiderRequestsPage();
-      if (uId != null) {
-        widget = AppLayout();
-      } else {
-        widget = LoginPage();
-      }
+      widget = DriverRequestsPage();
+      // if (uId != null) {
+      //   widget = AppLayout();
+      // } else {
+      //   widget = LoginPage();
+      // }
 
       runApp(MyApp(widget));
     },

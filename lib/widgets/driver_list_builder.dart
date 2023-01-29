@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 
-class ListBuilder extends StatelessWidget {
-  ListBuilder({
+class DriverListBuilder extends StatelessWidget {
+  DriverListBuilder({
     required this.model,
     required this.context,
     required this.index,
-});
+  });
   BuildContext context;
   int index;
   TripsModel model;

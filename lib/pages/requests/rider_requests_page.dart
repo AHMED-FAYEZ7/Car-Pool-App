@@ -4,17 +4,17 @@ import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/wait/wait_page.dart';
 import 'package:kau_carpool/widgets/default_appbar.dart';
-import 'package:kau_carpool/widgets/list_builder.dart';
+import 'package:kau_carpool/widgets/rider_list_builder.dart';
 
-class RequestsPage extends StatelessWidget {
-  RequestsPage({Key? key}) : super(key: key);
+class RiderRequestsPage extends StatelessWidget {
+  RiderRequestsPage({Key? key}) : super(key: key);
   var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppState>(
-      listener: (context,state){},
-      builder: (context,state){
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return Scaffold(
           extendBodyBehindAppBar: false,
           appBar: DefaultAppBar(
@@ -71,8 +71,9 @@ class RequestsPage extends StatelessWidget {
                                     hintText: "Search for a rider",
                                     prefixIcon: Icon(Icons.search),
                                     border: OutlineInputBorder(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5.0),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -85,8 +86,10 @@ class RequestsPage extends StatelessWidget {
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) => InkWell(
-                                onTap: (){
-                                  AppCubit.get(context).tripsSelects(AppCubit.get(context).tripsId[index]);
+                                onTap: () {
+                                  AppCubit.get(context).tripsSelects(
+                                    AppCubit.get(context).tripsId[index],
+                                  );
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -94,7 +97,10 @@ class RequestsPage extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                  child: ListBuilder(model: AppCubit.get(context).trips[index], context: context, index: index),
+                                child: RiderListBuilder(
+                                    model: AppCubit.get(context).trips[index],
+                                    context: context,
+                                    index: index),
                               ),
                               separatorBuilder: (context, index) => SizedBox(
                                 height: 20.0,
