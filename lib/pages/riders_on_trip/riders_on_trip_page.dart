@@ -59,9 +59,6 @@ class RidersOnTripPage extends StatelessWidget {
                             shrinkWrap: true,
                             itemBuilder: (context, index) => InkWell(
                               onTap: () {
-                                AppCubit.get(context).tripsSelects(
-                                  AppCubit.get(context).tripsId[index],
-                                );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -74,7 +71,7 @@ class RidersOnTripPage extends StatelessWidget {
                             separatorBuilder: (context, index) => SizedBox(
                               height: 20.0,
                             ),
-                            itemCount: 8,
+                            itemCount: 3,
                           )
                         ],
                       ),

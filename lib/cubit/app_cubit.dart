@@ -26,16 +26,12 @@ class AppCubit extends Cubit<AppState> {
 
   void changeBottomNav(int index)
   {
-    // if(index == 1)
-    // {
-    //   getAllUsers();
-    // }
       currentIndex = index;
       emit(AppChangeBottomNav());
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-
+  // To get user data
   UserModel? userModel;
   void getUserData() async
    {
@@ -67,6 +63,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  // To get all users data
   List<UserModel> users = [];
   void getAllUsers()
   {
@@ -91,7 +88,7 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-
+  // To create new find pool to rider
   Future<void> createFindPool({
     required String dateTime,
     required String pickUpLocation,
@@ -119,6 +116,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  // To create new offer pool or trip from driver
   Future<void> createOfferPool({
     required String dateTime,
     required int numberOfSeats,
@@ -152,6 +150,7 @@ class AppCubit extends Cubit<AppState> {
   List<String> tripsId = [];
   List<int> selects = [];
 
+  // To get all trips
   void getTrips()
   {
     emit(AppGetTripsLoadingState());
@@ -177,6 +176,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  // To select trip
   void tripsSelects(String tripsId)
   {
     FirebaseFirestore.instance

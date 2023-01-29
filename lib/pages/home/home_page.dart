@@ -172,24 +172,6 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            // cubit.createOfferPool(
-                                            //     dateTime: "dateTime", numberOfSeats: 1,
-                                            //     pickUpLocation: "pickUpLocation",
-                                            //     dropOffLocation: "dropOffLocation"
-                                            // );
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => RidersOnTripPage(),
-                                              ),
-                                            );
-                                            // AppCubit.get(context)
-                                            //     .createFindPool(
-                                            //   dateTime: '4:33',
-                                            //   pickUpLocation:
-                                            //       "Your current location",
-                                            //   dropOffLocation: address!,
-                                            // );
                                             // Navigator.push(
                                             //   context,
                                             //   MaterialPageRoute(
@@ -205,10 +187,6 @@ class _HomePageState extends State<HomePage> {
                                             //     ),
                                             //   ),
                                             // );
-
-                                            // if(findKey.currentState!.validate())
-                                            // {}
-                                            // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         ),
                                         // CustomButton(
