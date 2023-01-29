@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                                         CustomField(
                                           icPath:
                                               "assets/images/pick_up_ic.png",
-                                          hintText: "Enter Pick up Location",
+                                          hintText: "Enter Pick up Location ",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
                                           validator: (String? s) {
@@ -151,6 +151,7 @@ class _HomePageState extends State<HomePage> {
                                           },
                                         ),
                                         CustomField(
+                                          write: true,
                                           icPath:
                                               "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
@@ -269,6 +270,7 @@ class _HomePageState extends State<HomePage> {
                                           },
                                         ),
                                         CustomField(
+                                          write: true,
                                           icPath:
                                               "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
@@ -282,6 +284,7 @@ class _HomePageState extends State<HomePage> {
                                           },
                                         ),
                                         CustomField(
+                                          write: true,
                                           icPath: "assets/images/seats_ic.png",
                                           hintText: "Enter Number Of Seats",
                                           controller: findPickUpController,
