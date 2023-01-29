@@ -4,21 +4,22 @@ import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/wait/wait_page.dart';
 import 'package:kau_carpool/widgets/default_appbar.dart';
-import 'package:kau_carpool/widgets/list_builder.dart';
+import 'package:kau_carpool/widgets/driver_list_builder.dart';
 
-class RequestsPage extends StatelessWidget {
-  RequestsPage({Key? key}) : super(key: key);
+class DriverRequestsPage extends StatelessWidget {
+  DriverRequestsPage({Key? key}) : super(key: key);
+  static String id = 'DriverRequestsPage';
   var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppState>(
-      listener: (context,state){},
-      builder: (context,state){
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return Scaffold(
           extendBodyBehindAppBar: false,
           appBar: DefaultAppBar(
-            title: "Rider Requests list",
+            title: "Select a Driver",
           ),
           backgroundColor: ColorManager.backgroundColor,
           body: SingleChildScrollView(
@@ -26,7 +27,7 @@ class RequestsPage extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 50,
+                  height: 100,
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height * 80 / 100,
@@ -48,13 +49,12 @@ class RequestsPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
                       child: Form(
                         key: formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
+                            SizedBox(
                               height: 20.0,
                             ),
                             Center(
@@ -67,12 +67,12 @@ class RequestsPage extends StatelessWidget {
                                     // Method For Searching
                                   },
                                   textAlign: TextAlign.justify,
-                                  decoration: const InputDecoration(
-                                    hintText: "Search for a rider",
+                                  decoration: InputDecoration(
+                                    hintText: "Search for a driver",
                                     prefixIcon: Icon(Icons.search),
                                     border: OutlineInputBorder(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
                                     ),
                                   ),
                                 ),
@@ -85,8 +85,10 @@ class RequestsPage extends StatelessWidget {
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) => InkWell(
-                                onTap: (){
-                                  AppCubit.get(context).tripsSelects(AppCubit.get(context).tripsId[index]);
+                                onTap: () {
+                                  AppCubit.get(context).tripsSelects(
+                                    AppCubit.get(context).tripsId[index],
+                                  );
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -94,7 +96,10 @@ class RequestsPage extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                  child: ListBuilder(model: AppCubit.get(context).trips[index], context: context, index: index),
+                                child: DriverListBuilder(
+                                    model: AppCubit.get(context).trips[index],
+                                    context: context,
+                                    index: index),
                               ),
                               separatorBuilder: (context, index) => SizedBox(
                                 height: 20.0,

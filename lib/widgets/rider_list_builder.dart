@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 
-class ListBuilder extends StatelessWidget {
-  ListBuilder({
+class RiderListBuilder extends StatelessWidget {
+  RiderListBuilder({
     required this.model,
     required this.context,
     required this.index,
-});
+  });
   BuildContext context;
   int index;
   TripsModel model;
@@ -16,7 +16,7 @@ class ListBuilder extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent.withOpacity(0.1),
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
           bottomLeft: Radius.circular(30),
@@ -25,19 +25,19 @@ class ListBuilder extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const SizedBox(
+          SizedBox(
             width: 10,
           ),
           Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 5,
               ),
               Stack(
                 alignment: AlignmentDirectional.bottomStart,
-                children: const [
+                children: [
                   CircleAvatar(
-                      radius: 50.0,
+                      radius: 40.0,
                       backgroundImage: AssetImage("assets/images/person_ic.png")
                       // NetworkImage(
                       //   'https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863',
@@ -93,37 +93,50 @@ class ListBuilder extends StatelessWidget {
                 SizedBox(
                   height: 5.0,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Estimated arrival time: ${model.dateTime}',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Jost",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  'Number of people in car: ${model.numberOfSeats}',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Jost",
-                  ),
-                ),
               ],
             ),
+          ),
+          SizedBox(
+            width: 20.0,
+          ),
+          InkWell(
+            onTap: () {},
+            child: Container(
+              width: 30,
+              height: 30,
+              // color: Color(Colors.amber),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                image: DecorationImage(
+                  image: AssetImage("assets/images/accept_ic.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20.0,
+          ),
+          InkWell(
+            onTap: () {},
+            child: Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                image: DecorationImage(
+                  image: AssetImage("assets/images/decline_ic.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20.0,
           ),
         ],
       ),
