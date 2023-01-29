@@ -6,8 +6,9 @@ class CustomField extends StatelessWidget {
   CustomField({
     this.hintText,
     this.icPath,
-    this.onChanged ,
-    this.obscureText =false,
+    this.onChanged,
+    this.obscureText = false,
+    this.write = false,
     required this.controller,
     required this.type,
     this.suffix,
@@ -23,6 +24,7 @@ class CustomField extends StatelessWidget {
   Function? suffixPressed;
   String? Function(String? val)? validator;
   bool? obscureText;
+  bool? write;
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +36,25 @@ class CustomField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         keyboardType: type,
-        obscureText:obscureText!,
+        obscureText: obscureText!,
         validator: validator,
         onChanged: onChanged,
+        enabled: write,
         decoration: InputDecoration(
           icon: Container(
             height: 25,
-              width: 25,
-              child: Center(child: Image.asset("$icPath"))),
+            width: 25,
+            child: Center(
+              child: Image.asset("$icPath"),
+            ),
+          ),
           suffixIcon: IconButton(
-            icon : Icon(
+            icon: Icon(
               suffix,
               size: 20,
               color: ColorManager.darkGrey,
             ),
-            onPressed: (){
+            onPressed: () {
               suffixPressed!();
             },
           ),
@@ -60,7 +66,7 @@ class CustomField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
-              color:ColorManager.grey,
+              color: ColorManager.grey,
             ),
           ),
           border: OutlineInputBorder(
