@@ -168,56 +168,67 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            AppCubit.get(context)
-                                                .createFindPool(
-                                              dateTime: '4:33',
-                                              pickUpLocation:
-                                                  "Your current location",
-                                              dropOffLocation: address!,
-                                            );
+                                            // cubit.createOfferPool(
+                                            //     dateTime: "dateTime", numberOfSeats: 1,
+                                            //     pickUpLocation: "pickUpLocation",
+                                            //     dropOffLocation: "dropOffLocation"
+                                            // );
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider(
-                                                  create: (context) =>
-                                                      MapsCubit(
-                                                    MapsRepository(
-                                                      PlacesWebservices(),
-                                                    ),
-                                                  ),
-                                                  child: MapScreen(),
-                                                ),
+                                                builder: (context) => DriverRequestsPage(),
                                               ),
                                             );
+                                            // AppCubit.get(context)
+                                            //     .createFindPool(
+                                            //   dateTime: '4:33',
+                                            //   pickUpLocation:
+                                            //       "Your current location",
+                                            //   dropOffLocation: address!,
+                                            // );
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (context) =>
+                                            //         BlocProvider(
+                                            //       create: (context) =>
+                                            //           MapsCubit(
+                                            //         MapsRepository(
+                                            //           PlacesWebservices(),
+                                            //         ),
+                                            //       ),
+                                            //       child: MapScreen(),
+                                            //     ),
+                                            //   ),
+                                            // );
 
                                             // if(findKey.currentState!.validate())
                                             // {}
                                             // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         ),
-                                        CustomButton(
-                                          width: 110,
-                                          text: "show Pool",
-                                          onTap: () {
-                                            AppCubit.get(context)
-                                                .createFindPool(
-                                              dateTime: '4:33',
-                                              pickUpLocation: "pickUpLocation",
-                                              dropOffLocation:
-                                                  "dropOffLocation",
-                                            );
-                                            print("$cLat1 sssscccccssssss");
-                                            print("$cLong1 sssscccccssssss");
-                                            print("$dLat1 sssscccccssssss");
-                                            print("$dLong1 sssscccccssssss");
-                                            print("$address sssscccccssssss");
-
-                                            // if(findKey.currentState!.validate())
-                                            // {}
-                                            // Navigator.pushNamed(context, RequestsPage.id);
-                                          },
-                                        )
+                                        // CustomButton(
+                                        //   width: 110,
+                                        //   text: "show Pool",
+                                        //   onTap: () {
+                                        //     AppCubit.get(context)
+                                        //         .createFindPool(
+                                        //       dateTime: '4:33',
+                                        //       pickUpLocation: "pickUpLocation",
+                                        //       dropOffLocation:
+                                        //           "dropOffLocation",
+                                        //     );
+                                        //     print("$cLat1 sssscccccssssss");
+                                        //     print("$cLong1 sssscccccssssss");
+                                        //     print("$dLat1 sssscccccssssss");
+                                        //     print("$dLong1 sssscccccssssss");
+                                        //     print("$address sssscccccssssss");
+                                        //
+                                        //     // if(findKey.currentState!.validate())
+                                        //     // {}
+                                        //     // Navigator.pushNamed(context, RequestsPage.id);
+                                        //   },
+                                        // )
                                       ],
                                     ),
                                   ),

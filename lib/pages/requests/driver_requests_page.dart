@@ -8,7 +8,6 @@ import 'package:kau_carpool/widgets/driver_list_builder.dart';
 
 class DriverRequestsPage extends StatelessWidget {
   DriverRequestsPage({Key? key}) : super(key: key);
-  static String id = 'DriverRequestsPage';
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -85,10 +84,8 @@ class DriverRequestsPage extends StatelessWidget {
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) => InkWell(
-                                onTap: () {
-                                  AppCubit.get(context).tripsSelects(
-                                    AppCubit.get(context).tripsId[index],
-                                  );
+                                onTap: (){
+                                  AppCubit.get(context).tripsSelects(AppCubit.get(context).tripsId[index]);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -96,10 +93,7 @@ class DriverRequestsPage extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: DriverListBuilder(
-                                    model: AppCubit.get(context).trips[index],
-                                    context: context,
-                                    index: index),
+                                child: DriverListBuilder(model: AppCubit.get(context).trips[index], context: context, index: index),
                               ),
                               separatorBuilder: (context, index) => SizedBox(
                                 height: 20.0,

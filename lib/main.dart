@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/app_prefs.dart';
-import 'package:kau_carpool/pages/requests/driver_requests_page.dart';
-import 'package:kau_carpool/pages/requests/rider_requests_page.dart';
+import 'package:kau_carpool/helper/constant.dart';
+import 'package:kau_carpool/layout/app_layout.dart';
+import 'package:kau_carpool/pages/login/login_page.dart';
 import 'bloc_observer.dart';
 import 'firebase_options.dart';
 
@@ -18,13 +19,11 @@ void main() async {
 
       await CacheHelper.init();
       Widget? widget;
-      // widget = RiderRequestsPage();
-      widget = DriverRequestsPage();
-      // if (uId != null) {
-      //   widget = AppLayout();
-      // } else {
-      //   widget = LoginPage();
-      // }
+      if (uId != null) {
+        widget = AppLayout();
+      } else {
+        widget = LoginPage();
+      }
 
       runApp(MyApp(widget));
     },
@@ -42,7 +41,8 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => AppCubit()
         ..getUserData()
-        ..getAllUsers(),
+        ..getAllUsers()
+      ..getTrips(),
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
