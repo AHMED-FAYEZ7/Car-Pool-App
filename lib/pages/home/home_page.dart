@@ -172,6 +172,12 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => RiderRequestsPage(),
+                                              ),
+                                            );
                                             // Navigator.push(
                                             //   context,
                                             //   MaterialPageRoute(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kau_carpool/pages/confirm/confirm_page.dart';
 
 class RiderListBuilder extends StatelessWidget {
 
@@ -92,7 +93,14 @@ class RiderListBuilder extends StatelessWidget {
             width: 20.0,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ConfirmPage(),
+                ),
+              );
+            },
             child: Container(
               width: 30,
               height: 30,
