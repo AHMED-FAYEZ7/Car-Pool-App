@@ -54,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
               );
             });
           }
-          AppCubit.get(context)..getUserData()..getAllUsers();
+          AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
         } ,
         builder: (context , state) {
           return Scaffold(

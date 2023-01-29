@@ -164,12 +164,17 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            AppCubit.get(context).createFindPool(
-                                                dateTime: '4:33',
-                                                pickUpLocation: "pickUpLocation",
-                                                dropOffLocation: "dropOffLocation"
-                                            );
-
+                                            // AppCubit.get(context).createFindPool(
+                                            //     dateTime: '4:33',
+                                            //     pickUpLocation: "pickUpLocation",
+                                            //     dropOffLocation: "dropOffLocation",
+                                            // );
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (context) => RequestsPage(),
+                                            //   ),
+                                            // );
                                             // if(findKey.currentState!.validate())
                                             // {}
                                             // Navigator.pushNamed(context, RequestsPage.id);
@@ -245,12 +250,13 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
-                                            AppCubit.get(context).createOfferPool(
-                                                dateTime: '4:33',
-                                                pickUpLocation: "pickUpLocation",
-                                                dropOffLocation: "dropOffLocation",
-                                                numberOfSeats: 5,
-                                            );
+                                            cubit.createOfferPool(dateTime: "5", numberOfSeats: 2, pickUpLocation: "pickUpLocation", dropOffLocation: "dropOffLocation");
+                                            // AppCubit.get(context).createOfferPool(
+                                            //     dateTime: '4:33',
+                                            //     pickUpLocation: "pickUpLocation",
+                                            //     dropOffLocation: "dropOffLocation",
+                                            //     numberOfSeats: 5,
+                                            // );
                                             // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         )

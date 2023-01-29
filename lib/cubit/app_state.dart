@@ -30,9 +30,28 @@ class AppGetAllUsersErrorState extends AppState
   AppGetAllUsersErrorState(this.error);
 }
 
+class AppCreateFindsLoadingState extends AppState {}
+class AppCreateFindsSuccessState extends AppState {}
+class AppCreateFindsErrorState extends AppState {}
 
-class AppAddPostState extends AppState {}
+class AppCreateTripsLoadingState extends AppState {}
+class AppCreateTripsSuccessState extends AppState {}
+class AppCreateTripsErrorState extends AppState {}
 
-class AppCreateOfferLoadingState extends AppState {}
-class AppCreateOfferSuccessState extends AppState {}
-class AppCreateOfferErrorState extends AppState {}
+class AppGetTripsLoadingState extends AppState {}
+class AppGetTripsSuccessState extends AppState {}
+class AppGetTripsErrorState extends AppState
+{
+  final String error;
+
+  AppGetTripsErrorState(this.error);
+}
+
+class AppSelectTripsSuccessState extends AppState {}
+class AppSelectTripsErrorState extends AppState {
+  final String error;
+
+  AppSelectTripsErrorState(this.error);
+
+}
+

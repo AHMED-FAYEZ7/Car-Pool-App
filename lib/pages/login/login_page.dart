@@ -17,8 +17,6 @@ import 'login_cubit/login_cubit.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
-  static String id = 'LoginPage';
-
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
@@ -31,7 +29,7 @@ class LoginPage extends StatelessWidget {
       child: BlocConsumer<LoginCubit,LoginState>(
         listener: (context,state){
           if(state is LoginSuccess){
-            AppCubit.get(context)..getUserData()..getAllUsers();
+            AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
             CacheHelper.saveData(
               key: 'uId',
               value: state.uId,

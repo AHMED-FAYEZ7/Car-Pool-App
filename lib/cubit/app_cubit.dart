@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/models/finds_model.dart';
-import 'package:kau_carpool/models/offers_model.dart';
+import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/models/user_model.dart';
 import 'package:kau_carpool/pages/home/home_page.dart';
 import 'package:kau_carpool/pages/more/more_page.dart';
@@ -61,10 +61,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-
-
   List<UserModel> users = [];
-
   void getAllUsers()
   {
     emit(AppGetAllUsersLoadingState());
@@ -95,7 +92,7 @@ class AppCubit extends Cubit<AppState> {
     required String dropOffLocation,
   })async
   {
-    emit(AppCreateOfferLoadingState());
+    emit(AppCreateFindsLoadingState());
 
     FindModel model = FindModel(
       uId: uId,
@@ -105,13 +102,14 @@ class AppCubit extends Cubit<AppState> {
       dropOffLocation: dropOffLocation,
     );
 
-    FirebaseFirestore.instance.collection('finds')
+    FirebaseFirestore.instance
+        .collection('finds')
         .add(model.toMap())
         .then((value) {
-      emit(AppCreateOfferSuccessState());
+      emit(AppCreateFindsSuccessState());
     })
         .catchError((error) {
-      emit(AppCreateOfferErrorState());
+      emit(AppCreateFindsErrorState());
     });
   }
 
@@ -122,9 +120,9 @@ class AppCubit extends Cubit<AppState> {
     required String dropOffLocation,
   })async
   {
-    emit(AppCreateOfferLoadingState());
+    emit(AppCreateTripsLoadingState());
 
-    OfferModel model = OfferModel(
+    TripsModel model = TripsModel(
       uId: uId,
       name: name,
       numberOfSeats: numberOfSeats,
@@ -133,13 +131,61 @@ class AppCubit extends Cubit<AppState> {
       dropOffLocation: dropOffLocation,
     );
 
-    FirebaseFirestore.instance.collection('offers')
+    FirebaseFirestore.instance.collection('trips')
         .add(model.toMap())
         .then((value) {
-      emit(AppCreateOfferSuccessState());
+      emit(AppCreateTripsSuccessState());
     })
         .catchError((error) {
-      emit(AppCreateOfferErrorState());
+      emit(AppCreateTripsErrorState());
+    });
+  }
+
+  List<TripsModel> trips = [];
+  List<String> tripsId = [];
+  List<int> selects = [];
+
+  void getTrips()
+  {
+    emit(AppGetTripsLoadingState());
+    FirebaseFirestore.instance
+        .collection('trips')
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        element.reference
+            .collection('selects')
+            .get()
+            .then((value) {
+          selects.add(value.docs.length);
+          tripsId.add(element.id);
+          trips.add(TripsModel.fromJson(element.data()));
+          emit(AppGetTripsSuccessState());
+        })
+            .catchError((error){});
+      }
+    })
+        .catchError((error) {
+      emit(AppGetTripsErrorState(error.toString()));
+    });
+  }
+
+  void tripsSelects(String tripsId)
+  {
+    FirebaseFirestore.instance
+        .collection('trips')
+        .doc(tripsId)
+        .collection('selects')
+        .doc(uId)
+        .set({
+      'select':true
+    })
+        .then((value) {
+          print("true");
+      emit(AppSelectTripsSuccessState());
+    })
+        .catchError((error) {
+      emit(AppSelectTripsErrorState(error.toString()));
     });
   }
 

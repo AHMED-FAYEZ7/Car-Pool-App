@@ -1,9 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
-import 'package:kau_carpool/models/user_model.dart';
 
 import '../helper/resources/color_manager.dart';
 
@@ -12,9 +10,7 @@ class AppLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => AppCubit(),
-      child: BlocConsumer<AppCubit, AppState>(
+    return BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = AppCubit.get(context);
@@ -71,7 +67,6 @@ class AppLayout extends StatelessWidget {
             ),
           );
         },
-      ),
     );
   }
 }

@@ -1,4 +1,4 @@
-  class OfferModel {
+  class TripsModel {
   String? name;
   String? uId;
   String? dateTime;
@@ -6,7 +6,7 @@
   String? pickUpLocation;
   String? dropOffLocation;
 
-    OfferModel({
+    TripsModel({
     this.name,
     this.pickUpLocation,
     this.numberOfSeats,
@@ -15,7 +15,7 @@
     this.dropOffLocation,
   });
 
-    OfferModel.fromJson(Map<String,dynamic>? json)
+    TripsModel.fromJson(Map<String,dynamic>? json)
   {
     name = json!['name'];
     uId = json['uId'];

@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:kau_carpool/models/trips_model.dart';
 
 class ListBuilder extends StatelessWidget {
+  ListBuilder({
+    required this.model,
+    required this.context,
+    required this.index,
+});
+  BuildContext context;
+  int index;
+  TripsModel model;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent.withOpacity(0.1),
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
           bottomLeft: Radius.circular(30),
@@ -15,17 +25,17 @@ class ListBuilder extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Stack(
                 alignment: AlignmentDirectional.bottomStart,
-                children: [
+                children: const [
                   CircleAvatar(
                       radius: 50.0,
                       backgroundImage: AssetImage("assets/images/person_ic.png")
@@ -70,7 +80,7 @@ class ListBuilder extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Sara Ahmed',
+                  '${model.name}',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -87,7 +97,7 @@ class ListBuilder extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Estimated arrival time: 20 min',
+                        'Estimated arrival time: ${model.dateTime}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -103,7 +113,7 @@ class ListBuilder extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  'Number of people in car: 1',
+                  'Number of people in car: ${model.numberOfSeats}',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
