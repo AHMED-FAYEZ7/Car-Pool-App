@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
 class ScheduledTripsWidget extends StatelessWidget {
-  const ScheduledTripsWidget({Key? key}) : super(key: key);
+  ScheduledTripsWidget({
+    required this.model,
+    required this.context,
+    required this.index,
+  });
+  BuildContext context;
+  int index;
+  TripsModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +48,7 @@ class ScheduledTripsWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 35),
                         child: Text(
-                          'Phone Number : 05xxxxxxxx',
+                          'Phone Number : ${model.phone}',
                           style: TextStyle(
                               fontSize: 16
                           ),
@@ -56,7 +64,7 @@ class ScheduledTripsWidget extends StatelessWidget {
                       Image.asset('assets/images/drop_off_ic.png'),
                       Expanded(
                         child: Text(
-                          'Destinition : King Abdulaziz University , Gate 2',
+                          'Destinition : ${model.dropOffLocation}',
                           maxLines: 2,
                           style: TextStyle(
                               fontSize: 16

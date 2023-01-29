@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
-import 'package:kau_carpool/pages/register/register_page.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   String? title;
@@ -27,11 +26,15 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           image: AssetImage("assets/images/left_arrow_ic.png"),
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AppLayout(),
-            ),
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AppLayout(),
+              ),
+                  (route)
+              {
+                return false;
+              }
           );
 
         },

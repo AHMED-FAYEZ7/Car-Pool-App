@@ -53,6 +53,12 @@ class AppCubit extends Cubit<AppState> {
           ).then((value) {
             name = userModel!.name;
           });
+          CacheHelper.saveData(
+            key: 'phone',
+            value: userModel!.phone,
+          ).then((value) {
+            phone = userModel!.phone;
+          });
       emit(AppGetUserSuccessState());
     })
         .catchError((error){
@@ -125,6 +131,7 @@ class AppCubit extends Cubit<AppState> {
     TripsModel model = TripsModel(
       uId: uId,
       name: name,
+      phone: phone,
       numberOfSeats: numberOfSeats,
       dateTime: dateTime,
       pickUpLocation: pickUpLocation,

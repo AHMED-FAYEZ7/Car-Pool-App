@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:kau_carpool/helper/functions.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/register/register_cubit/register_cubit.dart';
+import 'package:kau_carpool/pages/verification/verification_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_text_filed.dart';
 
@@ -42,10 +44,13 @@ class _RegisterPageState extends State<RegisterPage> {
               value: state.uId,
             ).then((value) {
               uId = state.uId;
+              final user = FirebaseAuth.instance.currentUser;
+              user?.sendEmailVerification();
+              AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AppLayout(),
+                    builder: (context) => VerificationPage(),
                   ),
                       (route)
                   {
@@ -54,7 +59,6 @@ class _RegisterPageState extends State<RegisterPage> {
               );
             });
           }
-          AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
         } ,
         builder: (context , state) {
           return Scaffold(

@@ -1,6 +1,7 @@
   class TripsModel {
   String? name;
   String? uId;
+  String? phone;
   String? dateTime;
   int? numberOfSeats;
   String? pickUpLocation;
@@ -8,6 +9,7 @@
 
     TripsModel({
     this.name,
+    this.phone,
     this.pickUpLocation,
     this.numberOfSeats,
     this.uId,
@@ -19,6 +21,7 @@
   {
     name = json!['name'];
     uId = json['uId'];
+    phone = json['phone'];
     numberOfSeats = json['numberOfSeats'];
     dateTime = json['dateTime'];
     pickUpLocation = json['pickUpLocation'];
@@ -30,10 +33,11 @@
     return {
       'name':name,
       'uId':uId,
+      'phone':phone,
       'numberOfSeats':numberOfSeats,
       'dateTime':dateTime,
-      'text':pickUpLocation,
-      'postImage':dropOffLocation,
+      'pickUpLocation':pickUpLocation,
+      'dropOffLocation':dropOffLocation,
     };
   }
 }

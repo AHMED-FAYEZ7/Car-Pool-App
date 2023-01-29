@@ -29,12 +29,12 @@ class LoginPage extends StatelessWidget {
       child: BlocConsumer<LoginCubit,LoginState>(
         listener: (context,state){
           if(state is LoginSuccess){
-            AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
             CacheHelper.saveData(
               key: 'uId',
               value: state.uId,
             ).then((value) {
               uId = state.uId;
+              AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget {
                           CustomFormTextField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
-                            labelText: "KUA Email",
+                            labelText: "KAU Email",
                             hintText: "Enter email here",
                             validator: (input) =>
                               input!.isValidEmail() ?

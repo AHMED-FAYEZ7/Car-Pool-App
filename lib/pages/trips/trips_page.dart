@@ -59,17 +59,17 @@ class TripsPage extends StatelessWidget {
                           ListView.separated(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemBuilder: (context, index) => CurrentTripsWidget(),
+                            itemBuilder: (context, index) => CurrentTripsWidget(model: cubit.trips[index],context: context,index: index,),
                             separatorBuilder: (context, index) => SizedBox(
                               height: 5.0,
                             ),
-                            itemCount: 1,
+                            itemCount: cubit.trips.length,
                           ),
                         if(state is ScheduledTripsToggle)
                           ListView.separated(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemBuilder: (context, index) => ScheduledTripsWidget(),
+                            itemBuilder: (context, index) => ScheduledTripsWidget(model: cubit.trips[index],context: context,index: index,),
                             separatorBuilder: (context, index) => SizedBox(
                               height: 5.0,
                             ),

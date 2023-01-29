@@ -5,8 +5,6 @@ import 'package:kau_carpool/widgets/default_appbar.dart';
 class VerificationPage extends StatelessWidget {
   const VerificationPage({Key? key}) : super(key: key);
 
-  static String id = 'VerificationPage';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
