@@ -3,10 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
+import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/login/login_cubit/login_cubit.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
-import 'package:kau_carpool/pages/requests/requests_page.dart';
+import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
+import 'package:kau_carpool/pages/map/map_screen.dart';
+import 'package:kau_carpool/pages/requests/driver_requests_page.dart';
+import 'package:kau_carpool/repository/maps_repo.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_filed.dart';
 import 'package:kau_carpool/widgets/custom_toggle_button.dart';
@@ -19,18 +23,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   var findPickUpController = TextEditingController();
   var findDropOffController = TextEditingController();
   var findKey = GlobalKey<FormState>();
   var offerKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppState>(
-      listener:(context, state) {} ,
-      builder:(context, state) {
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {},
+      builder: (context, state) {
         var cubit = AppCubit.get(context);
 
         return Scaffold(
@@ -87,94 +89,130 @@ class _HomePageState extends State<HomePage> {
                       ]),
                   child: Column(
                     children: [
-                      SizedBox(height :70 ,
+                      SizedBox(
+                          height: 70,
                           child: CustomToggleButton(
                             tab1: 'Find Pool',
                             tab2: 'Offer Pool',
                             selectedIndex: cubit.homeToggleIndex,
-                            onItemSelected: (index){
+                            onItemSelected: (index) {
                               cubit.homeToggleButton(index);
                               print(cubit.homeToggleIndex);
                             },
-                          )
-                      ),
+                          )),
                       Expanded(
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                              color: ColorManager.white,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40),
-                              ),
+                            color: ColorManager.white,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40),
+                            ),
                           ),
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                if(state is FindToggle || state is !OfferToggle)
+                                if (state is FindToggle ||
+                                    state is! OfferToggle)
                                   Form(
                                     key: findKey,
                                     child: Column(
                                       children: [
-                                        const SizedBox(height: 10,),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
                                         CustomField(
-                                          icPath: "assets/images/pick_up_ic.png",
+                                          icPath:
+                                              "assets/images/pick_up_ic.png",
                                           hintText: "Enter Pick up Location",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
-                                          validator: (String? s)
-                                          {
-                                            if(s!.isEmpty)
-                                            {
+                                          validator: (String? s) {
+                                            if (s!.isEmpty) {
                                               return 'Please Enter Location';
                                             }
                                             return null;
                                           },
                                         ),
                                         CustomField(
-                                          icPath: "assets/images/drop_off_ic.png",
+                                          icPath:
+                                              "assets/images/drop_off_ic.png",
                                           hintText: "Enter Drop Off Location",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
-                                          validator: (String? s)
-                                          {
-                                            if(s!.isEmpty)
-                                            {
+                                          validator: (String? s) {
+                                            if (s!.isEmpty) {
                                               return 'Please Enter Location';
                                             }
                                             return null;
                                           },
                                         ),
                                         CustomField(
-                                          icPath: "assets/images/date_time_ic.png",
+                                          icPath:
+                                              "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
-                                          validator: (String? s)
-                                          {
-                                            if(s!.isEmpty)
-                                            {
+                                          validator: (String? s) {
+                                            if (s!.isEmpty) {
                                               return 'Please Add Date and Time';
                                             }
                                             return null;
                                           },
                                         ),
-                                        const SizedBox(height: 20,),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                         CustomButton(
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            // AppCubit.get(context).createFindPool(
-                                            //     dateTime: '4:33',
-                                            //     pickUpLocation: "pickUpLocation",
-                                            //     dropOffLocation: "dropOffLocation",
-                                            // );
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) => RequestsPage(),
-                                            //   ),
-                                            // );
+                                            AppCubit.get(context)
+                                                .createFindPool(
+                                              dateTime: '4:33',
+                                              pickUpLocation:
+                                                  "Your current location",
+                                              dropOffLocation: address!,
+                                            );
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider(
+                                                  create: (context) =>
+                                                      MapsCubit(
+                                                    MapsRepository(
+                                                      PlacesWebservices(),
+                                                    ),
+                                                  ),
+                                                  child: MapScreen(),
+                                                ),
+                                              ),
+                                            );
+
+                                            // if(findKey.currentState!.validate())
+                                            // {}
+                                            // Navigator.pushNamed(context, RequestsPage.id);
+                                          },
+                                        ),
+                                        CustomButton(
+                                          width: 110,
+                                          text: "show Pool",
+                                          onTap: () {
+                                            AppCubit.get(context)
+                                                .createFindPool(
+                                              dateTime: '4:33',
+                                              pickUpLocation: "pickUpLocation",
+                                              dropOffLocation:
+                                                  "dropOffLocation",
+                                            );
+                                            print("$cLat1 sssscccccssssss");
+                                            print("$cLong1 sssscccccssssss");
+                                            print("$dLat1 sssscccccssssss");
+                                            print("$dLong1 sssscccccssssss");
+                                            print("$address sssscccccssssss");
+
                                             // if(findKey.currentState!.validate())
                                             // {}
                                             // Navigator.pushNamed(context, RequestsPage.id);
@@ -183,49 +221,48 @@ class _HomePageState extends State<HomePage> {
                                       ],
                                     ),
                                   ),
-                                if(state is OfferToggle)
+                                if (state is OfferToggle)
                                   Form(
                                     key: offerKey,
                                     child: Column(
                                       children: [
-                                        const SizedBox(height: 10,),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
                                         CustomField(
-                                          icPath: "assets/images/pick_up_ic.png",
+                                          icPath:
+                                              "assets/images/pick_up_ic.png",
                                           hintText: "Enter Pick up Location",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
-                                          validator: (String? s)
-                                          {
-                                            if(s!.isEmpty)
-                                            {
+                                          validator: (String? s) {
+                                            if (s!.isEmpty) {
                                               return 'Please Enter Location';
                                             }
                                             return null;
                                           },
                                         ),
                                         CustomField(
-                                          icPath: "assets/images/drop_off_ic.png",
+                                          icPath:
+                                              "assets/images/drop_off_ic.png",
                                           hintText: "Enter Drop Off Location",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
-                                          validator: (String? s)
-                                          {
-                                            if(s!.isEmpty)
-                                            {
+                                          validator: (String? s) {
+                                            if (s!.isEmpty) {
                                               return 'Please Enter Location';
                                             }
                                             return null;
                                           },
                                         ),
                                         CustomField(
-                                          icPath: "assets/images/date_time_ic.png",
+                                          icPath:
+                                              "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
-                                          validator: (String? s)
-                                          {
-                                            if(s!.isEmpty)
-                                            {
+                                          validator: (String? s) {
+                                            if (s!.isEmpty) {
                                               return 'Please Add Date and Time';
                                             }
                                             return null;
@@ -236,27 +273,28 @@ class _HomePageState extends State<HomePage> {
                                           hintText: "Enter Number Of Seats",
                                           controller: findPickUpController,
                                           type: TextInputType.text,
-                                          validator: (String? s)
-                                          {
-                                            if(s!.isEmpty)
-                                            {
+                                          validator: (String? s) {
+                                            if (s!.isEmpty) {
                                               return 'Please Add Number Of Seats';
                                             }
                                             return null;
                                           },
                                         ),
-                                        const SizedBox(height: 20,),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                         CustomButton(
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
-                                            cubit.createOfferPool(dateTime: "5", numberOfSeats: 2, pickUpLocation: "pickUpLocation", dropOffLocation: "dropOffLocation");
-                                            // AppCubit.get(context).createOfferPool(
-                                            //     dateTime: '4:33',
-                                            //     pickUpLocation: "pickUpLocation",
-                                            //     dropOffLocation: "dropOffLocation",
-                                            //     numberOfSeats: 5,
-                                            // );
+                                            AppCubit.get(context)
+                                                .createOfferPool(
+                                              dateTime: '4:33',
+                                              pickUpLocation: "pickUpLocation",
+                                              dropOffLocation:
+                                                  "dropOffLocation",
+                                              numberOfSeats: 5,
+                                            );
                                             // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         )
@@ -275,7 +313,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         );
-      } ,
+      },
     );
   }
 }

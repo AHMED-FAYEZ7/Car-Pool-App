@@ -88,6 +88,8 @@ flutter:
     - assets/images/min_person_ic.png
     - assets/images/add_trip_ic.png
     - assets/images/verification.png
+    - assets/images/accept_ic.png
+    - assets/images/decline_ic.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

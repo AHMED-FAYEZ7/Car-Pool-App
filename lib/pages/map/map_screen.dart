@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kau_carpool/helper/app_prefs.dart';
+import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/location_helper.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/models/place.dart';
@@ -64,6 +66,14 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> getMyCurrentLocation() async {
     position = await LocationHelper.getCurrentLocation().whenComplete(() {});
     print("${position!.latitude}, ${position!.longitude} yyyyyyyyyyy");
+    double lat = position!.latitude;
+    double long = position!.longitude;
+    CacheHelper.saveData(key: "cLat1", value: lat).then((value) {
+      cLat1 = lat;
+    });
+    CacheHelper.saveData(key: "cLong1", value: long).then((value) {
+      cLong1 = long;
+    });
 
     setState(() {});
   }
@@ -88,6 +98,9 @@ class _MapScreenState extends State<MapScreen> {
       CameraUpdate.newCameraPosition(_myCurrentLocationCameraPosition),
     );
     print("${position!.latitude}, ${position!.longitude} ssssssssssss");
+    // CacheHelper.saveData(key: "position", value: lat).then((value) {
+    //   pos = position.toString();
+    // });
   }
 
   Widget buildFloatingSearchBar() {
@@ -155,7 +168,27 @@ class _MapScreenState extends State<MapScreen> {
       listener: (context, state) {
         if (state is PlaceLocationLoaded) {
           selectedPlace = (state).place;
-
+          print("${selectedPlace.result.geometry.location.lat} mmmmmmmmmmm");
+          print("${selectedPlace.result.geometry.location.lng} xxxxxxxxxxxxxx");
+          print("${placeSuggestion.description} xxxxxxxxxxxxxx");
+          CacheHelper.saveData(
+            key: "dLong1",
+            value: selectedPlace.result.geometry.location.lng,
+          ).then((value) {
+            dLong1 = selectedPlace.result.geometry.location.lng;
+          });
+          CacheHelper.saveData(
+            key: "dLat1",
+            value: selectedPlace.result.geometry.location.lat,
+          ).then((value) {
+            dLat1 = selectedPlace.result.geometry.location.lat;
+          });
+          CacheHelper.saveData(
+            key: "address",
+            value: placeSuggestion.description,
+          ).then((value) {
+            address = placeSuggestion.description;
+          });
           goToMySearchedForLocation();
           // getDirections();
         }
@@ -234,23 +267,24 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget buildPlacesList() {
     return ListView.builder(
-        itemBuilder: (ctx, index) {
-          return InkWell(
-            onTap: () async {
-              placeSuggestion = places[index];
-              controller.close();
-              getSelectedPlaceLocation();
-              // polylinePoints.clear();
-              removeAllMarkersAndUpdateUI();
-            },
-            child: PlaceItem(
-              suggestion: places[index],
-            ),
-          );
-        },
-        itemCount: places.length,
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics());
+      itemBuilder: (ctx, index) {
+        return InkWell(
+          onTap: () async {
+            placeSuggestion = places[index];
+            controller.close();
+            getSelectedPlaceLocation();
+            // polylinePoints.clear();
+            removeAllMarkersAndUpdateUI();
+          },
+          child: PlaceItem(
+            suggestion: places[index],
+          ),
+        );
+      },
+      itemCount: places.length,
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+    );
   }
 
   void removeAllMarkersAndUpdateUI() {
