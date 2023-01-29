@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
               value: state.uId,
             ).then((value) {
               uId = state.uId;
-              AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
+              AppCubit.get(context)..getUserData()..getAllUsers();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

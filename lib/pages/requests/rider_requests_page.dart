@@ -97,15 +97,12 @@ class RiderRequestsPage extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: RiderListBuilder(
-                                    model: AppCubit.get(context).trips[index],
-                                    context: context,
-                                    index: index),
+                                child: RiderListBuilder(),
                               ),
                               separatorBuilder: (context, index) => SizedBox(
                                 height: 20.0,
                               ),
-                              itemCount: AppCubit.get(context).trips.length,
+                              itemCount: 3,
                             )
                           ],
                         ),

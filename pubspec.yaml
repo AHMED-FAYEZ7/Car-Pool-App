@@ -46,6 +46,7 @@ dependencies:
   material_floating_search_bar: ^0.3.7
   dio: ^4.0.4
   uuid: ^3.0.5
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,9 @@ flutter:
     - assets/images/verification.png
     - assets/images/accept_ic.png
     - assets/images/decline_ic.png
+    - assets/images/rate_ic.png
+    - assets/images/full_rate.png
+    - assets/images/empty_rate.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

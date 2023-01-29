@@ -2,14 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 
 class RiderListBuilder extends StatelessWidget {
-  RiderListBuilder({
-    required this.model,
-    required this.context,
-    required this.index,
-  });
-  BuildContext context;
-  int index;
-  TripsModel model;
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +73,7 @@ class RiderListBuilder extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${model.name}',
+                  'ahmed',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,

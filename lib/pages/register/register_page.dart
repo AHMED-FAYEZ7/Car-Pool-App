@@ -7,7 +7,6 @@ import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/functions.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
-import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/register/register_cubit/register_cubit.dart';
 import 'package:kau_carpool/pages/verification/verification_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
@@ -15,8 +14,6 @@ import 'package:kau_carpool/widgets/custom_text_filed.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
-
-  static String id = 'RegisterPage';
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -46,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
               uId = state.uId;
               final user = FirebaseAuth.instance.currentUser;
               user?.sendEmailVerification();
-              AppCubit.get(context)..getUserData()..getAllUsers()..getTrips();
+              AppCubit.get(context)..getUserData()..getAllUsers();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

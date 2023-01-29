@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
-import 'package:kau_carpool/pages/home/home_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
 class WaitPage extends StatelessWidget {
@@ -72,7 +71,7 @@ class WaitPage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
-                            color: ColorManager.blueWithOpacity,
+                            color: ColorManager.grey,
                             fontFamily: "Jost",
                           ),
                           textAlign: TextAlign.center,
@@ -89,7 +88,7 @@ class WaitPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePage(),
+                            builder: (context) => AppLayout(),
                           ),
                         );
                       },
