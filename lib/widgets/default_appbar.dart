@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/register/register_page.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -26,7 +27,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           image: AssetImage("assets/images/left_arrow_ic.png"),
         ),
         onTap: () {
-          Navigator.pushNamed(context, RegisterPage.id); // toDo
+          Navigator.pushNamed(context, AppLayout.id); // toDo
         },
       ),
     );
