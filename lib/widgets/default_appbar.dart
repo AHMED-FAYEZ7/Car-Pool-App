@@ -27,7 +27,13 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           image: AssetImage("assets/images/left_arrow_ic.png"),
         ),
         onTap: () {
-          Navigator.pushNamed(context, AppLayout.id); // toDo
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AppLayout(),
+            ),
+          );
+
         },
       ),
     );

@@ -43,6 +43,9 @@ dependencies:
   google_maps_flutter: ^2.2.2
   geolocator: ^8.2.0
   shared_preferences: ^2.0.15
+  material_floating_search_bar: ^0.3.7
+  dio: ^4.0.4
+  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_test:
