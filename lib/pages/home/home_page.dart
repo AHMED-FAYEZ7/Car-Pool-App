@@ -201,6 +201,7 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             if (findKey.currentState!
                                                 .validate()) {
+                                              cubit.getTrips();
                                               cubit.createFindPool(
                                                 dateTime:
                                                     findDateAndTimeController
@@ -321,28 +322,24 @@ class _HomePageState extends State<HomePage> {
                                           text: "Offer Pool",
                                           onTap: () {
                                             print(address!);
-                                            if (findKey.currentState!
-                                                .validate()) {
-                                              print(address!);
-                                              cubit.createOfferPool(
-                                                dateTime:
-                                                    offerDateAndTimeController
-                                                        .text,
-                                                pickUpLocation:
-                                                    "${cLat1.toString()}, ${cLong1.toString()}",
-                                                dropOffLocation: address!,
-                                                numberOfSeats:
-                                                    numOfSetsController.text,
-                                              );
+                                            cubit.createOfferPool(
+                                              dateTime:
+                                                  offerDateAndTimeController
+                                                      .text,
+                                              pickUpLocation:
+                                                  "${cLat1.toString()}, ${cLong1.toString()}",
+                                              dropOffLocation: address!,
+                                              numberOfSeats:
+                                                  numOfSetsController.text,
+                                            );
 
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      RiderRequestsPage(),
-                                                ),
-                                              );
-                                            }
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RiderRequestsPage(),
+                                              ),
+                                            );
                                           },
                                         )
                                       ],
