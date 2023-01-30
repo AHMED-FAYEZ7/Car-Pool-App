@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       create: (BuildContext context) => AppCubit()
         ..getUserData()
         ..getAllUsers()
-      ..getTrips(),
+        ..getTrips(),
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
