@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,40 +26,33 @@ class AppCubit extends Cubit<AppState> {
     MorePage(),
   ];
 
-  void changeBottomNav(int index)
-  {
-      currentIndex = index;
-      emit(AppChangeBottomNav());
+  void changeBottomNav(int index) {
+    currentIndex = index;
+    emit(AppChangeBottomNav());
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   // To get user data
   UserModel? userModel;
-  void getUserData() async
-   {
+  void getUserData() async {
     emit(AppGetUserLoadingState());
 
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(uId)
-        .get()
-        .then((value){
-          userModel = UserModel.fromJson(value.data());
-          CacheHelper.saveData(
-            key: 'name',
-            value: userModel!.name,
-          ).then((value) {
-            name = userModel!.name;
-          });
-          CacheHelper.saveData(
-            key: 'phone',
-            value: userModel!.phone,
-          ).then((value) {
-            phone = userModel!.phone;
-          });
+    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
+      userModel = UserModel.fromJson(value.data());
+      CacheHelper.saveData(
+        key: 'name',
+        value: userModel!.name,
+      ).then((value) {
+        name = userModel!.name;
+      });
+      CacheHelper.saveData(
+        key: 'phone',
+        value: userModel!.phone,
+      ).then((value) {
+        phone = userModel!.phone;
+      });
       emit(AppGetUserSuccessState());
-    })
-        .catchError((error){
+    }).catchError((error) {
       print(error.toString());
       emit(AppGetUserErrorState(error.toString()));
     });
@@ -65,24 +60,17 @@ class AppCubit extends Cubit<AppState> {
 
   // To get all users data
   List<UserModel> users = [];
-  void getAllUsers()
-  {
+  void getAllUsers() {
     emit(AppGetAllUsersLoadingState());
-    if(users.isEmpty)
-    {
-      FirebaseFirestore.instance
-          .collection('users')
-          .get()
-          .then((value) {
+    if (users.isEmpty) {
+      FirebaseFirestore.instance.collection('users').get().then((value) {
         for (var element in value.docs) {
-          if(element.data()['uId'] != uId)
-          {
+          if (element.data()['uId'] != uId) {
             users.add(UserModel.fromJson(element.data()));
           }
         }
         emit(AppGetAllUsersSuccessState());
-      })
-          .catchError((error) {
+      }).catchError((error) {
         emit(AppGetAllUsersErrorState(error.toString()));
       });
     }
@@ -93,8 +81,7 @@ class AppCubit extends Cubit<AppState> {
     required String dateTime,
     required String pickUpLocation,
     required String dropOffLocation,
-  })async
-  {
+  }) async {
     emit(AppCreateFindsLoadingState());
 
     FindModel model = FindModel(
@@ -110,8 +97,7 @@ class AppCubit extends Cubit<AppState> {
         .add(model.toMap())
         .then((value) {
       emit(AppCreateFindsSuccessState());
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(AppCreateFindsErrorState());
     });
   }
@@ -119,11 +105,10 @@ class AppCubit extends Cubit<AppState> {
   // To create new offer pool or trip from driver
   Future<void> createOfferPool({
     required String dateTime,
-    required int numberOfSeats,
+    required String numberOfSeats,
     required String pickUpLocation,
     required String dropOffLocation,
-  })async
-  {
+  }) async {
     emit(AppCreateTripsLoadingState());
 
     TripsModel model = TripsModel(
@@ -136,12 +121,12 @@ class AppCubit extends Cubit<AppState> {
       dropOffLocation: dropOffLocation,
     );
 
-    FirebaseFirestore.instance.collection('trips')
+    FirebaseFirestore.instance
+        .collection('trips')
         .add(model.toMap())
         .then((value) {
       emit(AppCreateTripsSuccessState());
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(AppCreateTripsErrorState());
     });
   }
@@ -151,78 +136,58 @@ class AppCubit extends Cubit<AppState> {
   List<int> selects = [];
 
   // To get all trips
-  void getTrips()
-  {
+  void getTrips() {
     emit(AppGetTripsLoadingState());
-    FirebaseFirestore.instance
-        .collection('trips')
-        .get()
-        .then((value) {
+    FirebaseFirestore.instance.collection('trips').get().then((value) {
       for (var element in value.docs) {
-        element.reference
-            .collection('selects')
-            .get()
-            .then((value) {
+        element.reference.collection('selects').get().then((value) {
           selects.add(value.docs.length);
           tripsId.add(element.id);
           trips.add(TripsModel.fromJson(element.data()));
           emit(AppGetTripsSuccessState());
-        })
-            .catchError((error){});
+        }).catchError((error) {});
       }
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(AppGetTripsErrorState(error.toString()));
     });
   }
 
   // To select trip
-  void tripsSelects(String tripsId)
-  {
+  void tripsSelects(String tripsId) {
     FirebaseFirestore.instance
         .collection('trips')
         .doc(tripsId)
         .collection('selects')
         .doc(uId)
-        .set({
-      'select':true
-    })
-        .then((value) {
-          print("true");
+        .set({'select': true}).then((value) {
+      print("true");
       emit(AppSelectTripsSuccessState());
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(AppSelectTripsErrorState(error.toString()));
     });
   }
 
   // home toggle
   int homeToggleIndex = 0;
-  void homeToggleButton(int index)
-  {
-    if(index == 1)
-    {
+  void homeToggleButton(int index) {
+    if (index == 1) {
       homeToggleIndex = index;
       emit(OfferToggle());
-    }else{
+    } else {
       homeToggleIndex = index;
       emit(FindToggle());
     }
-
   }
 
   // trips toggle
   int tripsToggleIndex = 0;
-  void tripsToggleButton(int index)
-  {
-    if(index == 1)
-    {
+  void tripsToggleButton(int index) {
+    if (index == 1) {
       tripsToggleIndex = index;
       emit(ScheduledTripsToggle());
-    }else{
+    } else {
       tripsToggleIndex = index;
       emit(CurrentTripsToggle());
     }
-
   }
 }

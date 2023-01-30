@@ -46,12 +46,12 @@ class ConfirmPage extends StatelessWidget {
                   children: [
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.all(30.0),
-                        child: new Container(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Container(
                           height: 150,
                           width: 150,
-                          decoration: new BoxDecoration(
-                            image: DecorationImage(
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
                               image: AssetImage("assets/images/cong3_ic.png"),
                               fit: BoxFit.fitHeight,
                             ),

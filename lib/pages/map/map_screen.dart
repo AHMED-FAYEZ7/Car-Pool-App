@@ -91,6 +91,7 @@ class _MapScreenState extends State<MapScreen> {
     position = await LocationHelper.getCurrentLocation().whenComplete(() {});
     double lat = position!.latitude;
     double long = position!.longitude;
+    print(position!.latitude);
     //  save current location to reuse it
     CacheHelper.saveData(key: "cLat1", value: lat).then((value) {
       cLat1 = lat;
@@ -109,7 +110,7 @@ class _MapScreenState extends State<MapScreen> {
       onMapCreated: (GoogleMapController controller) {
         _mapController.complete(controller);
       },
-      mapType: MapType.normal,
+      mapType: MapType.satellite,
       myLocationButtonEnabled: false,
       myLocationEnabled: true,
       zoomControlsEnabled: true,

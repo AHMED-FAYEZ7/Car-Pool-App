@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
-import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
-import 'package:kau_carpool/pages/login/login_cubit/login_cubit.dart';
-import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
 import 'package:kau_carpool/pages/map/map_screen.dart';
 import 'package:kau_carpool/pages/requests/driver_requests_page.dart';
+import 'package:kau_carpool/pages/requests/rider_requests_page.dart';
 import 'package:kau_carpool/repository/maps_repo.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_filed.dart';
@@ -25,6 +23,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var findPickUpController = TextEditingController();
   var findDropOffController = TextEditingController();
+  var numOfSetsController = TextEditingController();
+  var findDateAndTimeController = TextEditingController();
+  var offerDateAndTimeController = TextEditingController();
   var findKey = GlobalKey<FormState>();
   var offerKey = GlobalKey<FormState>();
   // String _currentLocation = "Your current location";
@@ -147,41 +148,48 @@ class _HomePageState extends State<HomePage> {
                                             hintText: "Enter Pick up location",
                                             controller: findPickUpController,
                                             type: TextInputType.text,
-                                            validator: (String? s) {
-                                              // if (s!.isEmpty) {
-                                              //   return 'Please Enter Location';
-                                              // }
-                                              // return null;
-                                            },
-                                            // function: () {
-                                            //  },
+                                            validator: (String? s) {},
                                           ),
                                         ),
-                                        CustomField(
-                                          icPath:
-                                              "assets/images/drop_off_ic.png",
-                                          hintText: "Enter Drop Off Location",
-                                          controller: findPickUpController,
-                                          type: TextInputType.text,
-                                          validator: (String? s) {
-                                            // if (s!.isEmpty) {
-                                            //   return 'Please Enter Location';
-                                            // }
-                                            // return null;
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider(
+                                                  create: (context) =>
+                                                      MapsCubit(
+                                                    MapsRepository(
+                                                      PlacesWebservices(),
+                                                    ),
+                                                  ),
+                                                  child: MapScreen(),
+                                                ),
+                                              ),
+                                            );
                                           },
+                                          child: CustomField(
+                                            icPath:
+                                                "assets/images/drop_off_ic.png",
+                                            hintText: "Enter Drop Off Location",
+                                            controller: findPickUpController,
+                                            type: TextInputType.text,
+                                            validator: (String? s) {},
+                                          ),
                                         ),
                                         CustomField(
                                           write: true,
                                           icPath:
                                               "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
-                                          controller: findPickUpController,
+                                          controller: findDateAndTimeController,
                                           type: TextInputType.text,
                                           validator: (String? s) {
-                                            // if (s!.isEmpty) {
-                                            //   return 'Please Add Date and Time';
-                                            // }
-                                            // return null;
+                                            if (s!.isEmpty) {
+                                              return 'Please Enter Date & Time';
+                                            }
+                                            return null;
                                           },
                                         ),
                                         const SizedBox(
@@ -191,54 +199,27 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            cubit.createFindPool(
-                                              dateTime: "dateTime",
-                                              pickUpLocation:
-                                                  "${cLat1.toString()}, ${cLong1.toString()}",
-                                              dropOffLocation: address!,
-                                            );
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DriverRequestsPage(),
-                                              ),
-                                            );
-                                            // AppCubit.get(context)
-                                            //     .createFindPool(
-                                            //   dateTime: '4:33',
-                                            //   pickUpLocation:
-                                            //       "Your current location",
-                                            //   dropOffLocation: address!,
-                                            // );
+                                            if (findKey.currentState!
+                                                .validate()) {
+                                              cubit.createFindPool(
+                                                dateTime:
+                                                    findDateAndTimeController
+                                                        .text,
+                                                pickUpLocation:
+                                                    "${cLat1.toString()}, ${cLong1.toString()}",
+                                                dropOffLocation: address!,
+                                              );
 
-                                            // if(findKey.currentState!.validate())
-                                            // {}
-                                            // Navigator.pushNamed(context, RequestsPage.id);
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DriverRequestsPage(),
+                                                ),
+                                              );
+                                            }
                                           },
                                         ),
-                                        // CustomButton(
-                                        //   width: 110,
-                                        //   text: "show Pool",
-                                        //   onTap: () {
-                                        //     AppCubit.get(context)
-                                        //         .createFindPool(
-                                        //       dateTime: '4:33',
-                                        //       pickUpLocation: "pickUpLocation",
-                                        //       dropOffLocation:
-                                        //           "dropOffLocation",
-                                        //     );
-                                        //     print("$cLat1 sssscccccssssss");
-                                        //     print("$cLong1 sssscccccssssss");
-                                        //     print("$dLat1 sssscccccssssss");
-                                        //     print("$dLong1 sssscccccssssss");
-                                        //     print("$address sssscccccssssss");
-                                        //
-                                        //     // if(findKey.currentState!.validate())
-                                        //     // {}
-                                        //     // Navigator.pushNamed(context, RequestsPage.id);
-                                        //   },
-                                        // )
                                       ],
                                     ),
                                   ),
@@ -250,42 +231,71 @@ class _HomePageState extends State<HomePage> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        CustomField(
-                                          icPath:
-                                              "assets/images/pick_up_ic.png",
-                                          hintText: "Enter Pick up Location",
-                                          controller: findPickUpController,
-                                          type: TextInputType.text,
-                                          validator: (String? s) {
-                                            if (s!.isEmpty) {
-                                              return 'Please Enter Location';
-                                            }
-                                            return null;
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider(
+                                                  create: (context) =>
+                                                      MapsCubit(
+                                                    MapsRepository(
+                                                      PlacesWebservices(),
+                                                    ),
+                                                  ),
+                                                  child: MapScreen(),
+                                                ),
+                                              ),
+                                            );
                                           },
+                                          child: CustomField(
+                                            icPath:
+                                                "assets/images/pick_up_ic.png",
+                                            hintText: "Enter Pick up Location",
+                                            controller: findPickUpController,
+                                            type: TextInputType.text,
+                                            validator: (String? s) {},
+                                          ),
                                         ),
-                                        CustomField(
-                                          icPath:
-                                              "assets/images/drop_off_ic.png",
-                                          hintText: "Enter Drop Off Location",
-                                          controller: findPickUpController,
-                                          type: TextInputType.text,
-                                          validator: (String? s) {
-                                            if (s!.isEmpty) {
-                                              return 'Please Enter Location';
-                                            }
-                                            return null;
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider(
+                                                  create: (context) =>
+                                                      MapsCubit(
+                                                    MapsRepository(
+                                                      PlacesWebservices(),
+                                                    ),
+                                                  ),
+                                                  child: MapScreen(),
+                                                ),
+                                              ),
+                                            );
                                           },
+                                          child: CustomField(
+                                            icPath:
+                                                "assets/images/drop_off_ic.png",
+                                            hintText: "Enter Drop Off Location",
+                                            controller: findPickUpController,
+                                            type: TextInputType.text,
+                                            validator: (String? s) {},
+                                          ),
                                         ),
                                         CustomField(
                                           write: true,
                                           icPath:
                                               "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
-                                          controller: findPickUpController,
+                                          controller:
+                                              offerDateAndTimeController,
                                           type: TextInputType.text,
                                           validator: (String? s) {
                                             if (s!.isEmpty) {
-                                              return 'Please Add Date and Time';
+                                              return 'Please Enter Date & Time';
                                             }
                                             return null;
                                           },
@@ -294,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                                           write: true,
                                           icPath: "assets/images/seats_ic.png",
                                           hintText: "Enter Number Of Seats",
-                                          controller: findPickUpController,
+                                          controller: numOfSetsController,
                                           type: TextInputType.text,
                                           validator: (String? s) {
                                             if (s!.isEmpty) {
@@ -310,15 +320,29 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
-                                            AppCubit.get(context)
-                                                .createOfferPool(
-                                              dateTime: '4:33',
-                                              pickUpLocation: "pickUpLocation",
-                                              dropOffLocation:
-                                                  "dropOffLocation",
-                                              numberOfSeats: 5,
-                                            );
-                                            // Navigator.pushNamed(context, RequestsPage.id);
+                                            print(address!);
+                                            if (findKey.currentState!
+                                                .validate()) {
+                                              print(address!);
+                                              cubit.createOfferPool(
+                                                dateTime:
+                                                    offerDateAndTimeController
+                                                        .text,
+                                                pickUpLocation:
+                                                    "${cLat1.toString()}, ${cLong1.toString()}",
+                                                dropOffLocation: address!,
+                                                numberOfSeats:
+                                                    numOfSetsController.text,
+                                              );
+
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      RiderRequestsPage(),
+                                                ),
+                                              );
+                                            }
                                           },
                                         )
                                       ],
