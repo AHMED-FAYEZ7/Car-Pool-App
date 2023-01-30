@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
+// used to ask user for permission to use location
 class LocationHelper {
   static Future<Position> getCurrentLocation() async {
     bool serviceEnabled;

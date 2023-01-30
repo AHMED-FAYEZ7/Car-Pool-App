@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/models/place_suggestion.dart';
 
+// places item list ui
 class PlaceItem extends StatelessWidget {
   final PlaceSuggestion suggestion;
 
@@ -9,6 +10,7 @@ class PlaceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+// give suggestion latter by latter
     var subTitle = suggestion.description
         .replaceAll(suggestion.description.split(',')[0], '');
     return Container(
@@ -38,9 +40,10 @@ class PlaceItem extends StatelessWidget {
                   TextSpan(
                     text: '${suggestion.description.split(',')[0]}\n',
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   TextSpan(
                     text: subTitle.substring(2),

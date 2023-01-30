@@ -9,10 +9,7 @@ import 'package:kau_carpool/pages/login/login_cubit/login_cubit.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
 import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
 import 'package:kau_carpool/pages/map/map_screen.dart';
-import 'package:kau_carpool/pages/rate/rate_page.dart';
 import 'package:kau_carpool/pages/requests/driver_requests_page.dart';
-import 'package:kau_carpool/pages/requests/rider_requests_page.dart';
-import 'package:kau_carpool/pages/riders_on_trip/riders_on_trip_page.dart';
 import 'package:kau_carpool/repository/maps_repo.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_filed.dart';
@@ -30,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   var findDropOffController = TextEditingController();
   var findKey = GlobalKey<FormState>();
   var offerKey = GlobalKey<FormState>();
+  // String _currentLocation = "Your current location";
 
   @override
   Widget build(BuildContext context) {
@@ -125,18 +123,39 @@ class _HomePageState extends State<HomePage> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        CustomField(
-                                          icPath:
-                                              "assets/images/pick_up_ic.png",
-                                          hintText: "Enter Pick up Location ",
-                                          controller: findPickUpController,
-                                          type: TextInputType.text,
-                                          validator: (String? s) {
-                                            if (s!.isEmpty) {
-                                              return 'Please Enter Location';
-                                            }
-                                            return null;
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider(
+                                                  create: (context) =>
+                                                      MapsCubit(
+                                                    MapsRepository(
+                                                      PlacesWebservices(),
+                                                    ),
+                                                  ),
+                                                  child: MapScreen(),
+                                                ),
+                                              ),
+                                            );
                                           },
+                                          child: CustomField(
+                                            icPath:
+                                                "assets/images/pick_up_ic.png",
+                                            hintText: "Enter Pick up location",
+                                            controller: findPickUpController,
+                                            type: TextInputType.text,
+                                            validator: (String? s) {
+                                              // if (s!.isEmpty) {
+                                              //   return 'Please Enter Location';
+                                              // }
+                                              // return null;
+                                            },
+                                            // function: () {
+                                            //  },
+                                          ),
                                         ),
                                         CustomField(
                                           icPath:
@@ -145,10 +164,10 @@ class _HomePageState extends State<HomePage> {
                                           controller: findPickUpController,
                                           type: TextInputType.text,
                                           validator: (String? s) {
-                                            if (s!.isEmpty) {
-                                              return 'Please Enter Location';
-                                            }
-                                            return null;
+                                            // if (s!.isEmpty) {
+                                            //   return 'Please Enter Location';
+                                            // }
+                                            // return null;
                                           },
                                         ),
                                         CustomField(
@@ -159,10 +178,10 @@ class _HomePageState extends State<HomePage> {
                                           controller: findPickUpController,
                                           type: TextInputType.text,
                                           validator: (String? s) {
-                                            if (s!.isEmpty) {
-                                              return 'Please Add Date and Time';
-                                            }
-                                            return null;
+                                            // if (s!.isEmpty) {
+                                            //   return 'Please Add Date and Time';
+                                            // }
+                                            // return null;
                                           },
                                         ),
                                         const SizedBox(
@@ -172,27 +191,30 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
+                                            cubit.createFindPool(
+                                              dateTime: "dateTime",
+                                              pickUpLocation:
+                                                  "${cLat1.toString()}, ${cLong1.toString()}",
+                                              dropOffLocation: address!,
+                                            );
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => RiderRequestsPage(),
+                                                builder: (context) =>
+                                                    DriverRequestsPage(),
                                               ),
                                             );
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) =>
-                                            //         BlocProvider(
-                                            //       create: (context) =>
-                                            //           MapsCubit(
-                                            //         MapsRepository(
-                                            //           PlacesWebservices(),
-                                            //         ),
-                                            //       ),
-                                            //       child: MapScreen(),
-                                            //     ),
-                                            //   ),
+                                            // AppCubit.get(context)
+                                            //     .createFindPool(
+                                            //   dateTime: '4:33',
+                                            //   pickUpLocation:
+                                            //       "Your current location",
+                                            //   dropOffLocation: address!,
                                             // );
+
+                                            // if(findKey.currentState!.validate())
+                                            // {}
+                                            // Navigator.pushNamed(context, RequestsPage.id);
                                           },
                                         ),
                                         // CustomButton(

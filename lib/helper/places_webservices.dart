@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kau_carpool/constants.dart';
 
+// use it to call api
+
 class PlacesWebservices {
   late Dio dio;
 
@@ -13,16 +15,18 @@ class PlacesWebservices {
     );
     dio = Dio(options);
   }
-
+// send search place call
   Future<List<dynamic>> fetchSuggestions(
-      String place, String sessionToken) async {
+    String place,
+    String sessionToken,
+  ) async {
     try {
       Response response = await dio.get(
         suggestionsBaseUrl,
         queryParameters: {
           'input': place,
           'types': 'address',
-          'components': 'country:eg',
+          'components': 'country:sa',
           'key': googleAPIKey,
           'sessiontoken': sessionToken
         },
@@ -36,6 +40,7 @@ class PlacesWebservices {
     }
   }
 
+// send destination place api call
   Future<dynamic> getPlaceLocation(String placeId, String sessionToken) async {
     try {
       Response response = await dio.get(
@@ -70,7 +75,7 @@ class PlacesWebservices {
           'key': googleAPIKey,
         },
       );
-      print("Omar I'm testing directions");
+      print("I'm testing directions");
       print(response.data);
       return response.data;
     } catch (error) {

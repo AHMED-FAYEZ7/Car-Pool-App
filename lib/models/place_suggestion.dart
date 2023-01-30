@@ -1,3 +1,5 @@
+// data is ready to use from repo
+
 class PlaceSuggestion {
   late String placeId;
   late String description;

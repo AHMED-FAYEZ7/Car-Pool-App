@@ -8,10 +8,13 @@ import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/location_helper.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/models/place.dart';
+import 'package:kau_carpool/models/place_directions.dart';
 import 'package:kau_carpool/models/place_suggestion.dart';
 import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
 import 'package:kau_carpool/widgets/default_appbar.dart';
+import 'package:kau_carpool/widgets/distance_and_time.dart';
 import 'package:kau_carpool/widgets/place_item.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:uuid/uuid.dart';
@@ -25,19 +28,28 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  // list to store searched places
   List<PlaceSuggestion> places = [];
 
+// object to store position lat & lng
   static Position? position;
+
+// controller of map widget
   final Completer<GoogleMapController> _mapController = Completer();
+
+  // controller of search bar widget
   FloatingSearchBarController controller = FloatingSearchBarController();
+
+  // camera position to track current location
   static final CameraPosition _myCurrentLocationCameraPosition = CameraPosition(
     bearing: 0.0,
+    // pass current position lat & lng
     target: LatLng(position!.latitude, position!.longitude),
     tilt: 0.0,
     zoom: 17,
   );
 
-  // these variables for getPlaceLocation
+  // these variables for Get Place Location
   Set<Marker> markers = Set();
   late PlaceSuggestion placeSuggestion;
   late Place selectedPlace;
@@ -45,6 +57,16 @@ class _MapScreenState extends State<MapScreen> {
   late Marker currentLocationMarker;
   late CameraPosition goToSearchedForPlace;
 
+  // these variables for Get Directions
+  PlaceDirections? placeDirections;
+  var progressIndicator = false;
+  late List<LatLng> polylinePoints;
+  var isSearchedPlaceMarkerClicked = false;
+  var isTimeAndDistanceVisible = false;
+  late String time;
+  late String distance;
+
+// move camera position to the searched place
   void buildCameraNewPosition() {
     goToSearchedForPlace = CameraPosition(
       bearing: 0.0,
@@ -60,14 +82,16 @@ class _MapScreenState extends State<MapScreen> {
   @override
   initState() {
     super.initState();
+
     getMyCurrentLocation();
   }
 
+// get current location (from LOCATION HELPER) of user & save it
   Future<void> getMyCurrentLocation() async {
     position = await LocationHelper.getCurrentLocation().whenComplete(() {});
-    print("${position!.latitude}, ${position!.longitude} yyyyyyyyyyy");
     double lat = position!.latitude;
     double long = position!.longitude;
+    //  save current location to reuse it
     CacheHelper.saveData(key: "cLat1", value: lat).then((value) {
       cLat1 = lat;
     });
@@ -78,6 +102,7 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {});
   }
 
+// google map widget
   Widget buildMap() {
     return GoogleMap(
       initialCameraPosition: _myCurrentLocationCameraPosition,
@@ -89,20 +114,30 @@ class _MapScreenState extends State<MapScreen> {
       myLocationEnabled: true,
       zoomControlsEnabled: true,
       markers: markers,
+      polylines: placeDirections != null
+          ? {
+              Polyline(
+                polylineId: const PolylineId('my_polyline'),
+                color: Colors.black,
+                width: 2,
+                points: polylinePoints,
+              ),
+            }
+          : {},
     );
   }
 
+// use it to go for current location
   Future<void> _goToMyCurrentLocation() async {
     final GoogleMapController controller = await _mapController.future;
     controller.animateCamera(
-      CameraUpdate.newCameraPosition(_myCurrentLocationCameraPosition),
+      CameraUpdate.newCameraPosition(
+        _myCurrentLocationCameraPosition,
+      ),
     );
-    print("${position!.latitude}, ${position!.longitude} ssssssssssss");
-    // CacheHelper.saveData(key: "position", value: lat).then((value) {
-    //   pos = position.toString();
-    // });
   }
 
+// search bar
   Widget buildFloatingSearchBar() {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
@@ -126,16 +161,18 @@ class _MapScreenState extends State<MapScreen> {
       openAxisAlignment: 0.0,
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
-      // progress: progressIndicator,
+      progress: progressIndicator,
       onQueryChanged: (query) {
+        // detect each latter add and give suggestion
         getPlacesSuggestions(query);
       },
-      // onFocusChanged: (_) {
-      //   // hide distance and time row
-      //   setState(() {
-      //     isTimeAndDistanceVisible = false;
-      //   });
-      // },
+      onFocusChanged: (_) {
+        // hide distance and time containers
+        setState(() {
+          // when place selected remove time and distance
+          isTimeAndDistanceVisible = false;
+        });
+      },
       transition: CircularFloatingSearchBarTransition(),
       actions: [
         FloatingSearchBarAction(
@@ -153,9 +190,12 @@ class _MapScreenState extends State<MapScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              // fetch all suggested places
               buildSuggestionsBloc(),
+              // build destination location
               buildSelectedPlaceLocationBloc(),
-              // buildDiretionsBloc(),
+              // build track between current location and destination
+              buildDiretionsBloc(),
             ],
           ),
         );
@@ -163,14 +203,35 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+//  store direction come from api
+  Widget buildDiretionsBloc() {
+    return BlocListener<MapsCubit, MapsState>(
+      listener: (context, state) {
+        if (state is DirectionsLoaded) {
+          placeDirections = (state).placeDirections;
+
+          getPolylinePoints();
+        }
+      },
+      child: Container(),
+    );
+  }
+
+// save points of current and destination from api
+  void getPolylinePoints() {
+    polylinePoints = placeDirections!.polylinePoints
+        .map((e) => LatLng(e.latitude, e.longitude))
+        .toList();
+  }
+
+// selected place bloc
   Widget buildSelectedPlaceLocationBloc() {
     return BlocListener<MapsCubit, MapsState>(
       listener: (context, state) {
         if (state is PlaceLocationLoaded) {
+          // save result of selected place from list (api) to use it in google widget
           selectedPlace = (state).place;
-          print("${selectedPlace.result.geometry.location.lat} mmmmmmmmmmm");
-          print("${selectedPlace.result.geometry.location.lng} xxxxxxxxxxxxxx");
-          print("${placeSuggestion.description} xxxxxxxxxxxxxx");
+          // save position of selected place
           CacheHelper.saveData(
             key: "dLong1",
             value: selectedPlace.result.geometry.location.lng,
@@ -189,14 +250,27 @@ class _MapScreenState extends State<MapScreen> {
           ).then((value) {
             address = placeSuggestion.description;
           });
+
           goToMySearchedForLocation();
-          // getDirections();
+          getDirections();
         }
       },
       child: Container(),
     );
   }
 
+// call api of direction give it current location and destination
+  void getDirections() {
+    BlocProvider.of<MapsCubit>(context).emitPlaceDirections(
+      LatLng(position!.latitude, position!.longitude),
+      LatLng(
+        selectedPlace.result.geometry.location.lat,
+        selectedPlace.result.geometry.location.lng,
+      ),
+    );
+  }
+
+// move camera to selected place and build marker
   Future<void> goToMySearchedForLocation() async {
     buildCameraNewPosition();
     final GoogleMapController controller = await _mapController.future;
@@ -211,12 +285,13 @@ class _MapScreenState extends State<MapScreen> {
       position: goToSearchedForPlace.target,
       markerId: MarkerId('1'),
       onTap: () {
+        // on tap build marker of current location
         buildCurrentLocationMarker();
         // show time and distance
-        // setState(() {
-        //   // isSearchedPlaceMarkerClicked = true;
-        //   // isTimeAndDistanceVisible = true;
-        // });
+        setState(() {
+          isSearchedPlaceMarkerClicked = true;
+          isTimeAndDistanceVisible = true;
+        });
       },
       infoWindow: InfoWindow(title: "${placeSuggestion.description}"),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
@@ -242,16 +317,21 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
+// suggested places
   void getPlacesSuggestions(String query) {
     final sessionToken = Uuid().v4();
-    BlocProvider.of<MapsCubit>(context)
-        .emitPlaceSuggestions(query, sessionToken);
+    BlocProvider.of<MapsCubit>(context).emitPlaceSuggestions(
+      query,
+      sessionToken,
+    );
   }
 
+// build ui of suggestion places
   Widget buildSuggestionsBloc() {
     return BlocBuilder<MapsCubit, MapsState>(
       builder: (context, state) {
         if (state is PlacesLoaded) {
+          // save places come from api in placesList to use it in ui
           places = (state).places;
           if (places.length != 0) {
             return buildPlacesList();
@@ -265,15 +345,20 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+// places ui
   Widget buildPlacesList() {
     return ListView.builder(
       itemBuilder: (ctx, index) {
         return InkWell(
           onTap: () async {
+            // save placeId to be used in calling API
             placeSuggestion = places[index];
             controller.close();
+            // go to selected place
             getSelectedPlaceLocation();
-            // polylinePoints.clear();
+            // remove track
+            polylinePoints.clear();
+            // remove marker
             removeAllMarkersAndUpdateUI();
           },
           child: PlaceItem(
@@ -293,10 +378,14 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
+// call api for place location
   void getSelectedPlaceLocation() {
     final sessionToken = Uuid().v4();
-    BlocProvider.of<MapsCubit>(context)
-        .emitPlaceLocation(placeSuggestion.placeId, sessionToken);
+    BlocProvider.of<MapsCubit>(context).emitPlaceLocation(
+      // stored from places[index]
+      placeSuggestion.placeId,
+      sessionToken,
+    );
   }
 
   @override
@@ -320,12 +409,51 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
           buildFloatingSearchBar(),
+          isSearchedPlaceMarkerClicked
+              ? DistanceAndTime(
+                  isTimeAndDistanceVisible: isTimeAndDistanceVisible,
+                  placeDirections: placeDirections,
+                )
+              : Container(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: ColorManager.darkGrey,
+                    shape: BoxShape.circle,
+                  ),
+                  margin: EdgeInsets.fromLTRB(58, 0, 3, 10),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AppLayout(),
+                          ), (route) {
+                        return false;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.home_filled,
+                      color: ColorManager.white,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomLeft,
         child: Container(
-          margin: EdgeInsets.fromLTRB(55, 15, 3, 0),
+          margin: EdgeInsets.fromLTRB(70, 15, 3, 60),
           child: FloatingActionButton(
             backgroundColor: ColorManager.primary,
             onPressed: _goToMyCurrentLocation,

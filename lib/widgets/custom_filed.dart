@@ -12,6 +12,7 @@ class CustomField extends StatelessWidget {
     required this.controller,
     required this.type,
     this.suffix,
+    this.function,
     this.suffixPressed,
     required this.validator,
   });
@@ -22,6 +23,7 @@ class CustomField extends StatelessWidget {
   TextEditingController controller;
   TextInputType? type;
   Function? suffixPressed;
+  Function? function;
   String? Function(String? val)? validator;
   bool? obscureText;
   bool? write;
@@ -40,6 +42,9 @@ class CustomField extends StatelessWidget {
         validator: validator,
         onChanged: onChanged,
         enabled: write,
+        onTap: () {
+          function!();
+        },
         decoration: InputDecoration(
           icon: Container(
             height: 25,
