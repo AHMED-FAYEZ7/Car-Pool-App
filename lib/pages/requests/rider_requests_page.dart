@@ -106,7 +106,7 @@ class RiderRequestsPage extends StatelessWidget {
                               separatorBuilder: (context, index) => SizedBox(
                                 height: 20.0,
                               ),
-                              itemCount: 3,
+                              itemCount: cubit.trips.length,
                             )
                           ],
                         ),

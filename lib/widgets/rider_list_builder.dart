@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/pages/confirm/confirm_page.dart';
+import 'package:kau_carpool/pages/home/home_page.dart';
+import 'package:kau_carpool/pages/status/status_page.dart';
 
 class RiderListBuilder extends StatelessWidget {
   RiderListBuilder({
@@ -125,7 +127,14 @@ class RiderListBuilder extends StatelessWidget {
             width: 20.0,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StatusPage(),
+                ),
+              );
+            },
             child: Container(
               width: 30,
               height: 30,

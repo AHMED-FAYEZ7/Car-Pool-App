@@ -1,7 +1,8 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/pages/trips/trips_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
 class ConfirmPage extends StatelessWidget {
@@ -101,7 +102,12 @@ class ConfirmPage extends StatelessWidget {
                       width: 150,
                       text: "My Trips",
                       onTap: () {
-                        //  Navigator.pushNamed(context, Trips.id); // toDo
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TripsPage(),
+                          ),
+                        );
                       },
                     )
                   ],

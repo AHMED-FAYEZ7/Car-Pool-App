@@ -97,9 +97,10 @@ class DriverRequestsPage extends StatelessWidget {
                                   );
                                 },
                                 child: DriverListBuilder(
-                                    model: AppCubit.get(context).trips[index],
-                                    context: context,
-                                    index: index),
+                                  model: AppCubit.get(context).trips[index],
+                                  context: context,
+                                  index: index,
+                                ),
                               ),
                               separatorBuilder: (context, index) =>
                                   const SizedBox(
