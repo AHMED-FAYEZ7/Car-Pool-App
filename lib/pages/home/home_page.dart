@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -148,7 +150,9 @@ class _HomePageState extends State<HomePage> {
                                             hintText: "Enter Pick up location",
                                             controller: findPickUpController,
                                             type: TextInputType.text,
-                                            validator: (String? s) {},
+                                            validator: (String? s) {
+                                              return null;
+                                            },
                                           ),
                                         ),
                                         GestureDetector(
@@ -175,7 +179,9 @@ class _HomePageState extends State<HomePage> {
                                             hintText: "Enter Drop Off Location",
                                             controller: findPickUpController,
                                             type: TextInputType.text,
-                                            validator: (String? s) {},
+                                            validator: (String? s) {
+                                              return null;
+                                            },
                                           ),
                                         ),
                                         CustomField(
@@ -256,7 +262,9 @@ class _HomePageState extends State<HomePage> {
                                             hintText: "Enter Pick up Location",
                                             controller: findPickUpController,
                                             type: TextInputType.text,
-                                            validator: (String? s) {},
+                                            validator: (String? s) {
+                                              return null;
+                                            },
                                           ),
                                         ),
                                         GestureDetector(
@@ -283,7 +291,9 @@ class _HomePageState extends State<HomePage> {
                                             hintText: "Enter Drop Off Location",
                                             controller: findPickUpController,
                                             type: TextInputType.text,
-                                            validator: (String? s) {},
+                                            validator: (String? s) {
+                                              return null;
+                                            },
                                           ),
                                         ),
                                         CustomField(

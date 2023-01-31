@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unnecessary_string_interpolations, prefer_collection_literals, prefer_const_constructors, prefer_is_empty, avoid_unnecessary_containers, prefer_const_constructors_in_immutables
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -8,7 +10,6 @@ import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/location_helper.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
-import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/models/place.dart';
 import 'package:kau_carpool/models/place_directions.dart';
 import 'package:kau_carpool/models/place_suggestion.dart';
@@ -146,11 +147,11 @@ class _MapScreenState extends State<MapScreen> {
     return FloatingSearchBar(
       controller: controller,
       elevation: 6,
-      hintStyle: TextStyle(fontSize: 18),
-      queryStyle: TextStyle(fontSize: 18),
+      hintStyle: const TextStyle(fontSize: 18),
+      queryStyle: const TextStyle(fontSize: 18),
       hint: 'Find a place..',
-      border: BorderSide(style: BorderStyle.none),
-      margins: EdgeInsets.fromLTRB(20, 10, 20, 0),
+      border: const BorderSide(style: BorderStyle.none),
+      margins: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
       height: 52,
       iconColor: ColorManager.primary,
@@ -284,7 +285,7 @@ class _MapScreenState extends State<MapScreen> {
   void buildSearchedPlaceMarker() {
     searchedPlaceMarker = Marker(
       position: goToSearchedForPlace.target,
-      markerId: MarkerId('1'),
+      markerId: const MarkerId('1'),
       onTap: () {
         // on tap build marker of current location
         buildCurrentLocationMarker();
@@ -304,9 +305,9 @@ class _MapScreenState extends State<MapScreen> {
   void buildCurrentLocationMarker() {
     currentLocationMarker = Marker(
       position: LatLng(position!.latitude, position!.longitude),
-      markerId: MarkerId('2'),
+      markerId: const MarkerId('2'),
       onTap: () {},
-      infoWindow: InfoWindow(title: "Your current Location"),
+      infoWindow: const InfoWindow(title: "Your current Location"),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
     );
     addMarkerToMarkersAndUpdateUI(currentLocationMarker);
@@ -416,45 +417,12 @@ class _MapScreenState extends State<MapScreen> {
                   placeDirections: placeDirections,
                 )
               : Container(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: ColorManager.darkGrey,
-                    shape: BoxShape.circle,
-                  ),
-                  margin: EdgeInsets.fromLTRB(58, 0, 3, 10),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AppLayout(),
-                          ), (route) {
-                        return false;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.home_filled,
-                      color: ColorManager.white,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
         ],
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomLeft,
         child: Container(
-          margin: EdgeInsets.fromLTRB(70, 15, 3, 60),
+          margin: const EdgeInsets.fromLTRB(70, 15, 3, 60),
           child: FloatingActionButton(
             backgroundColor: ColorManager.primary,
             onPressed: _goToMyCurrentLocation,

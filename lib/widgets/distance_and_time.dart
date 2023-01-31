@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/models/place_directions.dart';
 
@@ -27,26 +29,26 @@ class DistanceAndTime extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                margin: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                margin: const EdgeInsets.fromLTRB(20, 50, 20, 0),
                 color: Colors.white,
                 child: ListTile(
                   dense: true,
                   horizontalTitleGap: 0,
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.access_time_filled,
                     color: Colors.blue,
                     size: 30,
                   ),
                   title: Text(
                     placeDirections!.totalDuration,
-                    style: TextStyle(color: Colors.black, fontSize: 16),
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
             Flexible(
@@ -56,19 +58,19 @@ class DistanceAndTime extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                margin: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                margin: const EdgeInsets.fromLTRB(20, 50, 20, 0),
                 color: Colors.white,
                 child: ListTile(
                   dense: true,
                   horizontalTitleGap: 0,
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.directions_car_filled,
                     color: Colors.blue,
                     size: 30,
                   ),
                   title: Text(
                     placeDirections!.totalDistance,
-                    style: TextStyle(color: Colors.black, fontSize: 16),
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),

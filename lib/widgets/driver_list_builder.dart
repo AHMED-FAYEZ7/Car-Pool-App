@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 
@@ -38,11 +40,8 @@ class DriverListBuilder extends StatelessWidget {
                 children: const [
                   CircleAvatar(
                       radius: 50.0,
-                      backgroundImage: AssetImage("assets/images/person_ic.png")
-                      // NetworkImage(
-                      //   'https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863',
-                      // ),
-                      ),
+                      backgroundImage:
+                          AssetImage("assets/images/person_ic.png")),
                 ],
               ),
               Padding(
@@ -52,15 +51,15 @@ class DriverListBuilder extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.star,
                       color: Colors.amber,
                       size: 15,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text(
+                    const Text(
                       "4.5/8",
                       style: TextStyle(
                         fontFamily: "Jost",
@@ -72,7 +71,7 @@ class DriverListBuilder extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             width: 20.0,
           ),
           Expanded(
@@ -81,7 +80,7 @@ class DriverListBuilder extends StatelessWidget {
               children: [
                 Text(
                   '${model.name}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Jost",
@@ -90,7 +89,7 @@ class DriverListBuilder extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5.0,
                 ),
                 Row(
@@ -100,7 +99,7 @@ class DriverListBuilder extends StatelessWidget {
                         'Estimated arrival time: ${model.dateTime}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Jost",
@@ -109,14 +108,14 @@ class DriverListBuilder extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5.0,
                 ),
                 Text(
                   'Number of people in car: ${model.numberOfSeats}',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Jost",

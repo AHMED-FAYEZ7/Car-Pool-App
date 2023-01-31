@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -53,7 +55,7 @@ class DriverRequestsPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 20.0,
                             ),
                             Center(
@@ -66,7 +68,7 @@ class DriverRequestsPage extends StatelessWidget {
                                     // Method For Searching
                                   },
                                   textAlign: TextAlign.justify,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: "Search for a driver",
                                     prefixIcon: Icon(Icons.search),
                                     border: OutlineInputBorder(
@@ -81,11 +83,12 @@ class DriverRequestsPage extends StatelessWidget {
                               height: 20.0,
                             ),
                             ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) => InkWell(
-                                onTap: (){
-                                  AppCubit.get(context).tripsSelects(AppCubit.get(context).tripsId[index]);
+                                onTap: () {
+                                  AppCubit.get(context).tripsSelects(
+                                      AppCubit.get(context).tripsId[index]);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -93,9 +96,13 @@ class DriverRequestsPage extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: DriverListBuilder(model: AppCubit.get(context).trips[index], context: context, index: index),
+                                child: DriverListBuilder(
+                                    model: AppCubit.get(context).trips[index],
+                                    context: context,
+                                    index: index),
                               ),
-                              separatorBuilder: (context, index) => SizedBox(
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
                                 height: 20.0,
                               ),
                               itemCount: AppCubit.get(context).trips.length,

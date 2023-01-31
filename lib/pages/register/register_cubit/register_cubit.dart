@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,6 @@ class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterInitial());
   static RegisterCubit get(context) => BlocProvider.of(context);
 
-
   void userRegister({
     required String name,
     required String email,
@@ -17,14 +18,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String gender,
     required String password,
     required String confirmPassword,
-  })
-  {
+  }) {
     emit(RegisterLoading());
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(
       email: email,
       password: password,
-    ).then((value) {
+    )
+        .then((value) {
       createUser(
         name: name,
         email: email,
@@ -33,7 +34,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         uId: value.user!.uid,
       );
       emit(RegisterSuccess(value.user!.uid));
-    }).catchError((error){
+    }).catchError((error) {
       print(error.toString());
       emit(RegisterError(error.toString()));
     });
@@ -45,8 +46,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String phone,
     required String gender,
     required String uId,
-  })
-  {
+  }) {
     UserModel model = UserModel(
       email: email,
       name: name,
@@ -60,7 +60,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         .set(model.toMap())
         .then((value) {
       emit(RegisterCreateUserSuccess());
-    }).catchError((error){
+    }).catchError((error) {
       emit(RegisterCreateUserError(error.toString()));
     });
   }
@@ -68,12 +68,10 @@ class RegisterCubit extends Cubit<RegisterState> {
   IconData suffix = Icons.remove_red_eye;
   bool isPassShown = true;
 
-  void passVisibility()
-  {
+  void passVisibility() {
     isPassShown = !isPassShown;
-    suffix = isPassShown ?
-    Icons.visibility_outlined :
-    Icons.visibility_off_outlined;
+    suffix =
+        isPassShown ? Icons.visibility_outlined : Icons.visibility_off_outlined;
 
     emit(RegisterPassVisibility());
   }

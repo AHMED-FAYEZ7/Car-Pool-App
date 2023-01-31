@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:flutter/material.dart';
 
 class ColorManager {
@@ -10,7 +12,7 @@ class ColorManager {
   static Color backgroundColor = HexColor.fromHex("#EBF3F9");
   static Color white = HexColor.fromHex("#FFFFFF");
   static Color blueWithOpacity = HexColor.fromHex("#A9C1D3");
-  static Color black= HexColor.fromHex("#000000"); // red color
+  static Color black = HexColor.fromHex("#000000"); // red color
 }
 
 extension HexColor on Color {

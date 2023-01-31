@@ -1,5 +1,6 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -21,36 +22,32 @@ class LoginPage extends StatelessWidget {
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit,LoginState>(
-        listener: (context,state){
-          if(state is LoginSuccess){
+      child: BlocConsumer<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if (state is LoginSuccess) {
             CacheHelper.saveData(
               key: 'uId',
               value: state.uId,
             ).then((value) {
               uId = state.uId;
-              AppCubit.get(context)..getUserData()..getAllUsers();
+              AppCubit.get(context)
+                ..getUserData()
+                ..getAllUsers();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AppLayout(),
-                  ),
-                      (route)
-                  {
-                    return false;
-                  }
-              );
+                  ), (route) {
+                return false;
+              });
             });
-
           }
-
         },
-        builder: (context,state){
+        builder: (context, state) {
           return Scaffold(
             backgroundColor: ColorManager.backgroundColor,
             body: SingleChildScrollView(
@@ -107,24 +104,23 @@ class LoginPage extends StatelessWidget {
                             type: TextInputType.emailAddress,
                             labelText: "KAU Email",
                             hintText: "Enter email here",
-                            validator: (input) =>
-                              input!.isValidEmail() ?
-                                null : "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
+                            validator: (input) => input!.isValidEmail()
+                                ? null
+                                : "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
                           ),
                           CustomFormTextField(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
                             obscureText: LoginCubit.get(context).isPassShown,
                             suffix: LoginCubit.get(context).suffix,
-                            suffixPressed: ()
-                            {
+                            suffixPressed: () {
                               LoginCubit.get(context).passVisibility();
                             },
                             labelText: "Password",
                             hintText: "Enter password",
-                            validator: (input) =>
-                            input!.isValidPassword() ?
-                            null : "8 characters, at least one letter and one number",
+                            validator: (input) => input!.isValidPassword()
+                                ? null
+                                : "8 characters, at least one letter and one number",
                           ),
                           ConditionalBuilder(
                             condition: state is! LoginLoading,
@@ -132,8 +128,7 @@ class LoginPage extends StatelessWidget {
                               width: 100,
                               text: "Login",
                               onTap: () {
-                                if(formKey.currentState!.validate())
-                                {
+                                if (formKey.currentState!.validate()) {
                                   LoginCubit.get(context).userLogin(
                                     email: emailController.text,
                                     password: passwordController.text,
@@ -141,7 +136,8 @@ class LoginPage extends StatelessWidget {
                                 }
                               },
                             ),
-                            fallback: (context) => Center(child: CircularProgressIndicator(
+                            fallback: (context) => Center(
+                                child: CircularProgressIndicator(
                               color: ColorManager.primary,
                             )),
                           ),
@@ -178,5 +174,4 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-
 }

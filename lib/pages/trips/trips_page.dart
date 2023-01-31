@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
+import 'package:kau_carpool/pages/riders_on_trip/riders_on_trip_page.dart';
 import 'package:kau_carpool/widgets/current_trips.dart';
-import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_toggle_button.dart';
 import 'package:kau_carpool/widgets/scheduled_trips.dart';
 
@@ -13,28 +14,31 @@ class TripsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppState>(
-      listener: (context ,state) {},
-      builder: (context ,state) {
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {},
+      builder: (context, state) {
         var cubit = AppCubit.get(context);
         return Scaffold(
           backgroundColor: ColorManager.backgroundColor,
           body: Column(
             children: [
-              SizedBox(height: 80,),
               SizedBox(
-                  height :70,
+                height: 80,
+              ),
+              SizedBox(
+                  height: 70,
                   child: CustomToggleButton(
                     tab1: 'Current\n Trips',
                     tab2: 'Scheduled\n Trips',
                     selectedIndex: cubit.tripsToggleIndex,
-                    onItemSelected: (index){
+                    onItemSelected: (index) {
                       cubit.tripsToggleButton(index);
                       print(cubit.tripsToggleIndex);
                     },
-                  )
+                  )),
+              SizedBox(
+                height: 40,
               ),
-              SizedBox(height: 40,),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -55,21 +59,41 @@ class TripsPage extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                     child: Column(
                       children: [
-                        if(state is CurrentTripsToggle || state is !ScheduledTripsToggle)
+                        if (state is CurrentTripsToggle ||
+                            state is! ScheduledTripsToggle)
                           ListView.separated(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemBuilder: (context, index) => CurrentTripsWidget(model: cubit.trips[index],context: context,index: index,),
+                            itemBuilder: (context, index) => InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RidersOnTripPage(),
+                                  ),
+                                );
+                              },
+                              child: CurrentTripsWidget(
+                                model: cubit.trips[index],
+                                context: context,
+                                index: index,
+                              ),
+                            ),
                             separatorBuilder: (context, index) => SizedBox(
                               height: 5.0,
                             ),
                             itemCount: cubit.trips.length,
                           ),
-                        if(state is ScheduledTripsToggle)
+                        if (state is ScheduledTripsToggle)
                           ListView.separated(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemBuilder: (context, index) => ScheduledTripsWidget(model: cubit.trips[index],context: context,index: index,),
+                            itemBuilder: (context, index) =>
+                                ScheduledTripsWidget(
+                              model: cubit.trips[index],
+                              context: context,
+                              index: index,
+                            ),
                             separatorBuilder: (context, index) => SizedBox(
                               height: 5.0,
                             ),

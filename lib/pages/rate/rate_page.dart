@@ -1,13 +1,23 @@
+// ignore_for_file: avoid_print, prefer_final_fields, non_constant_identifier_names, use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
+import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
 class RatePage extends StatelessWidget {
-
+  RatePage({
+    required this.model,
+    required this.context,
+    required this.index,
+  });
+  BuildContext context;
+  int index;
+  TripsModel model;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
@@ -17,7 +27,7 @@ class RatePage extends StatelessWidget {
           backgroundColor: ColorManager.backgroundColor,
           body: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 70,
               ),
               Padding(
@@ -37,7 +47,9 @@ class RatePage extends StatelessWidget {
                             fontSize: 24,
                           ),
                         ),
-                        const SizedBox(height: 5,),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         Text(
                           "Rate the riders",
                           style: TextStyle(
@@ -97,11 +109,13 @@ class RatePage extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              SizedBox(height: 50,),
+                              const SizedBox(
+                                height: 50,
+                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.transparent.withOpacity(0.1),
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(30),
                                     topRight: Radius.circular(30),
                                     bottomLeft: Radius.circular(30),
@@ -111,22 +125,24 @@ class RatePage extends StatelessWidget {
                                 height: 100,
                                 child: Row(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    CircleAvatar(
+                                    const CircleAvatar(
                                         radius: 30.0,
-                                        backgroundImage: AssetImage("assets/images/person_ic.png")
-                                    ),
-                                    SizedBox(
+                                        backgroundImage: AssetImage(
+                                            "assets/images/person_ic.png")),
+                                    const SizedBox(
                                       width: 20.0,
                                     ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'ahmed',
+                                          '${model.name}',
                                           style: TextStyle(
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.bold,
@@ -136,7 +152,7 @@ class RatePage extends StatelessWidget {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5.0,
                                         ),
                                         RatingBar(
@@ -150,7 +166,9 @@ class RatePage extends StatelessWidget {
                                             half: _image_half,
                                             empty: _image_empty,
                                           ),
-                                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
                                           onRatingUpdate: (rating) {
                                             print(rating);
                                           },
@@ -163,7 +181,9 @@ class RatePage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 50,),
+                        const SizedBox(
+                          height: 50,
+                        ),
                         CustomButton(
                           width: 110,
                           text: "Skip",

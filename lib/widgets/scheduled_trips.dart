@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/models/trips_model.dart';
@@ -41,7 +43,9 @@ class ScheduledTripsWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -49,15 +53,15 @@ class ScheduledTripsWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 35),
                         child: Text(
                           'Phone Number : ${model.phone}',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                       Image.asset('assets/images/min_person_ic.png'),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -66,15 +70,15 @@ class ScheduledTripsWidget extends StatelessWidget {
                         child: Text(
                           'Destinition : ${model.dropOffLocation}',
                           maxLines: 2,
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                       Image.asset('assets/images/add_trip_ic.png'),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),

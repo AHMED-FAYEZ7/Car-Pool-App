@@ -15,8 +15,7 @@ class UserModel {
     this.uId,
   });
 
-  UserModel.fromJson(Map<String,dynamic>? json)
-  {
+  UserModel.fromJson(Map<String, dynamic>? json) {
     name = json!['name'];
     email = json['email'];
     phone = json['phone'];
@@ -25,15 +24,14 @@ class UserModel {
     uId = json['uId'];
   }
 
-  Map<String,dynamic> toMap()
-  {
+  Map<String, dynamic> toMap() {
     return {
-      'name':name,
-      'email':email,
-      'phone':phone,
-      'gender':gender,
-      'isEmailVerified':isEmailVerified,
-      'uId':uId,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'gender': gender,
+      'isEmailVerified': isEmailVerified,
+      'uId': uId,
     };
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/widgets/default_appbar.dart';
@@ -26,8 +28,8 @@ class TrackPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
 // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                const Image(
+              children: const [
+                Image(
                   image: AssetImage("assets/images/track_ic.png"),
                   height: 100,
                   width: 50,
@@ -74,21 +76,17 @@ class TrackPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             CircleAvatar(
                                 radius: 25.0,
                                 backgroundImage:
-                                    AssetImage("assets/images/person_ic.png")
-                                // NetworkImage(
-                                //   'https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863',
-                                // ),
-                                ),
+                                    AssetImage("assets/images/person_ic.png")),
                             SizedBox(
                               width: 10.0,
                             ),
@@ -105,7 +103,7 @@ class TrackPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Text(
+                        const Text(
                           'Phone Number : 05xxxxxxx',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -115,7 +113,7 @@ class TrackPage extends StatelessWidget {
                             fontFamily: "Jost",
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                       ],

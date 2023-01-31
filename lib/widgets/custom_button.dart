@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: unnecessary_string_interpolations, must_be_immutable, sort_child_properties_last, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 
@@ -16,7 +17,6 @@ class CustomButton extends StatelessWidget {
           onPressed: onTap,
           child: Text(
             '$text',
-
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

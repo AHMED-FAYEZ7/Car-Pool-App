@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 
@@ -6,8 +7,8 @@ class CustomFormTextField extends StatelessWidget {
   CustomFormTextField({
     this.hintText,
     this.labelText,
-    this.onChanged ,
-    this.obscureText =false,
+    this.onChanged,
+    this.obscureText = false,
     required this.controller,
     required this.type,
     this.suffix,
@@ -40,21 +41,23 @@ class CustomFormTextField extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          const SizedBox(height: 5,),
+          const SizedBox(
+            height: 5,
+          ),
           TextFormField(
             controller: controller,
             keyboardType: type,
-            obscureText:obscureText!,
+            obscureText: obscureText!,
             validator: validator,
             onChanged: onChanged,
             decoration: InputDecoration(
               suffixIcon: IconButton(
-                icon : Icon(
+                icon: Icon(
                   suffix,
                   size: 20,
                   color: ColorManager.darkGrey,
                 ),
-                onPressed: (){
+                onPressed: () {
                   suffixPressed!();
                 },
               ),
@@ -66,7 +69,7 @@ class CustomFormTextField extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
-                  color:ColorManager.grey,
+                  color: ColorManager.grey,
                 ),
               ),
               border: OutlineInputBorder(

@@ -5,6 +5,6 @@ class MorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("more"));
+    return const Center(child: Text("more"));
   }
 }

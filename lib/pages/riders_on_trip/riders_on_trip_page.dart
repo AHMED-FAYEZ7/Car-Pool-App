@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -7,13 +9,16 @@ import 'package:kau_carpool/widgets/default_appbar.dart';
 import 'package:kau_carpool/widgets/rider_on_trip_list.dart';
 
 class RidersOnTripPage extends StatelessWidget {
-  const RidersOnTripPage({Key? key}) : super(key: key);
+  RidersOnTripPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
+        var cubit = AppCubit.get(context);
         return Scaffold(
           extendBodyBehindAppBar: false,
           appBar: DefaultAppBar(
@@ -62,11 +67,19 @@ class RidersOnTripPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RatePage(),
+                                    builder: (context) => RatePage(
+                                      model: cubit.trips[index],
+                                      context: context,
+                                      index: index,
+                                    ),
                                   ),
                                 );
                               },
-                              child: RiderOnTripListBuilder(),
+                              child: RiderOnTripListBuilder(
+                                model: cubit.trips[index],
+                                context: context,
+                                index: index,
+                              ),
                             ),
                             separatorBuilder: (context, index) => SizedBox(
                               height: 20.0,

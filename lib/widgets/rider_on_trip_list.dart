@@ -1,14 +1,23 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, must_be_immutable, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
+import 'package:kau_carpool/models/trips_model.dart';
 
 class RiderOnTripListBuilder extends StatelessWidget {
-
-
+  RiderOnTripListBuilder({
+    required this.model,
+    required this.context,
+    required this.index,
+  });
+  BuildContext context;
+  int index;
+  TripsModel model;
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent.withOpacity(0.1),
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
           bottomLeft: Radius.circular(30),
@@ -17,24 +26,21 @@ class RiderOnTripListBuilder extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Stack(
                 alignment: AlignmentDirectional.bottomStart,
-                children: [
+                children: const [
                   CircleAvatar(
                       radius: 40.0,
-                      backgroundImage: AssetImage("assets/images/person_ic.png")
-                    // NetworkImage(
-                    //   'https://www.befunky.com/images/prismic/5ddfea42-7377-4bef-9ac4-f3bd407d52ab_landing-photo-to-cartoon-img5.jpeg?auto=avif,webp&format=jpg&width=863',
-                    // ),
-                  ),
+                      backgroundImage:
+                          AssetImage("assets/images/person_ic.png")),
                 ],
               ),
               Padding(
@@ -53,7 +59,7 @@ class RiderOnTripListBuilder extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      "4.5/8",
+                      '${(rate.toList()..shuffle()).first}',
                       style: TextStyle(
                         fontFamily: "Jost",
                         fontWeight: FontWeight.bold,
@@ -64,7 +70,7 @@ class RiderOnTripListBuilder extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             width: 20.0,
           ),
           Expanded(
@@ -72,7 +78,7 @@ class RiderOnTripListBuilder extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'ahmed',
+                  '${model.name}',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -111,4 +117,7 @@ class RiderOnTripListBuilder extends StatelessWidget {
       ),
     );
   }
+
+  // testing
+  List<String> rate = ["2/5", "3/5", "4.5/5", "4/5"];
 }

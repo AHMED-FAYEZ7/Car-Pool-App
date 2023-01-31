@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
@@ -33,9 +34,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => RegisterCubit(),
-      child: BlocConsumer<RegisterCubit , RegisterState>(
-        listener: (context , state) {
-          if(state is RegisterSuccess){
+      child: BlocConsumer<RegisterCubit, RegisterState>(
+        listener: (context, state) {
+          if (state is RegisterSuccess) {
             CacheHelper.saveData(
               key: 'uId',
               value: state.uId,
@@ -43,21 +44,20 @@ class _RegisterPageState extends State<RegisterPage> {
               uId = state.uId;
               final user = FirebaseAuth.instance.currentUser;
               user?.sendEmailVerification();
-              AppCubit.get(context)..getUserData()..getAllUsers();
+              AppCubit.get(context)
+                ..getUserData()
+                ..getAllUsers();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                     builder: (context) => VerificationPage(),
-                  ),
-                      (route)
-                  {
-                    return false;
-                  }
-              );
+                  ), (route) {
+                return false;
+              });
             });
           }
-        } ,
-        builder: (context , state) {
+        },
+        builder: (context, state) {
           return Scaffold(
             backgroundColor: ColorManager.backgroundColor,
             body: SingleChildScrollView(
@@ -65,12 +65,14 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60,),
+                  const SizedBox(
+                    height: 60,
+                  ),
                   GestureDetector(
                     child: const Image(
                       image: AssetImage("assets/images/left_arrow_ic.png"),
                     ),
-                    onTap: (){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                   ),
@@ -91,7 +93,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                 fontSize: 24,
                               ),
                             ),
-                            const SizedBox(height: 5,),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Text(
                               "in less than a minute",
                               style: TextStyle(
@@ -110,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 100/100,
+                    height: MediaQuery.of(context).size.height * 100 / 100,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: ColorManager.white,
@@ -118,28 +122,28 @@ class _RegisterPageState extends State<RegisterPage> {
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40),
                         ),
-                        boxShadow: [BoxShadow(
-                          offset: Offset.zero,
-                          blurRadius: 20,
-                          color: ColorManager.white,
-                        ),
-                        ]
-                    ),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset.zero,
+                            blurRadius: 20,
+                            color: ColorManager.white,
+                          ),
+                        ]),
                     child: Form(
                       key: formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 5,),
+                          const SizedBox(
+                            height: 5,
+                          ),
                           CustomFormTextField(
                             controller: nameController,
                             type: TextInputType.name,
                             labelText: "Full Name",
                             hintText: "Enter full name",
-                            validator: (String? s)
-                            {
-                              if(s!.length < 3)
-                              {
+                            validator: (String? s) {
+                              if (s!.length < 3) {
                                 return 'name must be more than 2 character';
                               }
                               return null;
@@ -150,18 +154,18 @@ class _RegisterPageState extends State<RegisterPage> {
                             type: TextInputType.emailAddress,
                             labelText: "KUA Email",
                             hintText: "Enter email here",
-                            validator: (input) =>
-                              input!.isValidEmail() ?
-                                null : "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
+                            validator: (input) => input!.isValidEmail()
+                                ? null
+                                : "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
                           ),
                           CustomFormTextField(
                             controller: phoneController,
                             type: TextInputType.phone,
                             labelText: "Phone Number",
                             hintText: "Enter phone number",
-                            validator: (input) =>
-                            input!.isValidPhone() ?
-                            null : "enter Valid Phone Number (05********)",
+                            validator: (input) => input!.isValidPhone()
+                                ? null
+                                : "enter Valid Phone Number (05********)",
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -177,7 +181,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                     fontSize: 20,
                                   ),
                                 ),
-                                const SizedBox(height: 5,),
+                                const SizedBox(
+                                  height: 5,
+                                ),
                                 DropdownButtonFormField(
                                   icon: Icon(
                                     Icons.keyboard_arrow_down_outlined,
@@ -185,11 +191,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                     color: ColorManager.black,
                                   ),
                                   decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                    contentPadding: const EdgeInsets.fromLTRB(
+                                        10, 10, 10, 0),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                        color:ColorManager.grey,
+                                        color: ColorManager.grey,
                                       ),
                                     ),
                                     border: OutlineInputBorder(
@@ -206,16 +213,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                     ),
                                   ),
                                   // value: gender,
-                                  items: <String>['male' ,'female']
-                                      .map<DropdownMenuItem<String>>((String value){
+                                  items: <String>['male', 'female']
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
                                     );
                                   }).toList(),
                                   onChanged: (String? value) =>
-                                    setState(() => gender = value!),
-                                  validator: (value) => value == null ? 'field required' : null,
+                                      setState(() => gender = value!),
+                                  validator: (value) =>
+                                      value == null ? 'field required' : null,
                                 ),
                               ],
                             ),
@@ -225,31 +234,27 @@ class _RegisterPageState extends State<RegisterPage> {
                             type: TextInputType.visiblePassword,
                             obscureText: RegisterCubit.get(context).isPassShown,
                             suffix: RegisterCubit.get(context).suffix,
-                            suffixPressed: ()
-                            {
+                            suffixPressed: () {
                               RegisterCubit.get(context).passVisibility();
                             },
                             labelText: "Password",
                             hintText: "Enter password",
-                            validator: (input) =>
-                            input!.isValidPassword() ?
-                            null : "8 characters, at least one letter and one number",
+                            validator: (input) => input!.isValidPassword()
+                                ? null
+                                : "8 characters, at least one letter and one number",
                           ),
                           CustomFormTextField(
                             controller: confirmPasswordController,
                             type: TextInputType.visiblePassword,
                             obscureText: RegisterCubit.get(context).isPassShown,
                             suffix: RegisterCubit.get(context).suffix,
-                            suffixPressed: ()
-                            {
+                            suffixPressed: () {
                               RegisterCubit.get(context).passVisibility();
                             },
                             labelText: "Confirm Password",
                             hintText: "Confirm password",
-                            validator: (String? s)
-                            {
-                              if(s! != passwordController.text)
-                              {
+                            validator: (String? s) {
+                              if (s! != passwordController.text) {
                                 return 'not match';
                               }
                               return null;
@@ -269,21 +274,22 @@ class _RegisterPageState extends State<RegisterPage> {
                             builder: (context) => CustomButton(
                               width: 100,
                               text: "Continue",
-                              onTap: () async{
-                                if(formKey.currentState!.validate())
-                                {
+                              onTap: () async {
+                                if (formKey.currentState!.validate()) {
                                   RegisterCubit.get(context).userRegister(
                                     email: emailController.text,
                                     password: passwordController.text,
                                     name: nameController.text,
                                     phone: phoneController.text,
-                                    confirmPassword: confirmPasswordController.text,
+                                    confirmPassword:
+                                        confirmPasswordController.text,
                                     gender: gender,
                                   );
                                 }
                               },
                             ),
-                            fallback: (context) => const Center(child: CircularProgressIndicator()),
+                            fallback: (context) => const Center(
+                                child: CircularProgressIndicator()),
                           ),
                         ],
                       ),
@@ -293,7 +299,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           );
-        } ,
+        },
       ),
     );
   }

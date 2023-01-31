@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -15,6 +17,7 @@ class RiderRequestsPage extends StatelessWidget {
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
+        var cubit = AppCubit.get(context);
         return Scaffold(
           extendBodyBehindAppBar: false,
           appBar: DefaultAppBar(
@@ -62,10 +65,7 @@ class RiderRequestsPage extends StatelessWidget {
                                 width: 350,
                                 height: 50,
                                 child: TextField(
-                                  onChanged: (value) {
-                                    //  searchData(st = value.trim().toLowerCase());
-                                    // Method For Searching
-                                  },
+                                  onChanged: (value) {},
                                   textAlign: TextAlign.justify,
                                   decoration: const InputDecoration(
                                     hintText: "Search for a rider",
@@ -97,7 +97,11 @@ class RiderRequestsPage extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: RiderListBuilder(),
+                                child: RiderListBuilder(
+                                  model: cubit.trips[index],
+                                  context: context,
+                                  index: index,
+                                ),
                               ),
                               separatorBuilder: (context, index) => SizedBox(
                                 height: 20.0,
