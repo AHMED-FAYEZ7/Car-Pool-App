@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
+import 'package:kau_carpool/widgets/default_appbar.dart';
 
 class StatusPage extends StatelessWidget {
   StatusPage({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class StatusPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: DefaultAppBar(title: "Request Status"),
       extendBodyBehindAppBar: false,
       backgroundColor: ColorManager.backgroundColor,
       body: SingleChildScrollView(
