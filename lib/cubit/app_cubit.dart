@@ -76,6 +76,7 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+
   // To create new find pool to rider
   Future<void> createFindPool({
     required String dateTime,
@@ -96,6 +97,12 @@ class AppCubit extends Cubit<AppState> {
         .collection('finds')
         .add(model.toMap())
         .then((value) {
+        CacheHelper.saveData(
+        key: 'dropOffLocation',
+        value: dropOffLocation,
+      ).then((value) {
+        dropOff = dropOffLocation;
+      });
       emit(AppCreateFindsSuccessState());
     }).catchError((error) {
       emit(AppCreateFindsErrorState());
@@ -135,10 +142,11 @@ class AppCubit extends Cubit<AppState> {
   List<String> tripsId = [];
   List<int> selects = [];
 
-  // To get all trips
-  void getTrips() {
+  void getTrips({required String? dropOffLocation}) {
     emit(AppGetTripsLoadingState());
-    FirebaseFirestore.instance.collection('trips').get().then((value) {
+    FirebaseFirestore.instance.collection('trips')
+        .where('dropOffLocation', isEqualTo: dropOffLocation).get().then((value) {
+      trips = [];
       for (var element in value.docs) {
         element.reference.collection('selects').get().then((value) {
           selects.add(value.docs.length);

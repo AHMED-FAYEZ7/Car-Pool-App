@@ -1,9 +1,7 @@
-// ignore_for_file: avoid_print, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
-import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
@@ -207,17 +205,12 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            if (findKey.currentState!
-                                                .validate()) {
+                                            if (findKey.currentState!.validate()) {
                                               cubit.createFindPool(
-                                                dateTime:
-                                                    findDateAndTimeController
-                                                        .text,
-                                                pickUpLocation:
-                                                    "${cLat1.toString()}, ${cLong1.toString()}",
-                                                dropOffLocation: address!,
+                                                dateTime: findDateAndTimeController.text,
+                                                pickUpLocation: "mansoura",
+                                                dropOffLocation: "alex",
                                               );
-
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -332,16 +325,12 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
-                                            print(address!);
+                                            // print(address!);
                                             cubit.createOfferPool(
-                                              dateTime:
-                                                  offerDateAndTimeController
-                                                      .text,
-                                              pickUpLocation:
-                                                  "${cLat1.toString()}, ${cLong1.toString()}",
-                                              dropOffLocation: address!,
-                                              numberOfSeats:
-                                                  numOfSetsController.text,
+                                              pickUpLocation: "cairo",
+                                              dropOffLocation: "gazaan",
+                                              dateTime: offerDateAndTimeController.text,
+                                              numberOfSeats: numOfSetsController.text,
                                             );
 
                                             Navigator.push(

@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
+import 'package:kau_carpool/helper/app_prefs.dart';
+import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/wait/wait_page.dart';
 import 'package:kau_carpool/widgets/default_appbar.dart';
@@ -15,9 +17,21 @@ class DriverRequestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is AppCreateFindsSuccessState){
+          AppCubit.get(context).getTrips(dropOffLocation: dropOff);
+        }
+        if(state is AppGetTripsSuccessState){
+          CacheHelper.removeData(key: 'dropOffLocation');
+        }
+      },
       builder: (context, state) {
-        return Scaffold(
+        return WillPopScope(
+            onWillPop: () async {
+          CacheHelper.removeData(key: 'dropOffLocation');
+          return true;
+        },
+        child:Scaffold(
           extendBodyBehindAppBar: false,
           appBar: DefaultAppBar(
             title: "Select a Driver",
@@ -50,6 +64,7 @@ class DriverRequestsPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
                       child: Form(
                         key: formKey,
                         child: Column(
@@ -117,7 +132,7 @@ class DriverRequestsPage extends StatelessWidget {
               ],
             ),
           ),
-        );
+        ));
       },
     );
   }

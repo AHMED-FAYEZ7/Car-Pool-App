@@ -28,8 +28,8 @@ class FindModel {
       'name':name,
       'uId':uId,
       'dateTime':dateTime,
-      'text':pickUpLocation,
-      'postImage':dropOffLocation,
+      'pickUpLocation':pickUpLocation,
+      'dropOffLocation':dropOffLocation,
     };
   }
 }
