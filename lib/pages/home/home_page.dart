@@ -24,7 +24,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var findPickUpController = TextEditingController();
+  var offerPickUpController = TextEditingController();
   var findDropOffController = TextEditingController();
+  var offerDropOffController = TextEditingController();
   var numOfSetsController = TextEditingController();
   var findDateAndTimeController = TextEditingController();
   var offerDateAndTimeController = TextEditingController();
@@ -177,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                                             icPath:
                                                 "assets/images/drop_off_ic.png",
                                             hintText: "Enter Drop Off Location",
-                                            controller: findPickUpController,
+                                            controller: findDropOffController,
                                             type: TextInputType.text,
                                             validator: (String? s) {
                                               return null;
@@ -207,7 +209,6 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             if (findKey.currentState!
                                                 .validate()) {
-                                              cubit.getTrips();
                                               cubit.createFindPool(
                                                 dateTime:
                                                     findDateAndTimeController
@@ -260,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                             icPath:
                                                 "assets/images/pick_up_ic.png",
                                             hintText: "Enter Pick up Location",
-                                            controller: findPickUpController,
+                                            controller: offerPickUpController,
                                             type: TextInputType.text,
                                             validator: (String? s) {
                                               return null;
@@ -289,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                                             icPath:
                                                 "assets/images/drop_off_ic.png",
                                             hintText: "Enter Drop Off Location",
-                                            controller: findPickUpController,
+                                            controller: offerDropOffController,
                                             type: TextInputType.text,
                                             validator: (String? s) {
                                               return null;

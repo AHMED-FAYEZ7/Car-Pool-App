@@ -42,8 +42,6 @@ class _RegisterPageState extends State<RegisterPage> {
               value: state.uId,
             ).then((value) {
               uId = state.uId;
-              final user = FirebaseAuth.instance.currentUser;
-              user?.sendEmailVerification();
               AppCubit.get(context)
                 ..getUserData()
                 ..getAllUsers();

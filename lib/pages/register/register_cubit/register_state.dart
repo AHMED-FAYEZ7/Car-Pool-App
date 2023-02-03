@@ -5,6 +5,9 @@ abstract class RegisterState {}
 class RegisterInitial extends RegisterState {}
 class RegisterLoading extends RegisterState {}
 
+class VerificationLoading extends RegisterState {}
+class VerificationSuccess extends RegisterState {}
+
 class RegisterSuccess extends RegisterState
 {
   final String uId;

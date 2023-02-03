@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,8 +26,10 @@ class RegisterCubit extends Cubit<RegisterState> {
       password: password,
     )
         .then((value) {
+      emailVerified();
       createUser(
         name: name,
+        isEmailVerified: isEmailVerified,
         email: email,
         phone: phone,
         gender: gender,
@@ -40,15 +42,30 @@ class RegisterCubit extends Cubit<RegisterState> {
     });
   }
 
+  // to verify email
+  bool isEmailVerified = true;
+  void emailVerified() async{
+    emit(VerificationLoading());
+    FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    (_) async {
+      await FirebaseAuth.instance.currentUser?.reload();
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      emit(VerificationSuccess());
+    };
+  }
+
+
   void createUser({
     required String name,
     required String email,
+    required bool isEmailVerified,
     required String phone,
     required String gender,
     required String uId,
   }) {
     UserModel model = UserModel(
       email: email,
+      isEmailVerified: isEmailVerified,
       name: name,
       phone: phone,
       gender: gender,
