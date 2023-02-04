@@ -9,11 +9,11 @@ class CustomField extends StatelessWidget {
     this.icPath,
     this.onChanged,
     this.obscureText = false,
-    this.write = false,
+    this.read = false,
     required this.controller,
-    required this.type,
+    this.type,
     this.suffix,
-    this.function,
+    this.onTap,
     this.suffixPressed,
     required this.validator,
   });
@@ -24,10 +24,10 @@ class CustomField extends StatelessWidget {
   TextEditingController controller;
   TextInputType? type;
   Function? suffixPressed;
-  Function? function;
+  GestureTapCallback? onTap;
   String? Function(String? val)? validator;
   bool? obscureText;
-  bool? write;
+  bool? read;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +41,10 @@ class CustomField extends StatelessWidget {
         keyboardType: type,
         obscureText: obscureText!,
         validator: validator,
+        readOnly: read!,
         onChanged: onChanged,
-        enabled: write,
         onTap: () {
-          function!();
+          onTap!();
         },
         decoration: InputDecoration(
           icon: Container(

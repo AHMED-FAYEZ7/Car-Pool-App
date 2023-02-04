@@ -1,6 +1,8 @@
 
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
@@ -174,8 +176,7 @@ class _HomePageState extends State<HomePage> {
                                             );
                                           },
                                           child: CustomField(
-                                            icPath:
-                                                "assets/images/drop_off_ic.png",
+                                            icPath: "assets/images/drop_off_ic.png",
                                             hintText: "Enter Drop Off Location",
                                             controller: findDropOffController,
                                             type: TextInputType.text,
@@ -185,17 +186,28 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                         CustomField(
-                                          write: true,
-                                          icPath:
-                                              "assets/images/date_time_ic.png",
+                                          icPath: "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
                                           controller: findDateAndTimeController,
-                                          type: TextInputType.text,
+                                          read: true,
                                           validator: (String? s) {
                                             if (s!.isEmpty) {
                                               return 'Please Enter Date & Time';
                                             }
                                             return null;
+                                          },
+                                          onTap: () async {
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2022),
+                                              lastDate: DateTime(2025),
+                                            ).then((selectedDate) {
+                                              if (selectedDate != null) {
+                                                findDateAndTimeController.text =
+                                                    DateFormat('yyyy-MM-dd').format(selectedDate);
+                                              }
+                                            });
                                           },
                                         ),
                                         const SizedBox(
@@ -291,13 +303,23 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                         CustomField(
-                                          write: true,
-                                          icPath:
-                                              "assets/images/date_time_ic.png",
+                                          read: true,
+                                          icPath: "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
-                                          controller:
-                                              offerDateAndTimeController,
-                                          type: TextInputType.text,
+                                          controller: offerDateAndTimeController,
+                                          onTap: () async {
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2022),
+                                              lastDate: DateTime(2025),
+                                            ).then((selectedDate) {
+                                              if (selectedDate != null) {
+                                                offerDateAndTimeController.text =
+                                                    DateFormat('yyyy-MM-dd').format(selectedDate);
+                                              }
+                                            });
+                                          },
                                           validator: (String? s) {
                                             if (s!.isEmpty) {
                                               return 'Please Enter Date & Time';
@@ -306,11 +328,10 @@ class _HomePageState extends State<HomePage> {
                                           },
                                         ),
                                         CustomField(
-                                          write: true,
                                           icPath: "assets/images/seats_ic.png",
                                           hintText: "Enter Number Of Seats",
                                           controller: numOfSetsController,
-                                          type: TextInputType.text,
+                                          type: TextInputType.number,
                                           validator: (String? s) {
                                             if (s!.isEmpty) {
                                               return 'Please Add Number Of Seats';
