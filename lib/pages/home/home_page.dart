@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
+import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
@@ -349,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                                             // print(address!);
                                             cubit.createOfferPool(
                                               pickUpLocation: "cairo",
-                                              dropOffLocation: "gazaan",
+                                              dropOffLocation: "alex",
                                               dateTime: offerDateAndTimeController.text,
                                               numberOfSeats: numOfSetsController.text,
                                             );

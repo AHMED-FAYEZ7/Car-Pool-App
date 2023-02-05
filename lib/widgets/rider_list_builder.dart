@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:kau_carpool/models/trip_selectors_model.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/pages/confirm/confirm_page.dart';
 import 'package:kau_carpool/pages/home/home_page.dart';
@@ -14,7 +15,7 @@ class RiderListBuilder extends StatelessWidget {
   });
   BuildContext context;
   int index;
-  TripsModel model;
+  SelectedTrip model;
   @override
   Widget build(BuildContext context) {
     return Container(

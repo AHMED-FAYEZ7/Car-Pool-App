@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/models/finds_model.dart';
+import 'package:kau_carpool/models/trip_selectors_model.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/models/user_model.dart';
 import 'package:kau_carpool/pages/home/home_page.dart';
@@ -50,6 +51,12 @@ class AppCubit extends Cubit<AppState> {
         value: userModel!.phone,
       ).then((value) {
         phone = userModel!.phone;
+      });
+      CacheHelper.saveData(
+        key: 'rate',
+        value: userModel!.gender,
+      ).then((value) {
+        rate = userModel!.gender;
       });
       emit(AppGetUserSuccessState());
     }).catchError((error) {
@@ -97,7 +104,7 @@ class AppCubit extends Cubit<AppState> {
         .collection('finds')
         .add(model.toMap())
         .then((value) {
-        CacheHelper.saveData(
+      CacheHelper.saveData(
         key: 'dropOffLocation',
         value: dropOffLocation,
       ).then((value) {
@@ -132,7 +139,7 @@ class AppCubit extends Cubit<AppState> {
         .collection('trips')
         .add(model.toMap())
         .then((value) {
-      emit(AppCreateTripsSuccessState());
+      emit(AppCreateTripsSuccessState(value.id));
     }).catchError((error) {
       emit(AppCreateTripsErrorState());
     });
@@ -161,18 +168,47 @@ class AppCubit extends Cubit<AppState> {
   }
 
   // To select trip
-  void tripsSelects(String tripsId) {
+  void tripsSelects(String tripsId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('trips')
+          .doc(tripsId)
+          .collection('selectors')
+          .add({'name': name, 'rate': rate, 'selected': true});
+      emit(AppSelectTripsSuccessState());
+    } catch (error) {
+      emit(AppSelectTripsErrorState(error.toString()));
+    }
+  }
+
+  List<SelectedTrip> selectTrip = [];
+  List<String> selectTripsId = [];
+  getSelectedTrips(String tripsId) async {
+
     FirebaseFirestore.instance
         .collection('trips')
         .doc(tripsId)
-        .collection('selects')
-        .doc(uId)
-        .set({'select': true}).then((value) {
-      print("true");
-      emit(AppSelectTripsSuccessState());
-    }).catchError((error) {
-      emit(AppSelectTripsErrorState(error.toString()));
+        .collection('selectors').snapshots().listen((event) {
+          event.docs.forEach((element) {
+            selectTripsId.add(element.id);
+            selectTrip.add(SelectedTrip.fromJson(element.data()));
+            print("username : ${element.data()['name']}");
+            print("rate : ${element.data()['rate']}");
+            print("=======================================");
+            emit(AppSelectedTripsUpdateState());
+          });
     });
+
+    // for (var selector in selectorsSnapshot.docs) {
+    //   result.add({
+    //     'name': selector.data()['name'],
+    //     'rate': selector.data()['rate']
+    //   });
+    // }
+    // emit(AppSelectedTripsUpdateState());
+    // print(result);
+    // return result;
+
   }
 
   // home toggle

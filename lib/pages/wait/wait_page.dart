@@ -3,15 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
+import 'package:kau_carpool/pages/status/status_page.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
+import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 class WaitPage extends StatelessWidget {
   WaitPage({Key? key}) : super(key: key);
-  static String id = 'WaitPage';
-  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    var your_controller;
     return Scaffold(
       extendBodyBehindAppBar: false,
       backgroundColor: ColorManager.backgroundColor,
@@ -42,61 +43,72 @@ class WaitPage extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Center(
-                        child: Text(
-                          "05:00",
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.w500,
-                            color: ColorManager.black,
-                            fontFamily: "Jost",
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Center(
-                        child: Text(
-                          "Waiting for the driver to accept your request",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: ColorManager.grey,
-                            fontFamily: "Jost",
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 70,
-                    ),
-                    CustomButton(
-                      width: 150,
-                      text: "Cancel",
-                      onTap: () {
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: NeonCircularTimer(
+                      width: 200,
+                      duration: 300,
+                      isReverse: true,
+                      controller : your_controller,
+                      isTimerTextShown: true,
+                      neumorphicEffect: true,
+                      textFormat: TextFormat.MM_SS,
+                      backgroudColor: ColorManager.white,
+                      innerFillGradient: LinearGradient(colors: [
+                        ColorManager.primary,
+                        ColorManager.primary
+                      ]),
+                      neonGradient: LinearGradient(colors: [
+                        ColorManager.primary,
+                        ColorManager.primary,
+                      ]),
+                      onComplete: (){
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AppLayout(),
+                            builder: (context) => StatusPage(),
                           ),
                         );
                       },
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: Text(
+                        "Waiting for the driver to accept your request",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: ColorManager.grey,
+                          fontFamily: "Jost",
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 70,
+                  ),
+                  CustomButton(
+                    width: 150,
+                    text: "Cancel",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AppLayout(),
+                        ),
+                      );
+                    },
+                  )
+                ],
               ),
             ),
           ],

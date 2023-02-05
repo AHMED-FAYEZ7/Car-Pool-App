@@ -35,7 +35,11 @@ class AppCreateFindsSuccessState extends AppState {}
 class AppCreateFindsErrorState extends AppState {}
 
 class AppCreateTripsLoadingState extends AppState {}
-class AppCreateTripsSuccessState extends AppState {}
+class AppCreateTripsSuccessState extends AppState {
+  final String id;
+
+  AppCreateTripsSuccessState(this.id);
+}
 class AppCreateTripsErrorState extends AppState {}
 
 class AppGetTripsLoadingState extends AppState {}
@@ -47,6 +51,7 @@ class AppGetTripsErrorState extends AppState
   AppGetTripsErrorState(this.error);
 }
 
+class AppSelectedTripsUpdateState extends AppState {}
 class AppSelectTripsSuccessState extends AppState {}
 class AppSelectTripsErrorState extends AppState {
   final String error;
@@ -55,3 +60,11 @@ class AppSelectTripsErrorState extends AppState {
 
 }
 
+class TripSelected extends AppState {
+  final List<SelectedTrip> selectedTrips;
+
+  TripSelected(this.selectedTrips);
+
+  @override
+  List<Object> get props => [selectedTrips];
+}
