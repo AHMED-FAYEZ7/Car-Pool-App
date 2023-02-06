@@ -8,7 +8,6 @@ import 'package:kau_carpool/helper/app_prefs.dart';
 import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/pages/login/login_page.dart';
-import 'package:kau_carpool/pages/wait/wait_page.dart';
 import 'bloc_observer.dart';
 import 'firebase_options.dart';
 
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: WaitPage(),
+            home: startWidget,
           );
         },
       ),

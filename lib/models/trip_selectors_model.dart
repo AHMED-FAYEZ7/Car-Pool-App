@@ -1,17 +1,16 @@
 class SelectedTrip {
   String? name;
-  String? rate;
+  double rate = 2.5;
   bool? selected;
 
   SelectedTrip({
     this.name,
-    this.rate,
     this.selected,
   });
 
   SelectedTrip.fromJson(Map<String, dynamic>? json) {
     name = json!['name'];
-    rate = json['rate'];
+    rate = json['rate'] ?? 2.5;
     selected = json['selected'];
   }
 

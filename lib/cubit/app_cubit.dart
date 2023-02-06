@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,9 +56,9 @@ class AppCubit extends Cubit<AppState> {
       });
       CacheHelper.saveData(
         key: 'rate',
-        value: userModel!.gender,
+        value: userModel!.rate,
       ).then((value) {
-        rate = userModel!.gender;
+        rate = userModel!.rate;
       });
       emit(AppGetUserSuccessState());
     }).catchError((error) {
@@ -104,13 +106,7 @@ class AppCubit extends Cubit<AppState> {
         .collection('finds')
         .add(model.toMap())
         .then((value) {
-      CacheHelper.saveData(
-        key: 'dropOffLocation',
-        value: dropOffLocation,
-      ).then((value) {
-        dropOff = dropOffLocation;
-      });
-      emit(AppCreateFindsSuccessState());
+      emit(AppCreateFindsSuccessState(dropOffLocation));
     }).catchError((error) {
       emit(AppCreateFindsErrorState());
     });
@@ -174,8 +170,10 @@ class AppCubit extends Cubit<AppState> {
           .collection('trips')
           .doc(tripsId)
           .collection('selectors')
-          .add({'name': name, 'rate': rate, 'selected': true});
-      emit(AppSelectTripsSuccessState());
+          .doc(uId)
+          .set({'name': name, 'rate': rate, 'selected': true});
+      emit(AppSelectTripsSuccessState(tripsId));
+
     } catch (error) {
       emit(AppSelectTripsErrorState(error.toString()));
     }
@@ -189,29 +187,41 @@ class AppCubit extends Cubit<AppState> {
         .collection('trips')
         .doc(tripsId)
         .collection('selectors').snapshots().listen((event) {
-          event.docs.forEach((element) {
+          selectTrip = [];
+          for (var element in event.docs) {
             selectTripsId.add(element.id);
             selectTrip.add(SelectedTrip.fromJson(element.data()));
-            print("username : ${element.data()['name']}");
-            print("rate : ${element.data()['rate']}");
-            print("=======================================");
-            emit(AppSelectedTripsUpdateState());
-          });
+            if (element.data()['status'] == 'accepted') {
+              emit(AppSelectedTripsAcceptedState(element.id,tripsId));
+            } else if (element.data()['status'] == 'refused') {
+              emit(AppSelectedTripsRefusedState(element.id,tripsId));
+            } else {
+              emit(AppSelectedTripsUpdateState(element.id,tripsId));
+            }
+          }
     });
-
-    // for (var selector in selectorsSnapshot.docs) {
-    //   result.add({
-    //     'name': selector.data()['name'],
-    //     'rate': selector.data()['rate']
-    //   });
-    // }
-    // emit(AppSelectedTripsUpdateState());
-    // print(result);
-    // return result;
-
   }
 
-  // home toggle
+  Future<void> acceptRequest(String selectorId, String tripId) async {
+    await FirebaseFirestore.instance
+        .collection('trips')
+        .doc(tripId)
+        .collection('selectors')
+        .doc(selectorId)
+        .update({'status': 'accepted'});
+  }
+
+  Future<void> refuseRequest(String selectorId, String tripId) async {
+    await FirebaseFirestore.instance
+        .collection('trips')
+        .doc(tripId)
+        .collection('selectors')
+        .doc(selectorId)
+        .update({'status': 'refused'});
+  }
+
+
+// home toggle
   int homeToggleIndex = 0;
   void homeToggleButton(int index) {
     if (index == 1) {

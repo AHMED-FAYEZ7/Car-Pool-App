@@ -1,6 +1,7 @@
 class TripsModel {
   String? name;
   String? uId;
+  double rate = 2.5;
   String? phone;
   String? dateTime;
   String? numberOfSeats;
@@ -25,6 +26,7 @@ class TripsModel {
     dateTime = json['dateTime'];
     pickUpLocation = json['pickUpLocation'];
     dropOffLocation = json['dropOffLocation'];
+    rate = json['rate'] ?? 2.5;
   }
 
   Map<String, dynamic> toMap() {
@@ -36,6 +38,7 @@ class TripsModel {
       'dateTime': dateTime,
       'pickUpLocation': pickUpLocation,
       'dropOffLocation': dropOffLocation,
+      'rate': rate,
     };
   }
 }

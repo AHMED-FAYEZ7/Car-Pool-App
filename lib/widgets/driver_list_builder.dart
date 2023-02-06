@@ -40,8 +40,7 @@ class DriverListBuilder extends StatelessWidget {
                 children: const [
                   CircleAvatar(
                       radius: 50.0,
-                      backgroundImage:
-                          AssetImage("assets/images/person_ic.png")),
+                      backgroundImage: AssetImage("assets/images/person_ic.png")),
                 ],
               ),
               Padding(
@@ -59,9 +58,9 @@ class DriverListBuilder extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    const Text(
-                      "4.5/8",
-                      style: TextStyle(
+                    Text(
+                      "${model.rate}/5",
+                      style: const TextStyle(
                         fontFamily: "Jost",
                         fontWeight: FontWeight.bold,
                       ),

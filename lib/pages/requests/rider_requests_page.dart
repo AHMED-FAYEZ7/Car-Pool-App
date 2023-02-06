@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
-import 'package:kau_carpool/pages/confirm/confirm_page.dart';
-import 'package:kau_carpool/pages/status/status_page.dart';
-import 'package:kau_carpool/pages/wait/wait_page.dart';
 import 'package:kau_carpool/widgets/default_appbar.dart';
-import 'package:kau_carpool/widgets/rider_list_builder.dart';
 
 class RiderRequestsPage extends StatelessWidget {
   RiderRequestsPage({Key? key}) : super(key: key);
@@ -88,7 +84,7 @@ class RiderRequestsPage extends StatelessWidget {
                             ),
                             if(state is AppSelectedTripsUpdateState)
                               ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) => Container(
                                   decoration: BoxDecoration(
@@ -126,17 +122,17 @@ class RiderRequestsPage extends StatelessWidget {
                                             ),
                                             child: Row(
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.star,
                                                   color: Colors.amber,
                                                   size: 15,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 10,
                                                 ),
                                                 Text(
-                                                  '${AppCubit.get(context).selectTrip[index].rate}',
-                                                  style: TextStyle(
+                                                  '${AppCubit.get(context).selectTrip[index].rate}/5',
+                                                  style: const TextStyle(
                                                     fontFamily: "Jost",
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -155,7 +151,7 @@ class RiderRequestsPage extends StatelessWidget {
                                           children: [
                                             Text(
                                               '${AppCubit.get(context).selectTrip[index].name}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: "Jost",
@@ -164,7 +160,7 @@ class RiderRequestsPage extends StatelessWidget {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 5.0,
                                             ),
                                           ],
@@ -175,12 +171,8 @@ class RiderRequestsPage extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => ConfirmPage(),
-                                            ),
-                                          );
+                                          AppCubit.get(context)
+                                              .acceptRequest(state.id, state.tripId);
                                         },
                                         child: Container(
                                           width: 30,
@@ -201,12 +193,9 @@ class RiderRequestsPage extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => StatusPage(),
-                                            ),
-                                          );
+                                          AppCubit.get(context)
+                                              .refuseRequest(state.id, state.tripId);
+
                                         },
                                         child: Container(
                                           width: 30,
