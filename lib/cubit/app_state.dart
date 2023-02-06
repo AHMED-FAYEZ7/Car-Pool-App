@@ -54,6 +54,12 @@ class AppGetTripsErrorState extends AppState {
   AppGetTripsErrorState(this.error);
 }
 //////////////////////////////////////////////////////
+class AppSelectedTripsLoadingUpdateState extends AppState {
+  final String id;
+  final String tripId;
+
+  AppSelectedTripsLoadingUpdateState(this.id,this.tripId);
+}
 class AppSelectedTripsUpdateState extends AppState {
   final String id;
   final String tripId;

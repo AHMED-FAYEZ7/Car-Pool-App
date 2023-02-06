@@ -187,18 +187,17 @@ class AppCubit extends Cubit<AppState> {
         .collection('trips')
         .doc(tripsId)
         .collection('selectors').snapshots().listen((event) {
-          selectTrip = [];
-          for (var element in event.docs) {
-            selectTripsId.add(element.id);
-            selectTrip.add(SelectedTrip.fromJson(element.data()));
-            if (element.data()['status'] == 'accepted') {
-              emit(AppSelectedTripsAcceptedState(element.id,tripsId));
-            } else if (element.data()['status'] == 'refused') {
-              emit(AppSelectedTripsRefusedState(element.id,tripsId));
-            } else {
-              emit(AppSelectedTripsUpdateState(element.id,tripsId));
-            }
-          }
+      selectTrip = [];
+      for (var element in event.docs) {
+        selectTripsId.add(element.id);
+        selectTrip.add(SelectedTrip.fromJson(element.data()));
+        emit(AppSelectedTripsUpdateState(element.id,tripsId));
+        if (element.data()['status'] == 'accepted') {
+          emit(AppSelectedTripsAcceptedState(element.id,tripsId));
+        } else if (element.data()['status'] == 'refused') {
+          emit(AppSelectedTripsRefusedState(element.id,tripsId));
+        }
+      }
     });
   }
 
@@ -219,6 +218,8 @@ class AppCubit extends Cubit<AppState> {
         .doc(selectorId)
         .update({'status': 'refused'});
   }
+
+
 
 
 // home toggle

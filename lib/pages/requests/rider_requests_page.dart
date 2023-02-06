@@ -171,8 +171,8 @@ class RiderRequestsPage extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          AppCubit.get(context)
-                                              .acceptRequest(state.id, state.tripId);
+                                          AppCubit.get(context).acceptRequest(state.id, state.tripId);
+                                          print(AppCubit.get(context).selectTrip.length);
                                         },
                                         child: Container(
                                           width: 30,
@@ -193,9 +193,7 @@ class RiderRequestsPage extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          AppCubit.get(context)
-                                              .refuseRequest(state.id, state.tripId);
-
+                                          AppCubit.get(context).refuseRequest(state.id, state.tripId);
                                         },
                                         child: Container(
                                           width: 30,
@@ -217,7 +215,7 @@ class RiderRequestsPage extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                separatorBuilder: (context, index) => SizedBox(
+                                separatorBuilder: (context, index) => const SizedBox(
                                   height: 20.0,
                                 ),
                                 itemCount: cubit.selectTrip.length,
