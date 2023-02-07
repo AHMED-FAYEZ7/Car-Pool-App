@@ -155,12 +155,27 @@ class AppCubit extends Cubit<AppState> {
           selects.add(value.docs.length);
           tripsId.add(element.id);
           trips.add(TripsModel.fromJson(element.data()));
-          emit(AppGetTripsSuccessState());
+          emit(AppGetTripsSuccessState(trips: trips));
         }).catchError((error) {});
       }
     }).catchError((error) {
       emit(AppGetTripsErrorState(error.toString()));
     });
+  }
+
+
+  void searchData({String? st}) {
+    if (st!.isEmpty) {
+      emit(AppGetTripsSuccessState(trips: trips));
+    } else {
+      List<TripsModel> searchResults = [];
+      for (var trip in trips) {
+        if (trip.name!.toLowerCase().contains(st)) {
+          searchResults.add(trip);
+        }
+      }
+      emit(AppSearchResultsState(searchResults: searchResults));
+    }
   }
 
   // To select trip
@@ -222,6 +237,7 @@ class AppCubit extends Cubit<AppState> {
 
 
 
+
 // home toggle
   int homeToggleIndex = 0;
   void homeToggleButton(int index) {
@@ -245,4 +261,5 @@ class AppCubit extends Cubit<AppState> {
       emit(CurrentTripsToggle());
     }
   }
+
 }

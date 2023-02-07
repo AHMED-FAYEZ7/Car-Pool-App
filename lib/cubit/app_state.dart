@@ -47,13 +47,23 @@ class AppCreateTripsSuccessState extends AppState {
 class AppCreateTripsErrorState extends AppState {}
 ////////////////////////////////////////////////
 class AppGetTripsLoadingState extends AppState {}
-class AppGetTripsSuccessState extends AppState {}
+class AppGetTripsSuccessState extends AppState {
+  final List<TripsModel> trips;
+
+  AppGetTripsSuccessState({required this.trips});
+}
 class AppGetTripsErrorState extends AppState {
   final String error;
 
   AppGetTripsErrorState(this.error);
 }
 //////////////////////////////////////////////////////
+class AppSearchResultsState extends AppState {
+  final List<TripsModel> searchResults;
+
+  AppSearchResultsState({required this.searchResults});
+}
+//////////////////////////////////////////////////////////
 class AppSelectedTripsLoadingUpdateState extends AppState {
   final String id;
   final String tripId;

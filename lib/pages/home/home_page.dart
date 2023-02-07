@@ -1,22 +1,16 @@
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
-import 'package:intl/intl.dart';
 import 'package:kau_carpool/constants.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
-import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/location_helper.dart';
 import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
-import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
-import 'package:kau_carpool/pages/map/map_screen.dart';
 import 'package:kau_carpool/pages/requests/driver_requests_page.dart';
 import 'package:kau_carpool/pages/requests/rider_requests_page.dart';
-import 'package:kau_carpool/repository/maps_repo.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 import 'package:kau_carpool/widgets/custom_filed.dart';
 import 'package:kau_carpool/widgets/custom_toggle_button.dart';
@@ -278,8 +272,7 @@ class _HomePageState extends State<HomePage> {
                                         picUpField(),
                                         dropOffField(),
                                         CustomField(
-                                          icPath:
-                                              "assets/images/date_time_ic.png",
+                                          icPath: "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
                                           controller: findDateAndTimeController,
                                           read: true,
@@ -289,19 +282,10 @@ class _HomePageState extends State<HomePage> {
                                             }
                                             return null;
                                           },
-                                          onTap: () async {
-                                            await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(2022),
-                                              lastDate: DateTime(2025),
-                                            ).then((selectedDate) {
-                                              if (selectedDate != null) {
-                                                findDateAndTimeController.text =
-                                                    DateFormat('yyyy-MM-dd')
-                                                        .format(selectedDate);
-                                              }
-                                            });
+                                          onTap: () async
+                                          {
+                                            await selectDate(findDateAndTimeController);
+                                            await selectTime(findDateAndTimeController);
                                           },
                                         ),
                                         const SizedBox(
@@ -313,16 +297,11 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             if (findKey.currentState!
                                                 .validate()) {
-                                              cubit.createFindPool(
-                                                dateTime:
-                                                    findDateAndTimeController
-                                                        .text,
-                                                pickUpLocation:
-                                                    getLocationAddress ??
-                                                        findPickUpController
-                                                            .text,
+                                              cubit.createFindPool(dateTime: findDateAndTimeController.text,
+                                                pickUpLocation: getLocationAddress ?? findPickUpController.text,
                                                 dropOffLocation:
-                                                    findDropOffController.text,
+                                                // findDropOffController.text,
+                                                "alex",
                                               );
                                               Navigator.push(
                                                 context,
@@ -348,32 +327,20 @@ class _HomePageState extends State<HomePage> {
                                         picUpField(),
                                         dropOffField(),
                                         CustomField(
-                                          read: true,
-                                          icPath:
-                                              "assets/images/date_time_ic.png",
+                                          icPath: "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
-                                          controller:
-                                              offerDateAndTimeController,
-                                          onTap: () async {
-                                            await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(2022),
-                                              lastDate: DateTime(2025),
-                                            ).then((selectedDate) {
-                                              if (selectedDate != null) {
-                                                offerDateAndTimeController
-                                                        .text =
-                                                    DateFormat('yyyy-MM-dd')
-                                                        .format(selectedDate);
-                                              }
-                                            });
-                                          },
+                                          controller: offerDateAndTimeController,
+                                          read: true,
                                           validator: (String? s) {
                                             if (s!.isEmpty) {
                                               return 'Please Enter Date & Time';
                                             }
                                             return null;
+                                          },
+                                          onTap: () async
+                                          {
+                                            await selectDate(offerDateAndTimeController);
+                                            await selectTime(offerDateAndTimeController);
                                           },
                                         ),
                                         CustomField(
@@ -397,15 +364,12 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             cubit.createOfferPool(
                                               pickUpLocation:
-                                                  getLocationAddress ??
-                                                      findPickUpController.text,
+                                                  getLocationAddress ?? findPickUpController.text,
                                               dropOffLocation:
-                                                  findDropOffController.text,
-                                              dateTime:
-                                                  offerDateAndTimeController
-                                                      .text,
-                                              numberOfSeats:
-                                                  numOfSetsController.text,
+                                              // findDropOffController.text,
+                                              "alex",
+                                              dateTime: offerDateAndTimeController.text,
+                                              numberOfSeats: numOfSetsController.text,
                                             );
 
                                             Navigator.push(
@@ -449,4 +413,53 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+
+
+  DateTime? selectedDate;
+
+  Future<void> selectDate(TextEditingController controller) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        controller.text = "${selectedDate!.toLocal()}";
+      });
+    }
+  }
+
+  Future<void> selectTime(TextEditingController controller) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(selectedDate ?? DateTime.now()),
+    );
+    if (picked != null) {
+      setState(() {
+        int hour = picked.hour;
+        String period = 'am';
+        if (hour == 0) {
+          hour = 12;
+        } else if (hour == 12) {
+          period = 'pm';
+        } else if (hour > 12) {
+          hour -= 12;
+          period = 'pm';
+        }
+        selectedDate = DateTime(
+          selectedDate!.year,
+          selectedDate!.month,
+          selectedDate!.day,
+          hour,
+          picked.minute,
+        );
+        controller.text = "${selectedDate!.toLocal().toString().substring(0, 16)} $period";
+      });
+    }
+  }
+
+
 }
