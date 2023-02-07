@@ -64,12 +64,7 @@ class AppSearchResultsState extends AppState {
   AppSearchResultsState({required this.searchResults});
 }
 //////////////////////////////////////////////////////////
-class AppSelectedTripsLoadingUpdateState extends AppState {
-  final String id;
-  final String tripId;
-
-  AppSelectedTripsLoadingUpdateState(this.id,this.tripId);
-}
+class AppSelectedTripsLoadingUpdateState extends AppState {}
 class AppSelectedTripsUpdateState extends AppState {
   final String id;
   final String tripId;

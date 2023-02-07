@@ -1,4 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, must_be_immutable
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
@@ -98,36 +100,57 @@ class _DriverRequestsPageState extends State<DriverRequestsPage> {
                             const SizedBox(
                               height: 20.0,
                             ),
-                            ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => InkWell(
-                                onTap: () {
-                                  AppCubit.get(context).tripsSelects(
-                                      AppCubit.get(context).tripsId[index]);
+                            ConditionalBuilder(
+                              condition: state is! AppGetTripsLoadingState,
+                              builder: (context) => ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) => InkWell(
+                                  onTap: () {
+                                    AppCubit.get(context).tripsSelects(
+                                        AppCubit.get(context).tripsId[index]);
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => WaitPage(),
-                                    ),
-                                  );
-                                },
-                                child: DriverListBuilder(
-                                  model: state is AppSearchResultsState
-                                  ? state.searchResults[index]
-                                      : AppCubit.get(context).trips[index],
-                                  context: context,
-                                  index: index,
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => WaitPage(),
+                                      ),
+                                    );
+                                  },
+                                  child: DriverListBuilder(
+                                    model: state is AppSearchResultsState
+                                        ? state.searchResults[index]
+                                        : AppCubit.get(context).trips[index],
+                                    context: context,
+                                    index: index,
+                                  ),
                                 ),
+                                separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                itemCount: state is AppSearchResultsState
+                                    ? state.searchResults.length
+                                    : AppCubit.get(context).trips.length,
                               ),
-                              separatorBuilder: (context, index) =>
-                              const SizedBox(
-                                height: 20.0,
+                              fallback: (context) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                      child: CircularProgressIndicator(
+                                        color: ColorManager.primary,
+                                      )),
+                                  SizedBox(height: 10,),
+                                  Text(
+                                    "Search for trips",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: ColorManager.grey
+                                    ),
+                                  ),
+                                ],
                               ),
-                              itemCount: state is AppSearchResultsState
-                                  ? state.searchResults.length
-                                  : AppCubit.get(context).trips.length,
                             )
                           ],
                         ),

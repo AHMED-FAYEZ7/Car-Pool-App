@@ -197,7 +197,7 @@ class AppCubit extends Cubit<AppState> {
   List<SelectedTrip> selectTrip = [];
   List<String> selectTripsId = [];
   getSelectedTrips(String tripsId) async {
-
+    emit(AppSelectedTripsLoadingUpdateState());
     FirebaseFirestore.instance
         .collection('trips')
         .doc(tripsId)
