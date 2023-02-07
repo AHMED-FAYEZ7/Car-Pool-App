@@ -52,6 +52,8 @@ dependencies:
   date_time_picker: ^2.1.0
   intl: ^0.17.0
   neon_circular_timer: ^0.0.7
+  google_places_flutter: ^2.0.5
+  geocoding: ^2.0.5 
 
 dev_dependencies:
   flutter_test:

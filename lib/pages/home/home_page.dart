@@ -1,10 +1,15 @@
-
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 import 'package:intl/intl.dart';
+import 'package:kau_carpool/constants.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/constant.dart';
+import 'package:kau_carpool/helper/location_helper.dart';
 import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
@@ -33,7 +38,148 @@ class _HomePageState extends State<HomePage> {
   var offerDateAndTimeController = TextEditingController();
   var findKey = GlobalKey<FormState>();
   var offerKey = GlobalKey<FormState>();
-  // String _currentLocation = "Your current location";
+  late double? pickLat;
+  late double? pickLng;
+  late double? dropLat;
+  late double? dropLng;
+  List<Placemark>? placemarks;
+  Placemark? placemark;
+  Position? position;
+  String? getLocationAddress;
+  String? getCurrentDescription;
+  String? getCurrentDescriptionAddress;
+
+  getLocation() async {
+    position = await LocationHelper.getCurrentLocation();
+    placemarks = await placemarkFromCoordinates(
+      position!.latitude,
+      position!.longitude,
+    );
+    placemark = placemarks![0];
+    setState(() {
+      getLocationAddress =
+          "${placemark!.administrativeArea}, ${placemark!.subAdministrativeArea}, ${placemark!.locality}, ${placemark!.subLocality}, ${placemark!.thoroughfare}, ${placemark!.subThoroughfare}, ${placemark!.country}";
+    });
+  }
+
+  getCurrentAddress() async {
+    getCurrentDescription = await PlacesWebservices.getAddressFromCoordinates(
+      position!.latitude,
+      position!.longitude,
+    );
+    setState(() {
+      getCurrentDescriptionAddress = getCurrentDescription!;
+    });
+  }
+
+  picUpField() {
+    return Container(
+      height: 80,
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 40,
+      ),
+      child: GooglePlaceAutoCompleteTextField(
+          textEditingController: findPickUpController,
+          googleAPIKey: googleAPIKey,
+          inputDecoration: InputDecoration(
+            prefixIcon: Icon(Icons.location_on_outlined),
+            hintText: "Enter Pick Up Location",
+            hintStyle: TextStyle(
+              color: ColorManager.darkGrey,
+            ),
+            icon: Container(
+              height: 25,
+              width: 25,
+              child: Center(
+                child: Image.asset("assets/images/pick_up_ic.png"),
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: ColorManager.grey,
+              ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: ColorManager.primary,
+              ),
+            ),
+          ),
+          debounceTime: 800,
+          countries: ["sa"],
+          isLatLngRequired: true,
+          getPlaceDetailWithLatLng: (Prediction prediction) {
+            pickLat = double.parse(prediction.lat!);
+            pickLng = double.parse(prediction.lng!);
+          },
+          itmClick: (Prediction prediction) {
+            findPickUpController.text = prediction.description!;
+
+            findPickUpController.selection = TextSelection.fromPosition(
+              TextPosition(offset: prediction.description!.length),
+            );
+          }
+          // default 600 ms ,
+          ),
+    );
+  }
+
+  dropOffField() {
+    return Container(
+      height: 80,
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 40,
+      ),
+      child: GooglePlaceAutoCompleteTextField(
+          textEditingController: findDropOffController,
+          googleAPIKey: googleAPIKey,
+          inputDecoration: InputDecoration(
+            prefixIcon: Icon(Icons.car_repair_outlined),
+            hintText: "Enter Drop Off Location",
+            hintStyle: TextStyle(
+              color: ColorManager.darkGrey,
+            ),
+            icon: Container(
+              height: 25,
+              width: 25,
+              child: Center(
+                child: Image.asset("assets/images/drop_off_ic.png"),
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: ColorManager.grey,
+              ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: ColorManager.primary,
+              ),
+            ),
+          ),
+          debounceTime: 800,
+          countries: ["sa"],
+          isLatLngRequired: true,
+          getPlaceDetailWithLatLng: (Prediction prediction) {
+            dropLat = double.parse(prediction.lat!);
+            dropLng = double.parse(prediction.lng!);
+          },
+          itmClick: (Prediction prediction) {
+            findDropOffController.text = prediction.description!;
+
+            findDropOffController.selection = TextSelection.fromPosition(
+                TextPosition(offset: prediction.description!.length));
+          }
+          // default 600 ms ,
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,65 +275,11 @@ class _HomePageState extends State<HomePage> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider(
-                                                  create: (context) =>
-                                                      MapsCubit(
-                                                    MapsRepository(
-                                                      PlacesWebservices(),
-                                                    ),
-                                                  ),
-                                                  child: MapScreen(),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: CustomField(
-                                            icPath:
-                                                "assets/images/pick_up_ic.png",
-                                            hintText: "Enter Pick up location",
-                                            controller: findPickUpController,
-                                            type: TextInputType.text,
-                                            validator: (String? s) {
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider(
-                                                  create: (context) =>
-                                                      MapsCubit(
-                                                    MapsRepository(
-                                                      PlacesWebservices(),
-                                                    ),
-                                                  ),
-                                                  child: MapScreen(),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: CustomField(
-                                            icPath: "assets/images/drop_off_ic.png",
-                                            hintText: "Enter Drop Off Location",
-                                            controller: findDropOffController,
-                                            type: TextInputType.text,
-                                            validator: (String? s) {
-                                              return null;
-                                            },
-                                          ),
-                                        ),
+                                        picUpField(),
+                                        dropOffField(),
                                         CustomField(
-                                          icPath: "assets/images/date_time_ic.png",
+                                          icPath:
+                                              "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
                                           controller: findDateAndTimeController,
                                           read: true,
@@ -206,7 +298,8 @@ class _HomePageState extends State<HomePage> {
                                             ).then((selectedDate) {
                                               if (selectedDate != null) {
                                                 findDateAndTimeController.text =
-                                                    DateFormat('yyyy-MM-dd').format(selectedDate);
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(selectedDate);
                                               }
                                             });
                                           },
@@ -218,11 +311,18 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Find Pool",
                                           onTap: () {
-                                            if (findKey.currentState!.validate()) {
+                                            if (findKey.currentState!
+                                                .validate()) {
                                               cubit.createFindPool(
-                                                dateTime: findDateAndTimeController.text,
-                                                pickUpLocation: "mansoura",
-                                                dropOffLocation: "alex",
+                                                dateTime:
+                                                    findDateAndTimeController
+                                                        .text,
+                                                pickUpLocation:
+                                                    getLocationAddress ??
+                                                        findPickUpController
+                                                            .text,
+                                                dropOffLocation:
+                                                    findDropOffController.text,
                                               );
                                               Navigator.push(
                                                 context,
@@ -245,69 +345,15 @@ class _HomePageState extends State<HomePage> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider(
-                                                  create: (context) =>
-                                                      MapsCubit(
-                                                    MapsRepository(
-                                                      PlacesWebservices(),
-                                                    ),
-                                                  ),
-                                                  child: MapScreen(),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: CustomField(
-                                            icPath:
-                                                "assets/images/pick_up_ic.png",
-                                            hintText: "Enter Pick up Location",
-                                            controller: offerPickUpController,
-                                            type: TextInputType.text,
-                                            validator: (String? s) {
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider(
-                                                  create: (context) =>
-                                                      MapsCubit(
-                                                    MapsRepository(
-                                                      PlacesWebservices(),
-                                                    ),
-                                                  ),
-                                                  child: MapScreen(),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: CustomField(
-                                            icPath:
-                                                "assets/images/drop_off_ic.png",
-                                            hintText: "Enter Drop Off Location",
-                                            controller: offerDropOffController,
-                                            type: TextInputType.text,
-                                            validator: (String? s) {
-                                              return null;
-                                            },
-                                          ),
-                                        ),
+                                        picUpField(),
+                                        dropOffField(),
                                         CustomField(
                                           read: true,
-                                          icPath: "assets/images/date_time_ic.png",
+                                          icPath:
+                                              "assets/images/date_time_ic.png",
                                           hintText: "Enter Date & Time",
-                                          controller: offerDateAndTimeController,
+                                          controller:
+                                              offerDateAndTimeController,
                                           onTap: () async {
                                             await showDatePicker(
                                               context: context,
@@ -316,8 +362,10 @@ class _HomePageState extends State<HomePage> {
                                               lastDate: DateTime(2025),
                                             ).then((selectedDate) {
                                               if (selectedDate != null) {
-                                                offerDateAndTimeController.text =
-                                                    DateFormat('yyyy-MM-dd').format(selectedDate);
+                                                offerDateAndTimeController
+                                                        .text =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(selectedDate);
                                               }
                                             });
                                           },
@@ -347,12 +395,17 @@ class _HomePageState extends State<HomePage> {
                                           width: 110,
                                           text: "Offer Pool",
                                           onTap: () {
-                                            // print(address!);
                                             cubit.createOfferPool(
-                                              pickUpLocation: "cairo",
-                                              dropOffLocation: "alex",
-                                              dateTime: offerDateAndTimeController.text,
-                                              numberOfSeats: numOfSetsController.text,
+                                              pickUpLocation:
+                                                  getLocationAddress ??
+                                                      findPickUpController.text,
+                                              dropOffLocation:
+                                                  findDropOffController.text,
+                                              dateTime:
+                                                  offerDateAndTimeController
+                                                      .text,
+                                              numberOfSeats:
+                                                  numOfSetsController.text,
                                             );
 
                                             Navigator.push(
@@ -377,6 +430,20 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: ColorManager.primary,
+            child: Icon(
+              Icons.place,
+              color: ColorManager.white,
+            ),
+            onPressed: () async {
+              await getLocation();
+
+              await getCurrentAddress();
+              print("current address ${getLocationAddress}");
+              print("current address ${getCurrentDescriptionAddress}");
+            },
           ),
         );
       },
