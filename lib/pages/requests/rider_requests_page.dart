@@ -57,29 +57,7 @@ class RiderRequestsPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            Center(
-                              child: Container(
-                                width: 350,
-                                height: 50,
-                                child: TextField(
-                                  onChanged: (value) {},
-                                  textAlign: TextAlign.justify,
-                                  decoration: const InputDecoration(
-                                    hintText: "Search for a rider",
-                                    prefixIcon: Icon(Icons.search),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
+                              const SizedBox(
                               height: 20.0,
                             ),
                             if(state is AppSelectedTripsUpdateState)
