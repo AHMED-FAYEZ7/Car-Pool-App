@@ -7,6 +7,7 @@ import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/pages/map/cubit/maps_cubit.dart';
 import 'package:kau_carpool/pages/map/map_screen.dart';
+import 'package:kau_carpool/pages/riders_on_trip/riders_on_trip_page.dart';
 import 'package:kau_carpool/repository/maps_repo.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
@@ -15,10 +16,12 @@ class CurrentTripsWidget extends StatelessWidget {
     required this.model,
     required this.context,
     required this.index,
+    required this.onTap,
   });
   BuildContext context;
   int index;
   TripsModel model;
+  Function? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class CurrentTripsWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Container(
-            height: 220,
+            height: 240,
             decoration: BoxDecoration(
                 color: ColorManager.backgroundColor,
                 borderRadius: const BorderRadius.only(
@@ -94,31 +97,45 @@ class CurrentTripsWidget extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomButton(
+                        text: "Track",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) => MapsCubit(
+                                  MapsRepository(
+                                    PlacesWebservices(),
+                                  ),
+                                ),
+                                child: MapScreen(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 10,),
+                      CustomButton(
+                        text: "Riders",
+                        onTap: () {
+                          onTap;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RidersOnTripPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 20,
-          right: 50,
-          child: CustomButton(
-            text: "Track",
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BlocProvider(
-                    create: (context) => MapsCubit(
-                      MapsRepository(
-                        PlacesWebservices(),
-                      ),
-                    ),
-                    child: MapScreen(),
-                  ),
-                ),
-              );
-            },
           ),
         ),
       ],

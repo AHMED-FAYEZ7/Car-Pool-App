@@ -64,25 +64,16 @@ class TripsPage extends StatelessWidget {
                           ListView.separated(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemBuilder: (context, index) => InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RidersOnTripPage(),
-                                  ),
-                                );
-                              },
-                              child: CurrentTripsWidget(
-                                model: cubit.trips[index],
-                                context: context,
-                                index: index,
-                              ),
+                            itemBuilder: (context, index) => CurrentTripsWidget(
+                              model: cubit.myTrips[index],
+                              context: context,
+                              index: index,
+                              onTap: cubit.getAcceptedRiders(cubit.myTripId),
                             ),
                             separatorBuilder: (context, index) => SizedBox(
                               height: 5.0,
                             ),
-                            itemCount: cubit.trips.length,
+                            itemCount: cubit.myTrips.length,
                           ),
                         if (state is ScheduledTripsToggle)
                           ListView.separated(
@@ -97,7 +88,7 @@ class TripsPage extends StatelessWidget {
                             separatorBuilder: (context, index) => SizedBox(
                               height: 5.0,
                             ),
-                            itemCount: 1,
+                            itemCount: cubit.trips.length,
                           ),
                       ],
                     ),

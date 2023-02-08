@@ -68,15 +68,14 @@ class RidersOnTripPage extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => RatePage(
-                                      model: cubit.trips[index],
+                                      model: cubit.acceptedRiders[index],
                                       context: context,
-                                      index: index,
                                     ),
                                   ),
                                 );
                               },
                               child: RiderOnTripListBuilder(
-                                model: cubit.trips[index],
+                                model: cubit.acceptedRiders[index],
                                 context: context,
                                 index: index,
                               ),
@@ -84,7 +83,7 @@ class RidersOnTripPage extends StatelessWidget {
                             separatorBuilder: (context, index) => SizedBox(
                               height: 20.0,
                             ),
-                            itemCount: 4,
+                            itemCount: cubit.acceptedRiders.length,
                           )
                         ],
                       ),

@@ -6,18 +6,18 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
+import 'package:kau_carpool/models/trip_selectors_model.dart';
 import 'package:kau_carpool/models/trips_model.dart';
+import 'package:kau_carpool/models/user_model.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
 class RatePage extends StatelessWidget {
   RatePage({
     required this.model,
     required this.context,
-    required this.index,
   });
   BuildContext context;
-  int index;
-  TripsModel model;
+  SelectedTripModel model;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
@@ -142,7 +142,7 @@ class RatePage extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${model.name}',
+                                          "${model.name}",
                                           style: TextStyle(
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class RatePage extends StatelessWidget {
                                               const EdgeInsets.symmetric(
                                                   horizontal: 4.0),
                                           onRatingUpdate: (rating) {
-                                            print(rating);
+                                            AppCubit.get(context).updateRiderRate(model.uId, rating);
                                           },
                                         )
                                       ],

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:kau_carpool/models/trip_selectors_model.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 
 class RiderOnTripListBuilder extends StatelessWidget {
@@ -11,7 +12,7 @@ class RiderOnTripListBuilder extends StatelessWidget {
   });
   BuildContext context;
   int index;
-  TripsModel model;
+  SelectedTripModel model;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +60,7 @@ class RiderOnTripListBuilder extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      '${(rate.toList()..shuffle()).first}',
+                      '${model.rate}',
                       style: TextStyle(
                         fontFamily: "Jost",
                         fontWeight: FontWeight.bold,
@@ -118,6 +119,4 @@ class RiderOnTripListBuilder extends StatelessWidget {
     );
   }
 
-  // testing
-  List<String> rate = ["2/5", "3/5", "4.5/5", "4/5"];
 }

@@ -113,6 +113,9 @@ class AppCubit extends Cubit<AppState> {
   }
 
   // To create new offer pool or trip from driver
+
+  List<TripsModel> myTrips = [];
+  String myTripId = "";
   Future<void> createOfferPool({
     required String dateTime,
     required String numberOfSeats,
@@ -130,12 +133,13 @@ class AppCubit extends Cubit<AppState> {
       pickUpLocation: pickUpLocation,
       dropOffLocation: dropOffLocation,
     );
-
     FirebaseFirestore.instance
         .collection('trips')
         .add(model.toMap())
         .then((value) {
-      emit(AppCreateTripsSuccessState(value.id));
+          myTrips.add(model);
+          myTripId = value.id;
+      emit(AppCreateTripsSuccessState(myTripId, myTrips));
     }).catchError((error) {
       emit(AppCreateTripsErrorState());
     });
@@ -186,7 +190,7 @@ class AppCubit extends Cubit<AppState> {
           .doc(tripsId)
           .collection('selectors')
           .doc(uId)
-          .set({'name': name, 'rate': rate, 'selected': true});
+          .set({'name': name, 'rate': rate, 'selected': true ,'uId' : uId});
       emit(AppSelectTripsSuccessState(tripsId));
 
     } catch (error) {
@@ -194,7 +198,7 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  List<SelectedTrip> selectTrip = [];
+  List<SelectedTripModel> selectTrip = [];
   List<String> selectTripsId = [];
   getSelectedTrips(String tripsId) async {
     emit(AppSelectedTripsLoadingUpdateState());
@@ -205,7 +209,7 @@ class AppCubit extends Cubit<AppState> {
       selectTrip = [];
       for (var element in event.docs) {
         selectTripsId.add(element.id);
-        selectTrip.add(SelectedTrip.fromJson(element.data()));
+        selectTrip.add(SelectedTripModel.fromJson(element.data()));
         emit(AppSelectedTripsUpdateState(element.id,tripsId));
         if (element.data()['status'] == 'accepted') {
           emit(AppSelectedTripsAcceptedState(element.id,tripsId));
@@ -215,6 +219,8 @@ class AppCubit extends Cubit<AppState> {
       }
     });
   }
+
+
 
   Future<void> acceptRequest(String selectorId, String tripId) async {
     await FirebaseFirestore.instance
@@ -235,7 +241,35 @@ class AppCubit extends Cubit<AppState> {
   }
 
 
+  List<SelectedTripModel> acceptedRiders = [];
 
+  getAcceptedRiders(String tripId) {
+    FirebaseFirestore.instance
+        .collection('trips')
+        .doc(tripId)
+        .collection('selectors')
+        .where('status', isEqualTo: 'accepted')
+        .get()
+        .then((event) {
+      acceptedRiders = [];
+      for (var element in event.docs) {
+        acceptedRiders.add(SelectedTripModel.fromJson(element.data()));
+        emit(AppGetAcceptedRidersUpdateState(acceptedRiders));
+      }
+    });
+  }
+
+  void updateRiderRate(String? riderId, double newRate) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(riderId)
+        .update({'rate': newRate})
+        .then((value) {
+      print('Successfully updated rate for user $uId');
+    }).catchError((error) {
+      print('Error updating rate for user $uId: $error');
+    });
+  }
 
 
 // home toggle

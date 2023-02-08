@@ -1,17 +1,21 @@
-class SelectedTrip {
+class SelectedTripModel {
   String? name;
   double rate = 2.5;
   bool? selected;
+  String? uId;
 
-  SelectedTrip({
+
+  SelectedTripModel({
     this.name,
     this.selected,
+    this.uId,
   });
 
-  SelectedTrip.fromJson(Map<String, dynamic>? json) {
+  SelectedTripModel.fromJson(Map<String, dynamic>? json) {
     name = json!['name'];
     rate = json['rate'] ?? 2.5;
     selected = json['selected'];
+    uId = json['uId'];
   }
 
   Map<String, dynamic> toMap() {
@@ -19,6 +23,7 @@ class SelectedTrip {
       'name': name,
       'rate': rate,
       'selected': selected,
+      'uId': uId,
     };
   }
 }

@@ -41,8 +41,9 @@ class AppCreateFindsErrorState extends AppState {}
 class AppCreateTripsLoadingState extends AppState {}
 class AppCreateTripsSuccessState extends AppState {
   final String id;
+  final List<TripsModel> myTrips;
 
-  AppCreateTripsSuccessState(this.id);
+  AppCreateTripsSuccessState(this.id,this.myTrips);
 }
 class AppCreateTripsErrorState extends AppState {}
 ////////////////////////////////////////////////
@@ -96,3 +97,8 @@ class AppSelectTripsErrorState extends AppState {
 
 }
 ////////////////////////////////////////////////////
+class AppGetAcceptedRidersUpdateState extends AppState {
+  final List<SelectedTripModel> acceptedRiders;
+
+  AppGetAcceptedRidersUpdateState(this.acceptedRiders );
+}

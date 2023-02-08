@@ -366,8 +366,8 @@ class _HomePageState extends State<HomePage> {
                                               pickUpLocation:
                                                   getLocationAddress ?? findPickUpController.text,
                                               dropOffLocation:
-                                              findDropOffController.text,
-                                              // "alex",
+                                              // findDropOffController.text,
+                                              "alex",
                                               dateTime: offerDateAndTimeController.text,
                                               numberOfSeats: numOfSetsController.text,
                                             );
