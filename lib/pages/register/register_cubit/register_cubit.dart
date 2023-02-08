@@ -26,7 +26,6 @@ class RegisterCubit extends Cubit<RegisterState> {
       password: password,
     )
         .then((value) {
-      // emailVerified();
       createUser(
         name: name,
         email: email,
@@ -42,15 +41,37 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   // to verify email
-  // void emailVerified() async{
-  //   emit(VerificationLoading());
-  //   FirebaseAuth.instance.currentUser?.sendEmailVerification();
-  //   (_) async {
-  //     await FirebaseAuth.instance.currentUser?.reload();
-  //     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-  //     emit(VerificationSuccess());
-  //   };
-  // }
+  bool isEmailVerified = false;
+
+  void emailVerified(String? uId) async {
+    FirebaseAuth.instance.currentUser?.sendEmailVerification();
+        (_) async {
+      await FirebaseAuth.instance.currentUser?.reload();
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      print(isEmailVerified);
+      if (isEmailVerified) {
+        await updateIsEmailVerified(uId!, true);
+      }
+      emit(VerificationTrue(uId!));
+    };
+  }
+
+  updateIsEmailVerified(String? uId, bool newVerified) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uId)
+          .update({'isEmailVerified': newVerified});
+      if (newVerified) {
+        print('Successfully updated email verification to true for $uId');
+        // loginUser();
+      } else {
+        print('Successfully updated email verification to false for $uId');
+      }
+    } catch (error) {
+      print('Error updating email verification for $uId');
+    }
+  }
 
 
   void createUser({
@@ -73,7 +94,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         .doc(uId)
         .set(model.toMap())
         .then((value) {
-      emit(RegisterCreateUserSuccess());
+      emit(RegisterCreateUserSuccess(uId));
     }).catchError((error) {
       emit(RegisterCreateUserError(error.toString()));
     });

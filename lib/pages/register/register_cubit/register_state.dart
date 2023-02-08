@@ -6,7 +6,17 @@ class RegisterInitial extends RegisterState {}
 class RegisterLoading extends RegisterState {}
 
 class VerificationLoading extends RegisterState {}
-class VerificationSuccess extends RegisterState {}
+class VerificationSuccess extends RegisterState {
+  final bool isEmailVerified;
+  final String uId;
+
+  VerificationSuccess(this.uId,this.isEmailVerified);
+}
+class VerificationTrue extends RegisterState {
+  final String uId;
+
+  VerificationTrue(this.uId);
+}
 
 class RegisterSuccess extends RegisterState
 {
@@ -22,7 +32,11 @@ class RegisterError extends RegisterState
   RegisterError(this.error);
 }
 
-class RegisterCreateUserSuccess extends RegisterState {}
+class RegisterCreateUserSuccess extends RegisterState {
+  final String uId;
+
+  RegisterCreateUserSuccess(this.uId);
+}
 
 class RegisterCreateUserError extends RegisterState
 {

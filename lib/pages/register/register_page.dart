@@ -36,23 +36,17 @@ class _RegisterPageState extends State<RegisterPage> {
       create: (BuildContext context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
-          if (state is RegisterSuccess) {
-            CacheHelper.saveData(
-              key: 'uId',
-              value: state.uId,
-            ).then((value) {
-              uId = state.uId;
-              AppCubit.get(context)
-                ..getUserData()
-                ..getAllUsers();
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => VerificationPage(),
-                  ), (route) {
-                return false;
-              });
-            });
+          if (state is RegisterCreateUserSuccess) {
+            RegisterCubit.get(context).emailVerified(state.uId);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BlocProvider<RegisterCubit>(
+                  create: (context) => RegisterCubit(),
+                  child: VerificationPage(),
+                ),
+              ),
+            );
           }
         },
         builder: (context, state) {
@@ -152,9 +146,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             type: TextInputType.emailAddress,
                             labelText: "KUA Email",
                             hintText: "Enter email here",
-                            validator: (input) => input!.isValidEmail()
-                                ? null
-                                : "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
+                            validator: (String? s) {
+                              if (s!.isEmpty) {
+                                return 'Please Enter email';
+                              }
+                              return null;
+                            },
+                            // validator: (input) =>
+                            // input!.isValidEmail()
+                            //     ? null :
+                            // "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
                           ),
                           CustomFormTextField(
                             controller: phoneController,
