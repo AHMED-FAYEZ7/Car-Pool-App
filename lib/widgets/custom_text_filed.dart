@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 
 class CustomFormTextField extends StatelessWidget {
-  CustomFormTextField({
+  CustomFormTextField({Key? key,
     this.hintText,
     this.labelText,
     this.onChanged,
@@ -14,7 +13,7 @@ class CustomFormTextField extends StatelessWidget {
     this.suffix,
     this.suffixPressed,
     required this.validator,
-  });
+  }) : super(key: key);
   Function(String)? onChanged;
   String? hintText;
   String? labelText;
@@ -37,7 +36,7 @@ class CustomFormTextField extends StatelessWidget {
         children: [
           Text(
             "$labelText",
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
             ),
           ),
@@ -62,7 +61,7 @@ class CustomFormTextField extends StatelessWidget {
                 },
               ),
               hintText: hintText,
-              contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               hintStyle: TextStyle(
                 color: ColorManager.darkGrey,
               ),

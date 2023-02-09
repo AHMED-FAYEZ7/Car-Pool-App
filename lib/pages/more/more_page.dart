@@ -14,7 +14,7 @@ class MorePage extends StatelessWidget {
         builder:(cintext ,state) {
           return Column(
             children: [
-              SizedBox(height: 100,),
+              const SizedBox(height: 100,),
               Image.asset(
                   "assets/images/person_ic.png",
                 scale: .7,
@@ -22,7 +22,7 @@ class MorePage extends StatelessWidget {
               SizedBox(height: 10,),
               Text(
                 "$name",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
@@ -30,7 +30,7 @@ class MorePage extends StatelessWidget {
               SizedBox(height: 10,),
               Text(
                 "$phone",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                 ),
               ),

@@ -1,10 +1,8 @@
-// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
-import 'package:kau_carpool/pages/riders_on_trip/riders_on_trip_page.dart';
 import 'package:kau_carpool/widgets/current_trips.dart';
 import 'package:kau_carpool/widgets/custom_toggle_button.dart';
 import 'package:kau_carpool/widgets/scheduled_trips.dart';

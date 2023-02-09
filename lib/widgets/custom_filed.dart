@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 
 class CustomField extends StatelessWidget {
-  CustomField({
+  CustomField({Key? key,
     this.hintText,
     this.icPath,
     this.onChanged,
@@ -16,7 +15,7 @@ class CustomField extends StatelessWidget {
     this.onTap,
     this.suffixPressed,
     required this.validator,
-  });
+  }) : super(key: key);
   Function(String)? onChanged;
   String? hintText;
   String? icPath;
@@ -47,7 +46,7 @@ class CustomField extends StatelessWidget {
           onTap!();
         },
         decoration: InputDecoration(
-          icon: Container(
+          icon: SizedBox(
             height: 25,
             width: 25,
             child: Center(
@@ -65,7 +64,7 @@ class CustomField extends StatelessWidget {
             },
           ),
           hintText: hintText,
-          contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           hintStyle: TextStyle(
             color: ColorManager.darkGrey,
           ),

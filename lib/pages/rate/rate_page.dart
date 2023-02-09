@@ -7,8 +7,6 @@ import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/layout/app_layout.dart';
 import 'package:kau_carpool/models/trip_selectors_model.dart';
-import 'package:kau_carpool/models/trips_model.dart';
-import 'package:kau_carpool/models/user_model.dart';
 import 'package:kau_carpool/widgets/custom_button.dart';
 
 class RatePage extends StatelessWidget {

@@ -13,7 +13,7 @@ class VerificationPage extends StatelessWidget {
       backgroundColor: ColorManager.backgroundColor,
       body: Column(
         children: [
-          SizedBox(height: 100,),
+          const SizedBox(height: 100,),
           Padding(
             padding: const EdgeInsets.only(
               right: 50,
