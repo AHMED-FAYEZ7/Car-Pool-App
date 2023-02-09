@@ -383,7 +383,7 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             cubit.createOfferPool(
                                               pickUpLocation:
-                                                  getLocationAddress ??
+
                                                       findPickUpController.text,
                                               dropOffLocation:
                                                   findDropOffController.text,
