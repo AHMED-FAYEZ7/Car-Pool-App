@@ -16,6 +16,8 @@ import 'package:kau_carpool/pages/home/home_page.dart';
 import 'package:kau_carpool/pages/more/more_page.dart';
 import 'package:kau_carpool/pages/trips/trips_page.dart';
 
+import '../pages/login/login_page.dart';
+
 part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -269,6 +271,17 @@ class AppCubit extends Cubit<AppState> {
     }).catchError((error) {
       print('Error updating rate for user $uId: $error');
     });
+  }
+
+  void signOut() {
+    FirebaseAuth.instance.signOut();
+    CacheHelper.sharedPreferences.clear();
+    runApp(
+        MaterialApp(
+          home: LoginPage(),
+        )
+
+    );
   }
 
 
