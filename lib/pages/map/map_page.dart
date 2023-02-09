@@ -5,6 +5,8 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kau_carpool/constants.dart';
+import 'package:kau_carpool/helper/location_helper.dart';
+import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/widgets/default_appbar.dart';
 import 'package:kau_carpool/widgets/map_utils.dart';
 
@@ -15,8 +17,8 @@ class MapPage extends StatefulWidget {
   final double? endLng;
   MapPage({
     super.key,
-    required this.startLat,
-    required this.startLng,
+    this.startLat,
+    this.startLng,
     this.endLat,
     this.endLng,
   });
@@ -30,6 +32,27 @@ class _MapPageState extends State<MapPage> {
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
+  static Position? position;
+
+  @override
+  initState() {
+    super.initState();
+    getMyCurrentLocation();
+    _cameraPosition = CameraPosition(
+      target: LatLng(
+        widget.startLat!,
+        widget.startLng!,
+      ),
+      zoom: 13,
+    );
+  }
+
+  Future<void> getMyCurrentLocation() async {
+    position = await LocationHelper.getCurrentLocation().whenComplete(() {});
+
+    setState(() {});
+  }
+
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
@@ -57,23 +80,12 @@ class _MapPageState extends State<MapPage> {
     );
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        polylineCoordinates.add(
+          LatLng(point.latitude, point.longitude),
+        );
       });
     }
     _addPolyLine();
-  }
-
-  @override
-  initState() {
-    super.initState();
-
-    _cameraPosition = CameraPosition(
-      target: LatLng(
-        widget.startLat!,
-        widget.startLng!,
-      ),
-      zoom: 13,
-    );
   }
 
   @override
@@ -85,6 +97,7 @@ class _MapPageState extends State<MapPage> {
           widget.startLat!,
           widget.startLng!,
         ),
+        // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
       ),
       Marker(
         markerId: MarkerId("end"),
@@ -92,27 +105,66 @@ class _MapPageState extends State<MapPage> {
           widget.endLat!,
           widget.endLng!,
         ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
       ),
     };
 
     return Scaffold(
-      appBar: DefaultAppBar(title: "title"),
-      body: GoogleMap(
-        mapType: MapType.normal,
-        myLocationButtonEnabled: true,
-        initialCameraPosition: _cameraPosition,
-        markers: _markers,
-        onMapCreated: (GoogleMapController controller) {
-          Future.delayed(Duration(milliseconds: 2000), () {
-            controller.animateCamera(CameraUpdate.newLatLngBounds(
-                MapUtils.boundsFromLatLngList(
-                    _markers.map((loc) => loc.position).toList()),
-                1));
-            _getPolyline();
-          });
-        },
-        polylines: Set<Polyline>.of(polylines.values),
-      ),
+      appBar: DefaultAppBar(title: "Track your Trip"),
+      body: position == null
+          ? Center(
+              child: Container(
+                child: CircularProgressIndicator(
+                  color: ColorManager.primary,
+                ),
+              ),
+            )
+          : GoogleMap(
+              mapType: MapType.normal,
+              myLocationButtonEnabled: true,
+              initialCameraPosition: _cameraPosition,
+              markers: _markers,
+              //  {
+              //   Marker(
+              //     markerId: MarkerId("current location"),
+              //     position: LatLng(
+              //       position!.latitude,
+              //       position!.longitude,
+              //     ),
+              //     icon: BitmapDescriptor.defaultMarkerWithHue(
+              //         BitmapDescriptor.hueAzure),
+              //   ),
+              //   Marker(
+              //     markerId: MarkerId("start"),
+              //     position: LatLng(
+              //       widget.startLat!,
+              //       widget.startLng!,
+              //     ),
+              //     // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+              //   ),
+              //   Marker(
+              //     markerId: MarkerId("end"),
+              //     position: LatLng(
+              //       widget.endLat!,
+              //       widget.endLng!,
+              //     ),
+              //     icon: BitmapDescriptor.defaultMarkerWithHue(
+              //         BitmapDescriptor.hueBlue),
+              //   ),
+              // },
+
+              onMapCreated: (GoogleMapController controller) {
+                Future.delayed(Duration(milliseconds: 2000), () {
+                  controller.animateCamera(CameraUpdate.newLatLngBounds(
+                      MapUtils.boundsFromLatLngList(
+                        _markers.map((loc) => loc.position).toList(),
+                      ),
+                      1));
+                  _getPolyline();
+                });
+              },
+              polylines: Set<Polyline>.of(polylines.values),
+            ),
     );
   }
 }
