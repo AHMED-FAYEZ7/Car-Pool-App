@@ -18,7 +18,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String gender,
     required String password,
     required String confirmPassword,
-  }) {
+  }) async{
     emit(RegisterLoading());
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(
@@ -41,36 +41,20 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   // to verify email
-  bool isEmailVerified = false;
-
   void emailVerified(String? uId) async {
-    FirebaseAuth.instance.currentUser?.sendEmailVerification();
-        (_) async {
-      await FirebaseAuth.instance.currentUser?.reload();
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-      print(isEmailVerified);
-      if (isEmailVerified) {
-        await updateIsEmailVerified(uId!, true);
-      }
-      emit(VerificationTrue(uId!));
-    };
+    if(FirebaseAuth.instance.currentUser!.emailVerified == false){
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      await updateIsEmailVerified(uId);
+      emit(SendVerificationSuccess());
+    }
   }
 
-  updateIsEmailVerified(String? uId, bool newVerified) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uId)
-          .update({'isEmailVerified': newVerified});
-      if (newVerified) {
-        print('Successfully updated email verification to true for $uId');
-        // loginUser();
-      } else {
-        print('Successfully updated email verification to false for $uId');
-      }
-    } catch (error) {
-      print('Error updating email verification for $uId');
-    }
+  updateIsEmailVerified(String? uId,) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .update({'isEmailVerified': true});
+    print(uId);
   }
 
 
@@ -83,7 +67,6 @@ class RegisterCubit extends Cubit<RegisterState> {
   }) {
     UserModel model = UserModel(
       email: email,
-      isEmailVerified: false,
       name: name,
       phone: phone,
       gender: gender,

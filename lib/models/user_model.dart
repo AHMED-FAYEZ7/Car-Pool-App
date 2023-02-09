@@ -1,10 +1,10 @@
 class UserModel {
   late String name;
   String? email;
-  double rate = 2.5;
+  double rate = 4;
   String? phone;
   String? gender;
-  bool? isEmailVerified;
+  bool? isEmailVerified = false;
   String? uId;
 
   UserModel({
@@ -23,7 +23,7 @@ class UserModel {
     gender = json['gender'];
     isEmailVerified = json['isEmailVerified'];
     uId = json['uId'];
-    rate = json['rate'] ?? 2.5;
+    rate = json['rate'] ?? 4;
   }
 
   Map<String, dynamic> toMap() {

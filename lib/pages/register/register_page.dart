@@ -1,12 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kau_carpool/cubit/app_cubit.dart';
-import 'package:kau_carpool/helper/app_prefs.dart';
-import 'package:kau_carpool/helper/constant.dart';
 import 'package:kau_carpool/helper/functions.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/pages/register/register_cubit/register_cubit.dart';
@@ -38,17 +34,14 @@ class _RegisterPageState extends State<RegisterPage> {
         listener: (context, state) {
           if (state is RegisterCreateUserSuccess) {
             RegisterCubit.get(context).emailVerified(state.uId);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BlocProvider<RegisterCubit>(
-                  create: (context) => RegisterCubit(),
-                  child: VerificationPage(),
-                ),
-              ),
-            );
-          }
-        },
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VerificationPage(),
+                ), (route) {
+              return false;
+            });
+            }},
         builder: (context, state) {
           return Scaffold(
             backgroundColor: ColorManager.backgroundColor,
@@ -146,16 +139,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             type: TextInputType.emailAddress,
                             labelText: "KUA Email",
                             hintText: "Enter email here",
-                            validator: (String? s) {
-                              if (s!.isEmpty) {
-                                return 'Please Enter email';
-                              }
-                              return null;
-                            },
-                            // validator: (input) =>
-                            // input!.isValidEmail()
-                            //     ? null :
-                            // "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
+                            validator: (input) =>
+                            input!.isValidEmail()
+                                ? null :
+                            "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
                           ),
                           CustomFormTextField(
                             controller: phoneController,

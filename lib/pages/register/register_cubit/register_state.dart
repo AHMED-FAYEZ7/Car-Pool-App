@@ -5,18 +5,8 @@ abstract class RegisterState {}
 class RegisterInitial extends RegisterState {}
 class RegisterLoading extends RegisterState {}
 
-class VerificationLoading extends RegisterState {}
-class VerificationSuccess extends RegisterState {
-  final bool isEmailVerified;
-  final String uId;
+class SendVerificationSuccess extends RegisterState {}
 
-  VerificationSuccess(this.uId,this.isEmailVerified);
-}
-class VerificationTrue extends RegisterState {
-  final String uId;
-
-  VerificationTrue(this.uId);
-}
 
 class RegisterSuccess extends RegisterState
 {

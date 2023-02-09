@@ -1,6 +1,6 @@
 class SelectedTripModel {
   String? name;
-  double rate = 2.5;
+  double rate = 4;
   bool? selected;
   String? uId;
 
@@ -13,7 +13,7 @@ class SelectedTripModel {
 
   SelectedTripModel.fromJson(Map<String, dynamic>? json) {
     name = json!['name'];
-    rate = json['rate'] ?? 2.5;
+    rate = json['rate'] ?? 4;
     selected = json['selected'];
     uId = json['uId'];
   }
