@@ -24,20 +24,22 @@ class WaitPage extends StatelessWidget {
                   AppCubit.get(context).getSelectedTrips(state.id);
                 }
                 if(state is AppSelectedTripsAcceptedState){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ConfirmPage(),
-                    ),
-                  );
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ConfirmPage(),
+                      ), (route) {
+                    return false;
+                  });
                 }
                 if(state is AppSelectedTripsRefusedState) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StatusPage(),
-                    ),
-                  );
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StatusPage(),
+                      ), (route) {
+                    return false;
+                  });
                 }
               },
             builder: (context, state){

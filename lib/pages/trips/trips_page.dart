@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/cubit/app_cubit.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
-import 'package:kau_carpool/widgets/current_trips.dart';
+import 'package:kau_carpool/widgets/current_trip_driver.dart';
 import 'package:kau_carpool/widgets/custom_toggle_button.dart';
-import 'package:kau_carpool/widgets/scheduled_trips.dart';
+
+import '../../widgets/current_trips_rider.dart';
 
 class TripsPage extends StatelessWidget {
   const TripsPage({Key? key}) : super(key: key);
@@ -62,23 +63,31 @@ class TripsPage extends StatelessWidget {
                           ListView.separated(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemBuilder: (context, index) => CurrentTripsWidget(
-                              model: cubit.myTrips[index],
-                              context: context,
-                              index: index,
-                              onTap: cubit.getAcceptedRiders(cubit.myTripId),
-                            ),
-                            separatorBuilder: (context, index) => SizedBox(
+                            itemBuilder: (context, index) =>
+                            state is AppGetMyAcceptedTripSuccessState ?
+                              CurrentTripsRiderWidget(
+                                  model: cubit.myAcceptedTrips[index],
+                                  context: context,
+                                  index: index,
+                                )
+                                : CurrentTripsDriverWidget(
+                                    model: cubit.myTrips[index],
+                                    context: context,
+                                    index: index,
+                                    onTap: cubit.getAcceptedRiders(cubit.myTripId),
+                                  ),
+                            separatorBuilder: (context, index) => const SizedBox(
                               height: 5.0,
                             ),
-                            itemCount: cubit.myTrips.length,
+                            itemCount: state is AppGetMyAcceptedTripSuccessState ?
+                            cubit.myAcceptedTrips.length
+                                :cubit.myTrips.length,
                           ),
                         if (state is ScheduledTripsToggle)
                           ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemBuilder: (context, index) =>
-                                ScheduledTripsWidget(
+                            itemBuilder: (context, index) => CurrentTripsRiderWidget(
                               model: cubit.trips[index],
                               context: context,
                               index: index,

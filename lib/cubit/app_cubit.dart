@@ -145,18 +145,38 @@ class AppCubit extends Cubit<AppState> {
       emit(AppCreateTripsErrorState());
     });
   }
+  //////////////////////////////
+  List<TripsModel> myAcceptedTrips = [];
+
+  Future<void> getAcceptedTrips(String tripsId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('trips')
+          .doc(tripsId)
+          .get()
+          .then((value) {
+          TripsModel model = TripsModel.fromJson(value.data());
+          myAcceptedTrips.add(model);
+          print("--------------------------------------");
+          emit(AppGetMyAcceptedTripSuccessState());
+      });
+    } catch (e) {
+      print(e.toString());
+      emit(AppGetMyAcceptedTripErrorState());
+    }
+  }
+  ////////////////////////////////////
 
   List<TripsModel> trips = [];
   List<String> tripsId = [];
   List<int> selects = [];
-
   void getTrips({required String? dropOffLocation}) {
     emit(AppGetTripsLoadingState());
     FirebaseFirestore.instance.collection('trips')
         .where('dropOffLocation', isEqualTo: dropOffLocation).get().then((value) {
       trips = [];
       for (var element in value.docs) {
-        element.reference.collection('selects').get().then((value) {
+        element.reference.collection('selectors').get().then((value) {
           selects.add(value.docs.length);
           tripsId.add(element.id);
           trips.add(TripsModel.fromJson(element.data()));

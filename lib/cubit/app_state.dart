@@ -102,3 +102,6 @@ class AppGetAcceptedRidersUpdateState extends AppState {
 
   AppGetAcceptedRidersUpdateState(this.acceptedRiders );
 }
+////////////////////////////////
+class AppGetMyAcceptedTripSuccessState extends AppState {}
+class AppGetMyAcceptedTripErrorState extends AppState {}

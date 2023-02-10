@@ -69,12 +69,13 @@ class StatusPage extends StatelessWidget {
                     width: 150,
                     text: "Home",
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AppLayout(),
-                        ),
-                      );
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AppLayout(),
+                          ), (route) {
+                        return false;
+                      });
                     },
                   )
                 ],

@@ -1,18 +1,15 @@
+// ignore_for_file: must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kau_carpool/helper/constant.dart';
-import 'package:kau_carpool/helper/places_webservices.dart';
 import 'package:kau_carpool/helper/resources/color_manager.dart';
 import 'package:kau_carpool/models/trips_model.dart';
 import 'package:kau_carpool/pages/map/map_page.dart';
-
 import 'package:kau_carpool/pages/riders_on_trip/riders_on_trip_page.dart';
-
 import 'package:kau_carpool/widgets/custom_button.dart';
 
-class CurrentTripsWidget extends StatelessWidget {
-  CurrentTripsWidget({
+class CurrentTripsDriverWidget extends StatelessWidget {
+  CurrentTripsDriverWidget({
     required this.model,
     required this.context,
     required this.index,
@@ -30,7 +27,7 @@ class CurrentTripsWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Container(
-            height: 240,
+            height: 220,
             decoration: BoxDecoration(
                 color: ColorManager.backgroundColor,
                 borderRadius: const BorderRadius.only(
@@ -54,37 +51,27 @@ class CurrentTripsWidget extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 35),
-                    child: Text(
-                      'Phone Number : ${model.phone}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 35),
+                        child: Text(
+                          'Phone Number : ${model.phone}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
                       Image.asset('assets/images/min_person_ic.png'),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Driver : ${model.name}',
-                        style: const TextStyle(fontSize: 16),
-                      ),
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset('assets/images/drop_off_ic.png'),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Text(
                           'Destinition : ${model.dropOffLocation}',
@@ -92,6 +79,7 @@ class CurrentTripsWidget extends StatelessWidget {
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
+                      Image.asset('assets/images/add_trip_ic.png'),
                     ],
                   ),
                   const SizedBox(
