@@ -317,8 +317,8 @@ class _HomePageState extends State<HomePage> {
                                                         .text,
                                                 pickUpLocation:
                                                     findPickUpController.text,
-                                                dropOffLocation: "alex",
-                                                    // findDropOffController.text,
+                                                dropOffLocation:
+                                                    findDropOffController.text,
                                               );
                                               Navigator.push(
                                                 context,
@@ -385,8 +385,8 @@ class _HomePageState extends State<HomePage> {
                                               pickUpLocation:
 
                                                       findPickUpController.text,
-                                              dropOffLocation: "alex",
-                                                  // findDropOffController.text,
+                                              dropOffLocation:
+                                                  findDropOffController.text,
                                               dateTime:
                                                   offerDateAndTimeController
                                                       .text,
