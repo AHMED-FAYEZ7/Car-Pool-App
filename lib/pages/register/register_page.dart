@@ -1,4 +1,3 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +39,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 ), (route) {
               return false;
             });
-            }},
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             backgroundColor: ColorManager.backgroundColor,
@@ -126,31 +126,21 @@ class _RegisterPageState extends State<RegisterPage> {
                             type: TextInputType.name,
                             labelText: "Full Name",
                             hintText: "Enter full name",
-                            validator: (String? s) {
-                              if (s!.length < 3) {
-                                return 'name must be more than 2 character';
-                              }
-                              return null;
-                            },
+                            validator: (input) {},
                           ),
                           CustomFormTextField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
                             labelText: "KUA Email",
                             hintText: "Enter email here",
-                            validator: (input) =>
-                            input!.isValidEmail()
-                                ? null :
-                            "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
+                            validator: (input) {},
                           ),
                           CustomFormTextField(
                             controller: phoneController,
                             type: TextInputType.phone,
                             labelText: "Phone Number",
                             hintText: "Enter phone number",
-                            validator: (input) => input!.isValidPhone()
-                                ? null
-                                : "enter Valid Phone Number (05********)",
+                            validator: (input) {},
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -224,9 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             labelText: "Password",
                             hintText: "Enter password",
-                            validator: (input) => input!.isValidPassword()
-                                ? null
-                                : "8 characters, at least one letter and one number",
+                            validator: (input) {},
                           ),
                           CustomFormTextField(
                             controller: confirmPasswordController,

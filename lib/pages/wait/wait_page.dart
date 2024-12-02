@@ -86,7 +86,7 @@ class WaitPage extends StatelessWidget {
                                     isTimerTextShown: true,
                                     neumorphicEffect: true,
                                     textFormat: TextFormat.MM_SS,
-                                    backgroudColor: ColorManager.white,
+                                    // backgroudColor: ColorManager.white,
                                     innerFillGradient: LinearGradient(colors: [
                                       ColorManager.primary,
                                       ColorManager.primary

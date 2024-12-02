@@ -1,4 +1,3 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,9 +102,7 @@ class LoginPage extends StatelessWidget {
                             type: TextInputType.emailAddress,
                             labelText: "KAU Email",
                             hintText: "Enter email here",
-                            validator: (input) => input!.isValidEmail()
-                                ? null
-                                : "check your email (@Kau.edu.sa or @stu.Kau.edu.sa)",
+                            validator: (input) {},
                           ),
                           CustomFormTextField(
                             controller: passwordController,
@@ -117,9 +114,7 @@ class LoginPage extends StatelessWidget {
                             },
                             labelText: "Password",
                             hintText: "Enter password",
-                            validator: (input) => input!.isValidPassword()
-                                ? null
-                                : "8 characters, at least one letter and one number",
+                            validator: (input) {},
                           ),
                           ConditionalBuilder(
                             condition: state is! LoginLoading,

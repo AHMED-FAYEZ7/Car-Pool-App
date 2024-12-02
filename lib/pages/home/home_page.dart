@@ -117,13 +117,13 @@ class _HomePageState extends State<HomePage> {
               StartLng = pickLng;
             });
           },
-          itmClick: (Prediction prediction) {
-            findPickUpController.text = prediction.description!;
+          // itmClick: (Prediction prediction) {
+          //   findPickUpController.text = prediction.description!;
 
-            findPickUpController.selection = TextSelection.fromPosition(
-              TextPosition(offset: prediction.description!.length),
-            );
-          }
+          //   findPickUpController.selection = TextSelection.fromPosition(
+          //     TextPosition(offset: prediction.description!.length),
+          //   );
+          // }
           // default 600 ms ,
           ),
     );
@@ -178,12 +178,12 @@ class _HomePageState extends State<HomePage> {
               EndLng = dropLng;
             });
           },
-          itmClick: (Prediction prediction) {
-            findDropOffController.text = prediction.description!;
+          // itmClick: (Prediction prediction) {
+          //   findDropOffController.text = prediction.description!;
 
-            findDropOffController.selection = TextSelection.fromPosition(
-                TextPosition(offset: prediction.description!.length));
-          }
+          //   findDropOffController.selection = TextSelection.fromPosition(
+          //       TextPosition(offset: prediction.description!.length));
+          // }
           // default 600 ms ,
           ),
     );
