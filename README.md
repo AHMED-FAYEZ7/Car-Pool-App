@@ -1,11 +1,10 @@
 # kau_carpool
 
-A new Flutter project.
+KAU Carpool app with Flutter, Firebase, Bloc
 
-## Getting Started
+## If you want to work with me, you can find me here:
 
-This project is a starting point for a Flutter application.
-
+- <a href="https://www.linkedin.com/in/ahmed-fayez10/"><img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" width="40"></a>
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
